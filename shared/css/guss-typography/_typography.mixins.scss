@@ -150,7 +150,6 @@
     font-weight: bold;
 }
 
-
 /**
  * Headline typography settings.
  *
@@ -194,6 +193,7 @@
 
 @mixin fs-titlepiece($level, $size-only: false) {
     @include font-size(get-font-size(titlepiece, $level), get-line-height(titlepiece, $level));
+
 
     @if $size-only==false {
         @include f-titlepiece;
