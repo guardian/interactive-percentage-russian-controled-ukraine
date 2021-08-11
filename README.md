@@ -46,7 +46,7 @@ To test with dark mode on apps - see [Testing in Dark Mode](https://github.com/g
 
 Resources must be loaded with absolute paths, otherwise they won't work when deployed.
 Use the template string `<%= path %>` in any CSS, HTML or JS, it will be replaced
-with the correct absolute path.
+with the correct absolute path by the gulp build process.
 
 ```html
 <img src="<%= path %>/assets/image.png" />
