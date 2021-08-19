@@ -18,7 +18,7 @@
 .content__main-column {
     position: relative;
     @include mq(tablet) {
-        max-width: 700px;
+        max-width: 620px;
     }
     @include mq(desktop) {
         margin-left: 0px;
