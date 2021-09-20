@@ -24,7 +24,7 @@ Your interactives CSS needs to set the `background-color` of the `body` more for
 
 ```CSS
     @media (prefers-color-scheme: dark) {
-          // see below for explanation of "in-app" class
+          /* see below for explanation of "in-app" class */
          .in-app {  
                 body {
                     background: #1A1A1A !important;
@@ -35,7 +35,7 @@ Your interactives CSS needs to set the `background-color` of the `body` more for
         }
 }
 
-        // see below for explanation of this workaround for Android
+        /* see below for explanation of this workaround for Android  */
         .dark-mode-on.in-app {
                 body {
                     background: #1A1A1A !important;
