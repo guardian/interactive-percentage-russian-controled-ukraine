@@ -23,7 +23,7 @@ The apps-rendering page should now be in dark-mode and you should be able to see
 Your interactives CSS needs to set the `background-color` of the `body` more forcibly than the Apps-Rendering CSS. You will need to use something like:
 
 ```CSS
-    @media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
           /* see below for explanation of "in-app" class */
          .in-app {  
                 body {
@@ -35,14 +35,14 @@ Your interactives CSS needs to set the `background-color` of the `body` more for
         }
 }
 
-        /* see below for explanation of this workaround for Android  */
-        .dark-mode-on.in-app {
-                body {
-                    background: #1A1A1A !important;
-                } 
-                h1, h2, p, span {
-                    color: white;
-                }
+/* see below for explanation of this workaround for Android  */
+.dark-mode-on.in-app {
+       body {
+            background: #1A1A1A !important;
+        } 
+        h1, h2, p, span {
+            color: white;
+        }
 }
    
 ```
