@@ -22,34 +22,53 @@ The apps-rendering page should now be in dark-mode and you should be able to see
 
 Your interactives CSS needs to set the `background-color` of the `body` more forcibly than the Apps-Rendering CSS. You will need to use something like:
 
-```
-@media (prefers-color-scheme: dark) {
-        body {
-            background: transparent !important;
-        } 
-        h1, h2, p, span {
-            color: white;
+```CSS
+    @media (prefers-color-scheme: dark) {
+          // see below for explanation of "in-app" class
+         .in-app {  
+                body {
+                    background: #1A1A1A !important;
+                } 
+                h1, h2, p, span {
+                    color: white;
+                }
         }
-        text {
-            fill: white; 
-        }
-    }
+}
+
+        // see below for explanation of this workaround for Android
+        .dark-mode-on.in-app {
+                body {
+                    background: #1A1A1A !important;
+                } 
+                h1, h2, p, span {
+                    color: white;
+                }
+}
+   
 ```
+
+To avoid repetition you can use a SCSS mixin to wrap all the styles together like [here](https://github.com/guardian/interactive-covid-uk-tracker/blob/master/shared/css/_darkmodedefault.scss). Annoyingly the Android app doesn't currently recognise the dark-mode media query, so we have to use this workaround involving a classname `dark-mode-on`.
 
 You can add a class or id to the body if you need to make the CSS more specific.
 
-Importantly, you want to make sure this applies only on apps. Macbooks can have dark mode but until dotcom implements dark mode, we only want dark mode styles to appear in apps. To do that: 
+Importantly, you want to make sure this applies only on apps. Macbooks can have dark mode but until dotcom implements dark mode, we only want dark mode styles to appear in apps. This is why we need the `in-app` class name. To do that: 
 
 Add some code like this to your `app.js` file. And wrap all your dark mode code above in an `.in-app { }` selector. This means it will only apply when the atom is embedded in an app article page. 
 
-```
-const checkApp = () => {   
+
+
+```JS
+const checkApp = () => {
   // check the parent window to see if this atom is embedded in an app
   const parentIsIos = window.parent.document.querySelector(".ios") // null if not present
-  const parentIsAndroid = window.parent.document.querySelector(".android") // null if not present
-
+  const parentIsAndroid = window.parent.document.querySelector(".android")
+  
   // if it is in an app, add the 'in-app' class name to the body
   if(parentIsIos || parentIsAndroid){ document.querySelector("body").classList.add("in-app") }
+  
+  // hack for android app - it also needs this for an annoying reason 
+  const parentIsInDarkMode = window.parent.document.querySelector(".dark-mode-on")
+  if(parentIsInDarkMode) { document.querySelector("body").classList.add("dark-mode-on") }
 }
 
 
