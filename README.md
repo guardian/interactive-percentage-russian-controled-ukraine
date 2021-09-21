@@ -49,17 +49,17 @@ Use the template string `<%= path %>` in any CSS, HTML or JS, it will be replace
 with the correct absolute path.
 
 ```html
-<img src="<%= path %>/assets/image.png" />
+<img src="<%= path %>/image.png" />
 ```
 
 ```css
 .test {
-    background-image: url('<%= path %>/assets/image.png');
+    background-image: url('<%= path %>/image.png');
 }
 ```
 
 ```js
-var url = '<%= path %>/assets/image.png';
+var url = '<%= path %>/image.png';
 ```
 
 
