@@ -55,13 +55,21 @@ To install the build on your phone follow the 'using xcode' section in [these in
 
 You still need to deploy and use a preview link, but can debug more easily with a Simulator 
 
-1. Install Xcode. As a Mac user you can download and install Xcode for free from App Store - however you need an Apple account (If you want to use your device later it will help to use the same account you have on your device). You may need to upgrade to a more recent version of MacOS. (This is a reason to use a device if possible rather than a simulator - simulators require Xcode to be at a very recent version which means you constantly have to update your computer's MacOS.)
+1. Install Xcode. As a Mac user you can download and install Xcode for free from App Store - however you need an Apple account 
+(If you want to use your device later it will help to use the same account you have on your device). You may need to upgrade to a more recent version of MacOS. 
+(This is a reason to use a device if possible rather than a simulator - simulators 
+require Xcode to be at a very recent version which means you constantly have to update your computer's MacOS.)
 
 2. The iOS Simulator is part of XCode. Open Xcode and you should see an option to open the simulator
 
-3. Install a dev build of the app to allow you debug access. Security settings on the actual Guardian app won't let you connect to a debugger. Go to the iOS app repo: [https://github.com/guardian/ios-live](https://github.com/guardian/ios-live), clone the repository and follow the Read.me instructions down to the end of "Your first build". The yellow dev version of the Guardian app should now be loaded on your Simulator home screen.
+3. Install a dev build of the app to allow you debug access. Security settings on the actual Guardian app won't let you connect to a debugger. 
+Go to the iOS app repo: [https://github.com/guardian/ios-live](https://github.com/guardian/ios-live), clone the repository and follow the Read.me 
+instructions down to the end of "Your first build". The yellow dev version of the Guardian app should now be loaded on your Simulator home screen.
 
-(Possible alternative: install a dev build from a .ipa file) Ideally you should be able to get the dev build from [https://builds.gutools.co.uk/](https://builds.gutools.co.uk/). BUT - (as of March 2021) iOS link is no longer working from this page. Contact apps team can send this to you, if you give them your UDID - they can send it over as a zip file - .ipa file. This [guide can help you find your device's UDID](https://www.sourcefuse.com/blog/how-to-find-udid-in-the-new-iphone-xs-iphone-xr-and-iphone-xs-max/). To use an .ipa file on a simulator - you need to build the .ipa (takes about an hour) then can run this on your simulator. [More information here.](https://stackoverflow.com/questions/517463/how-can-i-install-a-ipa-file-to-my-iphone-simulator#:~:text=You%20cannot%20run%20an%20ipa,the%20simulator%20on%20their%20machine)
+
+You should be able to get the dev build from [https://appdistribution.firebase.dev/i/10d423a8ef070168](https://appdistribution.firebase.dev/i/10d423a8ef070168 ). 
+In a worst case scenario: install a dev build from a .ipa file.
+Contact apps team can send the debug app to you, if you give them your UDID - they can send it over as a zip file - .ipa file. This [guide can help you find your device's UDID](https://www.sourcefuse.com/blog/how-to-find-udid-in-the-new-iphone-xs-iphone-xr-and-iphone-xs-max/). To use an .ipa file on a simulator - you need to build the .ipa (takes about an hour) then can run this on your simulator. [More information here.](https://stackoverflow.com/questions/517463/how-can-i-install-a-ipa-file-to-my-iphone-simulator#:~:text=You%20cannot%20run%20an%20ipa,the%20simulator%20on%20their%20machine)
 .
 
 4. Get a preview link as above and paste it into the browser on your device or inside the simulator and it will ask to open in the app. You should be able to see your page in the app.
