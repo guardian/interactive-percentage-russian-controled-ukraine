@@ -156,7 +156,3 @@ scrolly.overall((overallProgress) => {
 scrolly.watchScroll()
 
 ```
-
-
-
-# interactive-supply-chain-map
