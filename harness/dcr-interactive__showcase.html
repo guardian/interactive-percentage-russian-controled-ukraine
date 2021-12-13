@@ -5877,6 +5877,27 @@
                                        line-height: 1.5;
                                        font-weight: 400;
                                     }
+
+
+                                    /* these have been added to make sure that weightings match the actual dcr pages  */
+                                    .element-atom {
+                                       margin-top: 12px;
+                                       margin-bottom: 12px;
+                                    }
+                                    
+                                    /* leftCol */
+                                    @media (min-width: 1140px) {
+                                       .element-showcase {
+                                          margin-left: -160px;
+                                       }
+                                    }
+                                    /* wide */
+                                    @media (min-width: 1300px) {
+                                       .element-showcase { 
+                                          margin-left: -240px;
+                                       }
+                                    }
+
                                  </style>
                               
                                  <link rel="stylesheet" media="print" href="//assets.guim.co.uk/static/frontend/css/print.css">
@@ -5946,6 +5967,7 @@
                                     .css-1y2qbjm:active {
                                        color: #000000;
                                     }
+
                                  </style><a href="#navigation" class="css-1y2qbjm">Skip to navigation</a>
                                  <div id="react-root"></div>
                                  <div>
@@ -6751,7 +6773,7 @@
                                                       <div tabIndex="0" id="maincontent" class="dcr-14z0vzs">
                                                          <div
                                                             class="article-body-commercial-selector article-body-viewer-selector content__main-column--interactive dcr-ucgxn1">
-                                                            <figure class="element element-atom">
+                                                            <figure class="element element-atom element-showcase">
                                                                <figure class="interactive interactive-atom">
                                                                   <link rel="stylesheet" type="text/css" href="main.css" />
                                                                      <%= html %>

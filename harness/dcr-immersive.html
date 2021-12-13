@@ -4832,6 +4832,16 @@ https://workforus.theguardian.com/careers/product-engineering/
          line-height: 1.5;
          font-weight: 400;
       }
+
+      /* these have been added to make sure that weightings match the actual dcr pages  */
+      .element-atom {
+         margin-top: 12px;
+         margin-bottom: 12px;
+      }
+
+      .element-immersive {
+         transform: translateX(0px) !important; /* this corrects the corrections to dcr, because in the harness the structure is different and a correction isn't needed ¯\_(ツ)_/¯*/
+      }
    </style>
 
    <link rel="stylesheet" media="print" href="//assets.guim.co.uk/static/frontend/css/print.css">
@@ -5613,7 +5623,7 @@ https://workforus.theguardian.com/careers/product-engineering/
       <div class="dcr-1avyp1d">
          <main>
             <div class="dcr-1i6nhwj">
-               <figure class="">
+               <figure class="element element-atom element-immersive">
                   <figure class="interactive interactive-atom">
                   <link rel="stylesheet" type="text/css" href="main.css" />
                      <%= html %>

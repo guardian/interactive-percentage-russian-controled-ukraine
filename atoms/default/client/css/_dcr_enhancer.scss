@@ -1,0 +1,47 @@
+@import "mq";
+
+.content__main-column--interactive {
+    @include mq(leftCol) {
+        margin-left: 160px;
+    }
+    @include mq(wide) {
+        margin-left: 240px;
+    }
+
+    p {
+        color: #121212;
+        max-width: 620px;
+    }
+
+    &:before {
+      position: absolute;
+      top: 0px;
+      height: calc(100% + 15px);
+      min-height: 100px;
+      content: "";
+      @include mq(leftCol) {
+        border-left:1px solid #dcdcdc;
+        z-index: -1;
+        left: -10px;
+      }
+  
+      @include mq(wide) {
+        border-left: 1px solid #dcdcdc;
+        left: -11px;
+      }
+    }
+
+  .element-atom { // this fixes the top/bottom margin gap with the left ruler
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-bottom: 12px;
+    padding-top: 12px;
+  }
+
+  p+.element-atom { // this sets the correct top margin if there is a p before the element-atom
+      padding-top: 0;
+      padding-bottom: 0;
+      margin-top: 12px;
+      margin-bottom: 12px;
+  }
+}
