@@ -2,7 +2,7 @@
 @import "fonts";
 @import "mq";
 @import "palette";
-// @import "dcr_enhancer"; //remove this line when using immersive weighting or the article template
+@import "dcr_enhancer"; //remove this line when using immersive weighting or the article template
 
 /*----- DCR live Corrections -----*/
 .element-immersive { //this fixes the incorrect dcr immersive margins and width
