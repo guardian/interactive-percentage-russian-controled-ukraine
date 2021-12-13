@@ -2,7 +2,7 @@
 @import "fonts";
 @import "mq";
 @import "palette";
-@import "dcr_enhancer"; //remove this line when using immersive weighting or the article template
+// @import "dcr_enhancer"; //remove this line when using immersive weighting or the article template
 
 /*----- DCR live Corrections -----*/
 .element-immersive { //this fixes the incorrect dcr immersive margins and width
@@ -28,9 +28,23 @@
     padding: 0;
 }
 
-// for apps adds extra padding. Needed to make dark mode work
+.interactive-wrapper {
+  height: 800px;
+  background: #999999;
+}
+
 .ios, .android {
-    .interactive-atom {
-        padding: 8px;
+    .element--immersive {
+        width: 100vw !important;
+        position: relative !important;
+        left: 50% !important;
+        right: 50% !important;
+        margin-left: -50vw !important;
+        margin-right: -50vw !important;
+    }
+    
+    //remove dark mode padding in apps
+    figure.element.element-atom, figure.interactive.interactive-atom.interactive--loading {
+        padding: 0 !important;
     }
 }
