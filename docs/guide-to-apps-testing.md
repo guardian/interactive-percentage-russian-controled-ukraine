@@ -55,7 +55,7 @@ To install the build on your phone follow the 'using xcode' section in [these in
 
 You still need to deploy and use a preview link, but can debug more easily with a Simulator 
 
-1. Install Xcode. A guide is here on the iOS Live App repository on how to set this up: https://github.com/guardian/ios-live#getting-started
+1. Install Xcode. A guide is here in the iOS Live App repository on how to set this up: https://github.com/guardian/ios-live#getting-started
 
 You may need to upgrade to a more recent version of MacOS. This is a reason to use a device for testing if possible rather than a simulator - simulators 
 require Xcode to be at a very recent version which means you constantly have to update your computer's MacOS.
