@@ -41,7 +41,9 @@ function prepareArticleTemplate(html) {
   let serialized = dom.serialize()
 
    // this replacement needs to happen after serialization to prevent escaping
-  serialized = serialized.replace("{{ html }}", "<%= html %>")
+  serialized = serialized.replace("{{ title }}", "<%= title %>")
+  serialized = serialized.replace("{{ headline }}", "<%= headline %>")
+  serialized = serialized.replace("{{ standfirst }}", "<%= standfirst %>")
 
   serialized = serialized.replace("{{ iframe }}", `<iframe class="interactive-atom-fence" style="width:100%" srcdoc="
     <!DOCTYPE html>
@@ -95,11 +97,14 @@ function removeUnwantedArticleElements(document) {
 }
 
 function replaceArticleFurniture(document) {
+  let title = document.querySelector('title')
+  title.innerHTML = '{{ title }}'
+
   let headline = document.querySelector('[data-gu-name="headline"]')
-  headline.querySelector("h1").innerHTML = 'More than half of interactives are now bug-free'
+  headline.querySelector("h1").innerHTML = '{{ headline }}'
 
   let standfirst = document.querySelector('[data-gu-name="standfirst"]')
-  standfirst.querySelector("p").innerHTML = "New figures show that automated updates to the test harness are effective at preventing errors."
+  standfirst.querySelector("p").innerHTML = '{{ standfirst }}'
 
   let byline = document.querySelector('[data-link-name="byline"]')
   byline.querySelector("div").innerHTML = 'Visuals team'
@@ -155,6 +160,9 @@ function prepareTemplate(html, weighting) {
   let serialized = dom.serialize()
 
    // this replacement needs to happen after serialization to prevent escaping
+  serialized = serialized.replace("{{ title }}", "<%= title %>")
+  serialized = serialized.replace("{{ headline }}", "<%= headline %>")
+  serialized = serialized.replace("{{ standfirst }}", "<%= standfirst %>")
   serialized = serialized.replace("{{ html }}", "<%= html %>")
 
   return serialized
@@ -183,11 +191,14 @@ function removeUnwantedElements(document) {
 }
 
 function replaceFurniture(document) {
+  let title = document.querySelector('title')
+  title.innerHTML = '{{ title }}'
+
   let headline = document.querySelector('.content__headline')
-  headline.innerHTML = 'More than half of interactives are now bug-free'
+  headline.innerHTML = '{{ headline }}'
 
   let standfirst = document.querySelector('.content__standfirst>p')
-  standfirst.innerHTML = "New figures show that automated updates to the test harness are effective at preventing errors."
+  standfirst.innerHTML = '{{ standfirst }}'
 
   let byline = document.querySelector('.byline')
   byline.innerHTML = 'Visuals team'

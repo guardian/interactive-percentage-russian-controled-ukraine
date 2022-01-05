@@ -165,9 +165,12 @@ const local = () => {
         const js = _template((fs.readFileSync(`.build/${atom}/main.js`)).toString());
         const css = _template((fs.readFileSync(`.build/${atom}/main.css`)).toString());
         const html = _template((fs.readFileSync(`.build/${atom}/main.html`)).toString());
+        const title = config.title
+        const headline = config.mockHeadline
+        const standfirst = config.mockStandfirst
 
         return src(["harness/*", "!harness/_index.html"])
-            .pipe(template({ js, css, html, atom, version }))
+            .pipe(template({ title, headline, standfirst, js, css, html, atom, version }))
             .pipe(dest(".build/" + atom))
     });
 
