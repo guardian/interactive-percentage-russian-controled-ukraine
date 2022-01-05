@@ -153,9 +153,11 @@ function prepareTemplate(html, weighting) {
   const dom = new jsdom.JSDOM(html)
   const document = dom.window.document
 
+  let paragraphClass = contentNode(document).querySelector('p').className
+
   removeUnwantedElements(document)
   replaceFurniture(document)
-  insertMockElements(document, weighting)
+  insertMockElements(document, weighting, paragraphClass)
 
   let serialized = dom.serialize()
 
@@ -163,6 +165,8 @@ function prepareTemplate(html, weighting) {
   serialized = serialized.replace("{{ title }}", "<%= title %>")
   serialized = serialized.replace("{{ headline }}", "<%= headline %>")
   serialized = serialized.replace("{{ standfirst }}", "<%= standfirst %>")
+  serialized = serialized.replace("--my-custom-property: '{{ paragraphStyle }}';", "<%= paragraphStyle %>")
+  serialized = serialized.replace("{{ paragraphBefore }}", "<%= paragraphBefore %>")
   serialized = serialized.replace("{{ html }}", "<%= html %>")
 
   return serialized
@@ -204,8 +208,14 @@ function replaceFurniture(document) {
   byline.innerHTML = 'Visuals team'
 }
 
-function insertMockElements(document, weighting) {
+function insertMockElements(document, weighting, paragraphClass) {
   let content = contentNode(document)
+
+  let paragraph = document.createElement('p')
+  paragraph.className = paragraphClass
+  paragraph.style = "--my-custom-property: '{{ paragraphStyle }}'"
+  paragraph.innerHTML = "{{ paragraphBefore }}"
+  content.appendChild(paragraph)
 
   let figure = document.createElement('figure')
   figure.className = weighting.class

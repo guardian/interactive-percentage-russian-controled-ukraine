@@ -168,9 +168,11 @@ const local = () => {
         const title = config.title
         const headline = config.mockHeadline
         const standfirst = config.mockStandfirst
+        const paragraphStyle = config.mockParagraphBefore == "" ? "display: none;" : ""
+        const paragraphBefore = config.mockParagraphBefore
 
         return src(["harness/*", "!harness/_index.html"])
-            .pipe(template({ title, headline, standfirst, js, css, html, atom, version }))
+            .pipe(template({ title, headline, standfirst, paragraphStyle, paragraphBefore, js, css, html, atom, version }))
             .pipe(dest(".build/" + atom))
     });
 

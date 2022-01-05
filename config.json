@@ -3,5 +3,6 @@
     "docData": "",
     "path": "3019/10/test2",
     "mockHeadline": "This is a mock headline. Change it in config.json",
-    "mockStandfirst": "This is a mock standfirst. Change it in config.json"
+    "mockStandfirst": "This is a mock standfirst. Change it in config.json",
+    "mockParagraphBefore": ""
 }
