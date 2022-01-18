@@ -3,9 +3,17 @@
 .content__main-column--interactive {
     @include mq(leftCol) {
         margin-left: 160px;
+
+        .element-immersive {
+          transform: translateX(-80px);
+        }
     }
     @include mq(wide) {
         margin-left: 240px;
+
+        .element-immersive {
+          transform: translateX(-120px);
+        }
     }
 
     p {
