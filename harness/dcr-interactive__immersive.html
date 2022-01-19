@@ -5880,6 +5880,7 @@
 
                                     /* body paragraphs */
                                     .dcr-o5gy41 {
+                                       display: none;
                                        margin-bottom: 1rem;
                                        word-break: break-word;
                                        font-family: GuardianTextEgyptian,Guardian Text Egyptian Web,Georgia,serif;
@@ -5926,6 +5927,12 @@
                                        .element-immersive { 
                                           margin-left: -240px;
                                        }
+                                    }
+
+                                    .gv-harness-options {
+                                       position: absolute;
+                                       font-family: GuardianTextSans, Guardian Text Sans Web, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
+                                       top: 80px;
                                     }
 
                                  </style>
@@ -6714,7 +6721,45 @@
                                                 <div class="content__labels content__labels--not-immersive">
                                                    <div class="dcr-10jdkim">
                                                       <div class="dcr-1u8qly9"><a href="/" data-component="section" data-link-name="article section"
-                                                            class="content__label__link dcr-yx39j8"><span></span></a></div>
+                                                            class="content__label__link dcr-yx39j8"><span>Brexit</span></a></div>
+                                                   </div>
+                                                   <div class='gv-harness-options'>
+                                                      <input type="checkbox" id="hide-p" checked>
+                                                      <label for='hide-p'>Hide paragraphs</label>
+                                                      <script>
+                                                         const hidePs = document.querySelector('#hide-p')
+
+                                                         hidePs.addEventListener('change', function(e) {
+                                                            if (e.target.checked) {
+                                                               Array.from(document.querySelectorAll('.dcr-o5gy41')).forEach(function(el) {
+                                                                  el.style.display = 'none'
+                                                                  localStorage.setItem('hidePs', true)
+                                                               })
+                                                            } else {
+                                                               Array.from(document.querySelectorAll('.dcr-o5gy41')).forEach(function (el) {
+                                                                  el.style.display = 'block'
+                                                                  localStorage.setItem('hidePs', false)
+                                                               })
+                                                            }
+                                                         })
+
+                                                      document.addEventListener('DOMContentLoaded', function () {
+                                                            const isHidePs = localStorage.getItem('hidePs')
+                                                            hidePs.checked = isHidePs === 'true' ? true : false
+
+                                                            if (isHidePs === 'true') {
+                                                               hidePs.checked = true
+                                                               Array.from(document.querySelectorAll('.dcr-o5gy41')).forEach(function (el) {
+                                                                  el.style.display = 'none'
+                                                               })
+                                                            } else {
+                                                               hidePs.checked = false
+                                                               Array.from(document.querySelectorAll('.dcr-o5gy41')).forEach(function (el) {
+                                                                  el.style.display = 'block'
+                                                               })
+                                                            }
+                                                         })
+                                                      </script>
                                                    </div>
                                                 </div>
                                              </div>
