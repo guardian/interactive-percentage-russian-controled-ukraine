@@ -1,5 +1,7 @@
 ### Running locally
 
+Please run on node 16: `nvm install 16` `nvm use 16`
+
 You need the gulp-cli installed globally: `npm install -g gulp-cli`
 
 Make sure you are using the correct version of node with NVM: run `nvm use` in the root of the repo. 
