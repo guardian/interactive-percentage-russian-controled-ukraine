@@ -35,9 +35,10 @@ You need to have the Guardian app on a phone and access to composer.
 
 1. Plug your physical device into your computer. Accept any software updates and you need to let the phone trust the computer 
 
-2. Install a dev build of the Guardian app to your device (this will have a yellow not blue icon). Ideally you should be able to go to [https://builds.gutools.co.uk/](https://builds.gutools.co.uk/) and download the builds of the latest dev version. BUT - (as of March 2021) iOS link is no longer working from this page. Contact apps team can send this to you, if you give them your UDID - they can send it over as a zip file - .ipa file. This [guide can help you find your device's UDID](https://www.sourcefuse.com/blog/how-to-find-udid-in-the-new-iphone-xs-iphone-xr-and-iphone-xs-max/).
+2. Install a dev build of the Guardian app to your device (this will have a yellow not blue icon). Ideally you should be able to go to [https://builds.gutools.co.uk/](https://builds.gutools.co.uk/) and download the builds of the latest dev version.
 
-To install the build on your phone follow the 'using xcode' section in [these instructions](https://codeburst.io/latest-itunes-12-7-removed-the-apps-option-how-to-install-ipa-on-the-device-3c7d4a2bc788?gi=5439d1ba0757 )
+iOS debug builds are now distributed via Firebase. Please follow this link https://appdistribution.firebase.google.com/pub/i/10d423a8ef070168 to register your device to receive debug builds via Firebase. Once you have gone through the steps outlined, the iOS team will need to distribute a new debug build to Firebase.  Once that has completed you will receive an email with a link to install the debug build onto your device. 
+The distribution app installed on your device during this process can then be used to install the most up to date version of the debug build in the future (a new build is uploaded every Monday). 
 
 3. Use the relevant browser to open and access the device's console logs (as above). You will need to [enable web inspector](https://www.wikihow.com/Use-Web-Inspector-on-an-iPhone) on an iPhone's Safari menu. 
 
