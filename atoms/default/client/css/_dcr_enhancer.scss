@@ -3,17 +3,57 @@
 .content__main-column--interactive {
     @include mq(leftCol) {
         margin-left: 160px;
-
-        .element-immersive {
-          transform: translateX(-80px);
-        }
     }
+    
     @include mq(wide) {
         margin-left: 240px;
+    }
 
-        .element-immersive {
-          transform: translateX(-120px);
-        }
+    .element-atom { 
+      max-width: 620px; // there is no element-inline class on interactive atoms so targeting element-atom as default for inline weighting instead
+
+      @include mq($until: tablet) {
+        max-width: 100%;
+      }
+    }
+
+    .element-showcase {
+      margin-left: 0px;
+
+      @include mq(tablet) {
+        max-width: 620px;
+      }
+
+      @include mq(leftCol) {
+        max-width: 860px;
+      }
+    }
+
+    .element-immersive {
+      max-width: 1100px;
+      @include mq($until: tablet) {
+        width: 100vw;
+        position: relative;
+        left: 50%;
+        right: 50%;
+        margin-left: -50vw !important;
+        margin-right: -50vw;
+      }
+      @include mq(tablet) {
+        transform: translateX(-20px);
+        width: calc(100% + 60px);
+      }
+      @include mq($until: leftCol) {
+        margin-left: 0;
+        margin-right: 0;
+      }
+      @include mq(leftCol) {
+        transform: translateX(0px);
+        width: auto;
+      }
+      @include mq(wide) {
+        max-width: 1260px;
+      }
     }
 
     p {
