@@ -5,7 +5,9 @@ const fs = require('fs')
 const articleURL = "https://www.theguardian.com/world/2021/nov/02/south-africas-anc-on-course-for-worst-ever-electoral-performance-in-local-polls"
 const interactiveURL = "https://www.theguardian.com/environment/ng-interactive/2021/dec/23/why-cop26-coal-power-pledges-dont-go-far-enough-visualised"
 
-axios.get(articleURL)
+console.log("Updating templates...")
+
+let articlePromise = axios.get(articleURL)
   .then(function (response) {
     createArticleTemplate(response.data)
   })
@@ -13,7 +15,7 @@ axios.get(articleURL)
     console.log(error)
   })
 
-axios.get(interactiveURL)
+let interactivePromise = axios.get(interactiveURL)
   .then(function (response) {
     createInteractiveTemplates(response.data)
   })
@@ -21,13 +23,20 @@ axios.get(interactiveURL)
     console.log(error)
   })
 
+Promise.all([articlePromise, interactivePromise]).then(() => {
+  console.log("Done")
+})
+
 ////////////////////////////////////////////////////////////////////////////////
 // ARTICLE
 ////////////////////////////////////////////////////////////////////////////////
 
 function createArticleTemplate(html) {
   let template = prepareArticleTemplate(html)
-    fs.writeFileSync('./harness/article.html', template)
+
+  let path = './harness/article.html'
+  console.log("Writing article template to " + path)
+  fs.writeFileSync(path, template)
 }
 
 function prepareArticleTemplate(html) {
@@ -145,7 +154,10 @@ const weighting = {
 function createInteractiveTemplates(html) {
   for (const key in weighting) {
     let template = prepareTemplate(html, weighting[key])
-    fs.writeFileSync(weighting[key].target, template)
+
+    let path = weighting[key].target
+    console.log("Writing interactive template to " + path)
+    fs.writeFileSync(path, template)
   }
 }
 
