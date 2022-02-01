@@ -32,12 +32,12 @@
     .element-immersive {
       max-width: 1100px;
       @include mq($until: tablet) {
-        width: 100vw !important;
-        position: relative !important;
-        left: 50% !important;
-        right: 50% !important;
+        width: 100vw;
+        position: relative;
+        left: 50%;
+        right: 50%;
         margin-left: -50vw !important;
-        margin-right: -50vw !important;
+        margin-right: -50vw;
       }
       @include mq(tablet) {
         transform: translateX(-20px);
