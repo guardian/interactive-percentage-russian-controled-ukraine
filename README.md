@@ -11,7 +11,7 @@ Install node modules: `npm i`
 
 To run locally: `npm start` or `gulp`.  
 
-#### Update test harness
+### Test harness
 
 When the dotcom team makes changes to the website, the local test harness needs to be updated to reflect the new reality.
 
