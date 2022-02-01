@@ -11,6 +11,18 @@ Install node modules: `npm i`
 
 To run locally: `npm start` or `gulp`.  
 
+#### Update test harness
+
+When the dotcom team makes changes to the website, the local test harness needs to be updated to reflect the new reality.
+
+Update article and DCR templates in test harness:
+
+```
+npm run update-harness
+```
+
+If the script doesn't work, that's an indication that there has been a breaking change on the website. In that case, try to find out what has changed and talk to the dotcom team. If the change does not affect the working of interactives but just the working of the script, then the `harness/update-harness.js` script needs to be updated.
+
 ### Create a new atom 
 
 Duplicate an existing atom. Remember to change the path in the server/render.js file to point to the html file in the new atom. 
