@@ -46,7 +46,7 @@ To test with dark mode on apps - see [Testing in Dark Mode](https://github.com/g
 
 ### Reusable React components 
 
-If your project uses React and is likely to use generic web components like search bars etc, it might be save time to use the Digital Team's resuable components library. Intro to [their components library here](https://guardian.github.io/source/?path=/story/components--page).
+If your project uses React and is likely to use generic web components like search bars etc, it might save time to use the Digital Team's resuable components library. Intro to [their components library here](https://guardian.github.io/source/?path=/story/components--page).
 
 
 ### Loading resources (e.g. assets)
