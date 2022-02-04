@@ -19,4 +19,7 @@ setTimeout(() => {
   
   window.resize()
   }
+  // Detect vertical scrollbar width and assign to css variable for sizing full viewport width elements
+  document.documentElement.style.setProperty('--scrollbar-width', (window.innerWidth - document.documentElement.clientWidth) + "px");
+  document.documentElement.style.setProperty('--half-scrollbar-width', ((window.innerWidth - document.documentElement.clientWidth) / 2) + "px");
 },100)
