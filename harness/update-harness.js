@@ -136,7 +136,7 @@ function insertIFrameElement(document) {
 // INTERACTIVES
 ////////////////////////////////////////////////////////////////////////////////
 
-const weighting = {
+const WEIGHTING = {
   INLINE: {
     class: 'element element-atom',
     target: './harness/dcr-interactive__inline.html',
@@ -152,10 +152,10 @@ const weighting = {
 }
 
 function createInteractiveTemplates(html) {
-  for (const key in weighting) {
-    let template = prepareTemplate(html, weighting[key])
+  for (const key in WEIGHTING) {
+    let template = prepareTemplate(html, WEIGHTING[key])
 
-    let path = weighting[key].target
+    let path = WEIGHTING[key].target
     console.log("Writing interactive template to " + path)
     fs.writeFileSync(path, template)
   }
@@ -165,11 +165,16 @@ function prepareTemplate(html, weighting) {
   const dom = new jsdom.JSDOM(html)
   const document = dom.window.document
 
-  let paragraphClass = contentNode(document).querySelector('p').className
+  let content = contentNode(document)
+
+  let paragraphClass = content.querySelector('p').className
+
+  let figureClassList = content.querySelector('figure.element-atom').classList
+  let figureClass = figureClassList[figureClassList.length - 1]
 
   removeUnwantedElements(document)
   replaceFurniture(document)
-  insertMockElements(document, weighting, paragraphClass)
+  insertMockElements(document, weighting, figureClass, paragraphClass)
 
   let serialized = dom.serialize()
 
@@ -220,7 +225,7 @@ function replaceFurniture(document) {
   byline.innerHTML = 'Visuals team'
 }
 
-function insertMockElements(document, weighting, paragraphClass) {
+function insertMockElements(document, weighting, figureClass, paragraphClass) {
   let content = contentNode(document)
 
   let paragraph = document.createElement('p')
@@ -230,7 +235,11 @@ function insertMockElements(document, weighting, paragraphClass) {
   content.appendChild(paragraph)
 
   let figure = document.createElement('figure')
-  figure.className = weighting.class
+  if (weighting !== WEIGHTING.INLINE) {
+    figure.className = weighting.class + ' ' + figureClass
+  } else {
+    figure.className = weighting.class
+  }
   content.appendChild(figure)
 
   let innerFigure = document.createElement('figure')
