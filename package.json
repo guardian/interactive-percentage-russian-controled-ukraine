@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "gulp",
     "parse": "babel-node shared/js/parse.js"
+    "update-harness": "babel-node harness/update-harness.js"
   },
   "author": "",
   "license": "ISC",
@@ -39,6 +40,7 @@
     "gulp-template": "^5.0.0",
     "gulp-uglify": "^3.0.2",
     "gulp-util": "^3.0.8",
+    "jsdom": "^19.0.0",
     "merge-stream": "^2.0.0",
     "node-sass": "^7.0.1",
     "postcss": "^8.1.4",
