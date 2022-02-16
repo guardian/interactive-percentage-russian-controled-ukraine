@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "gulp",
-    "parse": "babel-node shared/js/parse.js"
+    "parse": "babel-node shared/js/parse.js",
     "update-harness": "babel-node harness/update-harness.js"
   },
   "author": "",
