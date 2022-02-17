@@ -29,12 +29,12 @@ root {
 .ios, .android {
     .element--immersive {
         @include mq($until: tablet) {
-            width: 100vw;
+            width: 100vw !important;
             position: relative;
-            left: 50%;
-            right: 50%;
+            left: 50% !important;
+            right: 50% !important;
             margin-left: -50vw !important;
-            margin-right: -50vw;
+            margin-right: -50vw !important;
         }
         @include mq(tablet) {
             transform: translateX(-20px);
