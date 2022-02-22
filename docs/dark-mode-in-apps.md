@@ -19,7 +19,7 @@ The apps-rendering page should now be in dark-mode and you should be able to see
 
 ## Interactive templates: adding dark mode
 
-Because atom content is unpacked and the html/css/js dropped directly into the html page, you can use standard dark mode CSS (remember to limit it to apps-only classes so it doesn't show up on dotcom) and as long as it is specific enough it should work [CONFIRM].
+Because atom content in interactive pages is unpacked and the html/css/js dropped directly into the html, you can use standard dark mode CSS. Just remember to limit it to apps-only classes so it doesn't show up on dotcom (dotcom currently doesn't support dark mode). As long as it is specific enough it should work [CONFIRM].
 
 ```CSS
 @media (prefers-color-scheme: dark) {
@@ -37,7 +37,7 @@ Because atom content is unpacked and the html/css/js dropped directly into the h
 
 ## Article templates: Overriding the white background and adding dark mode
 
-This is more complicated on article pages where atoms are iframed in - because it's harder for the content in the iframe to know that the parent is in dark mode. So we can't just use CSS media queries and need to use a JS trick to reach outside the iframe and find out the state of the parent. 
+This is more complicated on article pages because atoms are iframed in - so it's harder for the content in the iframe to know that the parent is in dark mode. We need to use a JS trick to reach outside the iframe and find out the state of the parent. 
 
 But first you have to do the CSS. Set the `background-color` of the `body` more forcibly than the app CSS. You will need to use something like:
 
