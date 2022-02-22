@@ -17,10 +17,29 @@ To do this on your Mac go to:
 
 The apps-rendering page should now be in dark-mode and you should be able to see that all atoms have the default white background. 
 
+## Interactive templates: adding dark mode
 
-## Overriding the white background and adding dark-mode styles 
+Because atom content is unpacked and the html/css/js dropped directly into the html page, you can use standard dark mode CSS (remember to limit it to apps-only classes so it doesn't show up on dotcom) and as long as it is specific enough it should work [CONFIRM].
 
-Your interactives CSS needs to set the `background-color` of the `body` more forcibly than the Apps-Rendering CSS. You will need to use something like:
+```CSS
+@media (prefers-color-scheme: dark) {
+         .android, .ios {  
+                body {
+                    background: #1A1A1A !important;
+                } 
+                h1, h2, p, span {
+                    color: white;
+                }
+        }
+}
+```
+
+
+## Article templates: Overriding the white background and adding dark mode
+
+This is more complicated on article pages where atoms are iframed in - because it's harder for the content in the iframe to know that the parent is in dark mode. So we can't just use CSS media queries and need to use a JS trick to reach outside the iframe and find out the state of the parent. 
+
+But first you have to do the CSS. Set the `background-color` of the `body` more forcibly than the app CSS. You will need to use something like:
 
 ```CSS
 @media (prefers-color-scheme: dark) {
@@ -59,6 +78,12 @@ Add some code like this to your `app.js` file. And wrap all your dark mode code 
 
 ```JS
 const checkApp = () => {
+
+  // eg AMP pages this is not present so just return. Dark mode can't work on iframed atoms in AMP
+  if(!window.parent) {
+    return; 
+  }
+
   // check the parent window to see if this atom is embedded in an app
   const parentIsIos = window.parent.document.querySelector(".ios") // null if not present
   const parentIsAndroid = window.parent.document.querySelector(".android")
@@ -74,8 +99,6 @@ const checkApp = () => {
 
 checkApp()
 ```
-
-You don't need to do this for interactive pages, only article pages (it's a way of getting around the iframe that is used by article pages). 
 
 
 
