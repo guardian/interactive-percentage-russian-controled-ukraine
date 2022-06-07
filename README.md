@@ -23,6 +23,13 @@ npm run update-harness
 
 If the script doesn't work, that's an indication that there has been a breaking change on the website. In that case, try to find out what has changed and talk to the dotcom team. If the change does not affect the working of interactives but just the working of the script, then the `harness/update-harness.js` script needs to be updated.
 
+
+#### Viewing multiple atoms together
+
+To specifiy the atoms you'd like to view together add the names to the array 'multipleAtomSetup' in the config. You can also add custom paragrphs, by adding the word 'paragraph' to the array. To edit this paragraph you simply need to change the text in 'mockParagraph' in the config. 
+
+You can also add custom HTML, this will sit after the atoms. To do this simply edit the 'multipleAtoms.html' in the harnesses folder.
+
 ### Create a new atom 
 
 Duplicate an existing atom. Remember to change the path in the server/render.js file to point to the html file in the new atom. 
