@@ -151,30 +151,67 @@ const assets = () => {
         .pipe(dest(".build/assets/"))
 }
 
-const _template = (x) => {
+const _template = (x, atom) => {
+    const atomPath = atom ? `./${atom}/` : '.';
     return x
         .replace(/<%= path %>/g, assetPath)
         .replace(/&lt;%= path %&gt;/g, assetPath)
-        .replace(/<%= atomPath %>/g, `.`)
+        .replace(/<%= atomPath %>/g, atomPath)
 }
 
 const local = () => {
     const atoms = getAtoms();
+    const title = config.title
+    const headline = config.mockHeadline
+    const standfirst = config.mockStandfirst
+    const paragraphStyle = config.mockParagraphBefore == "" ? "display: none;" : ""
+    const paragraphBefore = config.mockParagraphBefore
+    const mockParagraph = config.mockParagraph
+    const multipleAtomSetup = config.multipleAtomSetup
 
+    const allAtoms = atoms.map(atom => {
+        const js = _template((fs.readFileSync(`.build/${atom}/main.js`)).toString(), atom);
+        const html = _template((fs.readFileSync(`.build/${atom}/main.html`)).toString(), atom);
+
+        return { js, html, atom };
+    });
+
+    
     const atomPromises = atoms.map(atom => {
         const js = _template((fs.readFileSync(`.build/${atom}/main.js`)).toString());
         const css = _template((fs.readFileSync(`.build/${atom}/main.css`)).toString());
         const html = _template((fs.readFileSync(`.build/${atom}/main.html`)).toString());
-        const title = config.title
-        const headline = config.mockHeadline
-        const standfirst = config.mockStandfirst
-        const paragraphStyle = config.mockParagraphBefore == "" ? "display: none;" : ""
-        const paragraphBefore = config.mockParagraphBefore
-
-        return src(["harness/*", "!harness/_index.html"])
-            .pipe(template({ title, headline, standfirst, paragraphStyle, paragraphBefore, js, css, html, atom, version }))
-            .pipe(dest(".build/" + atom))
+        
+        return src(["harness/*", "!harness/_index.html", "!harness/allAtoms.html", "!harness/multipleAtoms.html"])
+        .pipe(template({ title, headline, standfirst, paragraphStyle, paragraphBefore, js, css, html, atom, version }))
+        .pipe(dest(".build/" + atom))
     });
+    
+    const multipleAtomsTemplate = multipleAtomSetup.map((item) => {
+        if (item === 'paragraph') {
+            return { js: '', html: '', mockParagraph, displayParagraph: '', displayFigure: ''}
+        }
+        const js = _template((fs.readFileSync(`.build/${item}/main.js`)).toString(), item);
+        const html = _template((fs.readFileSync(`.build/${item}/main.html`)).toString(), item);
+        return { js, html, atom: item, mockParagraph: '', displayFigure: '', displayParagraph: '' }
+    });
+
+    const allAtomsHarness = src(["harness/allAtoms.html"])
+        .pipe(template({ title, headline, standfirst, paragraphStyle, paragraphBefore, allAtoms, version}))
+        .pipe(dest(".build"))
+
+    const multipleAtomsHarness = src(["harness/multipleAtoms.html"])
+        .pipe(template({ 
+            title, 
+            headline, 
+            standfirst, 
+            paragraphStyle, 
+            paragraphBefore, 
+            multipleAtomsTemplate, 
+            version, 
+            mockHTML: _template((fs.readFileSync(`harness/htmlTemplate.html`)).toString())
+        }))
+        .pipe(dest(".build"))
 
     atomPromises.push(src("harness/_index.html")
         .pipe(template({
@@ -185,7 +222,7 @@ const local = () => {
         }))
         .pipe(dest(".build")))
 
-    return mergeStream(atomPromises)
+    return mergeStream([...atomPromises, allAtomsHarness, multipleAtomsHarness])
 }
 
 const serve = () => {
@@ -240,7 +277,7 @@ const upload = () => {
     return mergeStream(uploadTasks)
 }
 
-const getAtoms = () => (fs.readdirSync(".build")).filter(n => n !== "assets" && n !== "index.html")
+const getAtoms = () => (fs.readdirSync(".build")).filter(n => n !== "assets" && n !== "index.html" && n !== "allAtoms.html" && n !== "multipleAtoms.html")
 
 const url = (cb) => {
     const atoms = getAtoms();
@@ -272,7 +309,6 @@ const getLogs = async(cb) => {
 
 const build = series(clean, parallel(buildJS, buildCSS, render, assets));
 const deploy = series(build, upload)
-
 
 exports.build = build;
 exports.deploylive = deploy;
