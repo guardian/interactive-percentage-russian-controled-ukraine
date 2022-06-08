@@ -30,6 +30,8 @@ To specifiy the atoms you'd like to view together add the names to the array 'mu
 
 You can also add custom HTML, this will sit after the atoms. To do this simply edit the 'multipleAtoms.html' in the harnesses folder.
 
+Atoms will only affect each other when they are being in embedded in an interactive article templates or an immersive article templates. In the simplest article template they are added in iframes so all their code is sandboxed and can't affect either the page or other atoms.
+
 ### Create a new atom 
 
 Duplicate an existing atom. Remember to change the path in the server/render.js file to point to the html file in the new atom. 
