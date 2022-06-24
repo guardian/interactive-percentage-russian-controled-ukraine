@@ -184,4 +184,3 @@ scrolly.overall((overallProgress) => {
 scrolly.watchScroll()
 
 ```
-# maplibre-tiles
