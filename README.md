@@ -184,4 +184,3 @@ scrolly.overall((overallProgress) => {
 scrolly.watchScroll()
 
 ```
-# interactive-europe-recordd-temperatures-2022
