@@ -24,7 +24,7 @@ const webpack = require('webpack')
 const ws = require('webpack-stream')
 const TerserPlugin = require('terser-webpack-plugin')
 const mkdirp = require("mkdirp")
-const fetch = require("unfetch")
+const axios = require("axios")
 
 const isDeploy = gutil.env._.indexOf('deploylive') > -1 || gutil.env._.indexOf('deploypreview') > -1
 const live = gutil.env._.indexOf('deploylive') > -1
@@ -295,8 +295,8 @@ const getLogs = async(cb) => {
 
     for (let i = 0; i < atoms.length; i++) {
         const atom = atoms[i];
-        const liveLog = await fetch(`${cdnUrl}/atoms/${config.path}/${atom}/live.log`).catch(err => console.log(`LIVE REQUEST ERROR: ${atom}`));
-        const previewLog = await fetch(`${cdnUrl}/atoms/${config.path}/${atom}/preview.log`).catch(err => console.log(`PREVIEW REQUEST ERROR: ${atom}`));
+        const liveLog = (await axios.get(`${cdnUrl}/atoms/${config.path}/${atom}/live.log`)).data
+        const previewLog = (await axios.get(`${cdnUrl}/atoms/${config.path}/${atom}/live.log`)).data
 
         console.log(`${atom} live log:`)
         console.log(liveLog)
