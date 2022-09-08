@@ -1,0 +1,45 @@
+@import "fonts";
+@import "mq";
+@import "palette";
+
+
+// make sure you can test this locally by adding ".ios" or ".android" to the html tag on one of the harnesses 
+// prefers-color-scheme media query - runs on guardian apps only for now, not guardian web
+
+
+// useful colors: 
+// background-color: #1A1A1A !important;
+// text color: #DCDCDC;
+// line 1 color: #FF9081;
+// line 2 color: #58D08B;
+
+@mixin dark-mode-styles {
+        .element.element-atom {
+          background-color: #1A1A1A !important;
+          color: #DCDCDC;
+        }
+
+        .interactive-wrapper {
+          background-color: #1A1A1A !important;
+          color: #DCDCDC;
+
+          text {
+            fill:#DCDCDC;
+          }
+        }
+
+        .interactive-wrapper#overview {
+          border-top: 1px solid $gu-grey-2;
+        }
+}
+
+@media (prefers-color-scheme: dark) {
+    .in-app {
+        @include dark-mode-styles;
+    }
+}
+
+
+.dark-mode-on.in-app {
+    @include dark-mode-styles;
+}
