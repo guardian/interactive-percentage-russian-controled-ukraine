@@ -54,7 +54,7 @@
     "preact": "^10.6.1",
     "prettier": "2.5.1",
     "require-uncached": "^2.0.0",
-    "sass-mq": "^5.0.1",
+    "sass-mq": "^6.0.0",
     "vinyl-named": "^1.1.0",
     "webpack": "^4.41.2",
     "webpack-stream": "^5.2.1"
@@ -73,6 +73,7 @@
     "gulp-replace": "^1.0.0",
     "mkdirp": "^0.5.1",
     "raw-loader": "^4.0.2",
+    "sass": "^1.56.1",
     "terser-webpack-plugin": "^4.2.2",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "unfetch": "^4.2.0"
