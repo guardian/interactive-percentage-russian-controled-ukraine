@@ -1,11 +1,5 @@
 import request from "request-promise"
 import fs from "fs"
-import mapshaper from "mapshaper"
-
-console.log(mapshaper)
-fs.readdirSync('/Users/pablo_gutierrez/Documents/guardian/20221123-interactive-russian-controlled-area/atoms/default/server/AssessedRussianAdvancesinUkraineNOV13/').forEach(file => {
-    
-});
 
 
 export async function render() {

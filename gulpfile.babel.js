@@ -60,6 +60,7 @@ const render = async(cb) => {
         const atoms = (fs.readdirSync("atoms")).filter(n => n.slice(0, 1) !== ".");
         const renders = atoms.map(atom => {
             const render = requireUncached(`./atoms/${atom}/server/render.js`).render;
+            requireUncached(`./atoms/${atom}/server/rename.js`).render;
             return Promise.resolve(render());
         });
 
