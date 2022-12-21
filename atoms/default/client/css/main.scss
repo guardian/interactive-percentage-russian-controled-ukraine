@@ -2,8 +2,9 @@
 @import "fonts";
 @import "mq";
 @import "palette";
-@import "dcr_enhancer"; // default left column enhancer, works with inline, showcase and immersive weighting
-// @import "full_immersive_enhancer"; // full-width enhancer, to be used with immersive weighting. Removes left colum, sets 100vw atom width at any breakpoint
+@import "scrolly";
+//@import "dcr_enhancer"; // default left column enhancer, works with inline, showcase and immersive weighting
+@import "full_immersive_enhancer"; // full-width enhancer, to be used with immersive weighting. Removes left colum, sets 100vw atom width at any breakpoint
 // @import "darkmodedefault"; // basic media queries for adding dark mode and several default colours
 
 /*----- Vertical scrollbar width used for sizing full viewport width elements -----*/

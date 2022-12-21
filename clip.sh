@@ -46,4 +46,13 @@ mapshaper /Users/pablo_gutierrez/Documents/guardian/20221123-interactive-russian
 
 done
 
-mapshaper -i *.json snap combine-files -rename-layers topo1,topo2,geo,shape -merge-layers name=merged-layers -simplify weighted 3% -o output-topo.json format=topojson target=merged-layers bbox prettify force
+for d in *
+do
+
+done
+
+mapshaper -i *.json snap combine-files -merge-layers name=merged-layers -simplify weighted 3% -o ukraine-claimed-topo.json format=topojson target=merged-layers bbox prettify force
+
+ogrmerge.py -f GPKG -o merged.gpkg *.json
+
+ogrmerge.py -single -o merged.json *.json -f GPKG germany.shp -src_layer_field_name country

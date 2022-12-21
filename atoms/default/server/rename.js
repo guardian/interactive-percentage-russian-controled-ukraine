@@ -816,6 +816,8 @@ directory.forEach(dir => {
 
         newFile = data;
 
+        //newFile.objects = "area-" + date
+
         let key = Object.keys(data.objects)[0]
 
 
