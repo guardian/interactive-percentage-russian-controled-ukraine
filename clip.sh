@@ -45,3 +45,5 @@ do
 mapshaper /Users/pablo_gutierrez/Documents/guardian/20221123-interactive-russian-controlled-area/gis/ukraine_map/UKR_adm1.shp -clip  $d/reprojected.json -o $d/clipped.json
 
 done
+
+mapshaper -i *.json snap combine-files -rename-layers topo1,topo2,geo,shape -merge-layers name=merged-layers -simplify weighted 3% -o output-topo.json format=topojson target=merged-layers bbox prettify force

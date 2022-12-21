@@ -794,50 +794,46 @@ const directory = [
     {folder:"Claimed_Ukrainian_Counteroffensives",file:"ClaimedUkrainianCounteroffensivesSEP30",date:"30-09-2022"},
     {folder:"Claimed_Ukrainian_Counteroffensives",file:"ClaimedUkrainianCounteroffensivesSEP9",date:"09-09-2022"},
     {folder:"Claimed_Ukrainian_Counteroffensives",file:"ClaimedUkrainianCounteroffensivesSEPT01",date:"01-09-2022"},
-    {folder:"Claimed_Ukrainian_Counteroffensives",file:"Claimed_Ukrainian_CounteroffensivesJUL05",date:"05-07-2022"},
     {folder:"Claimed_Ukrainian_Counteroffensives",file:"Claimed_Ukrainian_CounteroffensivesJUL05",date:"05-07-2022"}
 ];
 
 const directoryPath = path.join(__dirname, '../../../files');
 
-fs.readdir(directoryPath, function (err, folders) {
-    if (err) {
-        return console.log('Unable to scan directory: ' + err);
+directory.forEach(dir => {
+
+    let file = `${directoryPath}/${dir.folder}/${dir.file}/reprojected-topo.json`;
+
+    let date = dir.date
+
+    let newFile;
+
+
+    try
+    {
+        let rawdata = fs.readFileSync(path.join(file));
+
+        let data = JSON.parse(rawdata);
+
+        newFile = data;
+
+        let key = Object.keys(data.objects)[0]
+
+
+        data.objects[key].geometries.forEach((g,i) => {
+            
+
+            newFile.objects[key].geometries[i].properties = {}
+            newFile.objects[key].geometries[i].properties.date = date
+
+
+        })
+
+        //fs.writeFileSync(`${directoryPath}/${dir.folder}/${dir.file}/${date}-topo.json`, JSON.stringify(newFile));
+        fs.writeFileSync(`${directoryPath}/${dir.folder}/renamed/${date}-topo.json`, JSON.stringify(newFile));
+    }
+    catch(err)
+    {
+        console.log(err, '***', file)
     }
 
-    folders.forEach(function (file) {
-
-        if(! /^\..*/.test(file)) {
-
-            fs.readdir(directoryPath + '/' + file, function (err, files) {
-
-                files.forEach(f => {
-
-                    if(! /^\..*/.test(f)) {
-
-                        try {
-                            let rawdata = fs.readFileSync(path.join(directoryPath + '/' + file + '/' + f + '/clipped.json'));
-
-                            let clipped = JSON.parse(rawdata)
-
-                            clipped.features.forEach(feature => {
-                                console.log(f,feature.properties.NAME_1,turf.area(feature))
-                                //console.log(feature.NAME_1,turf.area(feature))
-                            })
-
-
-                            //console.log(turf.area(JSON.parse(rawdata)))
-                        } catch (error) {
-                            console.log(error, file)
-                        }
-                    }
-                    
-                })
-            })
-        }     
-    });
 })
-
-
-
-console.log('hola')

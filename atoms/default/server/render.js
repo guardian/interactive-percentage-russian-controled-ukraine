@@ -10,14 +10,14 @@ export async function render() {
 
     let promises = []
 
-    sheet.sheets.scrolly.forEach(date => {
+    sheet.sheets['scrolly-map'].forEach(date => {
         promises.push('assets/russian-control/area-' + date.Date)
     })
 
 
     let html = ''
 
-    sheet.sheets.scrolly.forEach(element => {
+    sheet.sheets['scrolly-map'].forEach(element => {
 
             html += `<div class="scroll-text__inner">
                             <div class="scroll-text__div">
