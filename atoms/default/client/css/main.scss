@@ -49,3 +49,9 @@ root {
         padding: 0 !important;
     }
 }
+
+#date {
+    position: absolute;
+    font-size: 72px;
+    @include fs-titlepiece(1);
+  }
