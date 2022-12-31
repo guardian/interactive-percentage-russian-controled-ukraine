@@ -6,12 +6,15 @@ import ScrollyTeller from "shared/js/ScrollyTeller";
 import sheet from 'assets/sheet.json'
 import labels from 'assets/labels-continent.json'
 import { merge } from "topojson-client"
-import ukraineControl from 'assets/ukraine-control.json'
-import russiaControl from 'assets/russia-control.json'
-import russiaAdvance from 'assets/russia-advance.json'
+import areas from 'assets/output-topo-10.json'
+// import ukraineControl from 'assets/ukraine-control.json'
+// import russiaControl from 'assets/russia-control.json'
+// import russiaAdvance from 'assets/russia-advance.json'
+import turf from 'turf'
 //import merged from 'assets/ukraine-conrol/merged-topo.json'
 
-console.log('hola')
+
+
 
 const isMobile = window.matchMedia('(max-width: 600px)').matches;
 
@@ -40,7 +43,7 @@ let map = new mapGl({
 	container: 'gv-wrapper', // container id
 	style:dark,
 	bounds: [[19.9887767459112276,43.5721421004375600],[42.7570271492437328,53.2178718244825504]],
-	interactive:true
+	interactive:false
 	
 });
 
@@ -81,11 +84,13 @@ map.on('load', () => {
 				let date = sheet.sheets['scrolly-map'][i].Date;
 
 
-				let topo = merge(ukraineControl, ukraineControl.objects.merged.geometries.filter(f => f.properties.date === date))
+				let topo = merge(areas, areas.objects['merged-layers'].geometries.filter(f => f.properties.date === date && f.properties.type === 'Claimed_Ukrainian_Counteroffensives'))
+				//let topo = merge(ukraineControl, ukraineControl.objects.merged.geometries.filter(f => f.properties.date === date))
 	
-				let topoRussia = merge(russiaControl, russiaControl.objects.merged.geometries.filter(f => f.properties.date === date))
+				let topoRussia = merge(areas, areas.objects['merged-layers'].geometries.filter(f => f.properties.date === date && f.properties.type === 'Russian_CoT_in_Ukraine_Shapefiles'))
 	
-				let topoRussiaAdvance = merge(russiaAdvance, russiaAdvance.objects.merged.geometries.filter(f => f.properties.date === date))
+				let topoRussiaAdvance = merge(areas, areas.objects['merged-layers'].geometries.filter(f => f.properties.date === date && f.properties.type === 'Russian_Advances_Shapefile'))
+
 	
 				map.getSource('overlay').setData(topo);
 				map.getSource('overlay-russia').setData(topoRussia);

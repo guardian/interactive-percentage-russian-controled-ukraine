@@ -822,11 +822,10 @@ directory.forEach(dir => {
 
 
         data.objects[key].geometries.forEach((g,i) => {
-            
 
             newFile.objects[key].geometries[i].properties = {}
-            newFile.objects[key].geometries[i].properties.date = date
 
+            newFile.objects[key].geometries[i].properties.date = date
 
         })
 

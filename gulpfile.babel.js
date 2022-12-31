@@ -63,6 +63,13 @@ const render = async(cb) => {
             //requireUncached(`./atoms/${atom}/server/areas.js`).render;
             //requireUncached(`./atoms/${atom}/server/rename.js`).render;
 
+            // if (fs.existsSync(`./atoms/${atom}/server/areas3.js`)) {
+
+                
+
+            //     requireUncached(`./atoms/${atom}/server/areas3.js`).render;
+            // }
+            
             return Promise.resolve(render());
         });
 

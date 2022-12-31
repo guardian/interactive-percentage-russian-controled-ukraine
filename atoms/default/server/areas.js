@@ -17,7 +17,7 @@ fs.readdir(directoryPath, function (err, folders) {
 
             fs.readdir(directoryPath + '/' + file, function (err, files) {
 
-                files.forEach(f => {
+                files.forEach(f => { 
 
                     if(! /^\..*/.test(f)) {
 
@@ -33,9 +33,6 @@ fs.readdir(directoryPath, function (err, folders) {
                             })
 
                             fs.writeFileSync(`assets/areas.csv`, csv);
-
-                        
-
 
                             //console.log(turf.area(JSON.parse(rawdata)))
                         } catch (error) {
