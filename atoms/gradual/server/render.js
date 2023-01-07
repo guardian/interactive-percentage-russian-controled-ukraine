@@ -31,6 +31,13 @@ export async function render() {
         <div class="scroll-inner">
             <div id='gv-wrapper'>
                 <div id="date"></div>
+
+                <div class="scroll-text__fixed">
+                    <div class="scroll-text__fixed__date"></div>
+                    <div class="scroll-text__fixed__area"></div>
+                    <div class="scroll-text__fixed__text"></div>
+                </div>
+
             </div>
             
         </div>
@@ -38,7 +45,12 @@ export async function render() {
             ${html}
         </div>
     </div>
+    
+
     </div>
+
+    
+    
     `;
 
  } 

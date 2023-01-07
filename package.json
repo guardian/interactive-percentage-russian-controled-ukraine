@@ -70,6 +70,7 @@
     "babel-loader": "^8.2.3",
     "babel-plugin-module-resolver": "^4.1.0",
     "babel-plugin-transform-import-bangtext-node": "^0.1.4",
+    "gsap": "^3.11.4",
     "gulp-replace": "^1.0.0",
     "maplibre-gl": "^2.4.0",
     "mapshaper": "^0.6.14",

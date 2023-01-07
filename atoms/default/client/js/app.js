@@ -7,19 +7,11 @@ import sheet from 'assets/sheet.json'
 import labels from 'assets/labels-continent.json'
 import { merge } from "topojson-client"
 import areas from 'assets/output-topo-10.json'
-// import ukraineControl from 'assets/ukraine-control.json'
-// import russiaControl from 'assets/russia-control.json'
-// import russiaAdvance from 'assets/russia-advance.json'
-import turf from 'turf'
-//import merged from 'assets/ukraine-conrol/merged-topo.json'
-
-
-
+import { gsap } from 'gsap';
 
 const isMobile = window.matchMedia('(max-width: 600px)').matches;
 
 const atomEl = document.getElementById('gv-wrapper');
-
 
 //http://isw-extracted-email-attachments-use1.s3-website-us-east-1.amazonaws.com/ukraine_control/
 
@@ -29,7 +21,7 @@ const height = window.innerHeight;
 atomEl.style.width = width + "px";
 atomEl.style.height = height + "px";
 
-//
+//Update styles with new geography
 dark.sources.oblasts.data = oblasts;
 dark.sources['ukraine-fill'].data = ukraine;
 dark.sources['ukraine-border'].data = ukraine;
@@ -37,7 +29,6 @@ dark.sources.labels.data = labels;
 dark.sources.overlay.data = null;
 dark.sources['overlay-russia'].data = null;
 dark.sources['overlay-russia-advance'].data = null;
-
 
 let map = new mapGl({
 	container: 'gv-wrapper', // container id
@@ -47,14 +38,7 @@ let map = new mapGl({
 	
 });
 
-
-function onlyUnique(value, index, self) {
-	return self.indexOf(value) === index;
-}
-const dates = sheet.sheets['scrolly-map'].map(d => d.Date).filter(f => f != '').filter(onlyUnique);
-
 map.on('load', () => {
-
 
     const scrolly = new ScrollyTeller({
 		parent: document.querySelector("#scrolly-1"),
@@ -62,15 +46,6 @@ map.on('load', () => {
 		triggerTopMobile: 0.6,
 		transparentUntilActive: true
 	});
-
-	// const scrolly = new ScrollyTeller({
-	// 	parent: document.querySelector("#scrolly-1"),
-	// 		triggerTop: 0.5, // percentage from the top of the screen that the trigger should fire
-	// 		triggerTopMobile:.5,
-	// 		transparentUntilActive: false,
-	// 		overall: () => {}
-	// 	})
-
 
 	sheet.sheets['scrolly-map'].forEach((element, i) => {
 
@@ -85,7 +60,6 @@ map.on('load', () => {
 
 
 				let topo = merge(areas, areas.objects['merged-layers'].geometries.filter(f => f.properties.date === date && f.properties.type === 'Claimed_Ukrainian_Counteroffensives'))
-				//let topo = merge(ukraineControl, ukraineControl.objects.merged.geometries.filter(f => f.properties.date === date))
 	
 				let topoRussia = merge(areas, areas.objects['merged-layers'].geometries.filter(f => f.properties.date === date && f.properties.type === 'Russian_CoT_in_Ukraine_Shapefiles'))
 	

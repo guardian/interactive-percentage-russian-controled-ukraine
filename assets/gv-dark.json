@@ -40,7 +40,7 @@
             "id": "background",
             "type": "background",
             "paint": {
-                "background-color": "#efefef"
+                "background-color": "#E6E9EC"
             }
         },
         {
@@ -180,7 +180,7 @@
                 "visibility": "visible"
             },
             "paint": {
-                "fill-color": "#d9e9f1"
+                "fill-color": "#90DCFF"
             }
         },
         {
