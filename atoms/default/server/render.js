@@ -4,16 +4,12 @@ import fs from "fs"
 
 export async function render() {
 
-    const sheet = await request({"uri":'https://interactive.guim.co.uk/docsdata-test/1C5haByujz_4cFEnnMFyUnsOXrocWm8VuIknfWefqfog.json', json:true});
+    // const sheet = await request({"uri":'https://interactive.guim.co.uk/docsdata-test/1C5haByujz_4cFEnnMFyUnsOXrocWm8VuIknfWefqfog.json', json:true});
 
-    fs.writeFileSync(`assets/sheet.json`, JSON.stringify(sheet));
+    // fs.writeFileSync(`assets/sheet.json`, JSON.stringify(sheet));
 
-    let promises = []
 
-    sheet.sheets['scrolly-map'].forEach(date => {
-        promises.push('assets/russian-control/area-' + date.Date)
-    })
-
+    const sheet = JSON.parse(fs.readFileSync('assets/sheet.json'))
 
     let html = ''
 

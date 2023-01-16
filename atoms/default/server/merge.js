@@ -1,26 +1,21 @@
 import fs from 'fs'
 import path from 'path'
 
-const directoryPath = path.join(__dirname, '../../../files/Claimed_Ukrainian_Counteroffensives/renamed');
+const directoryPath = path.join(__dirname, '../../../files/Russian_CoT_in_Ukraine_Shapefiles');
 
-const newFile = {
-    "type": "Topology",
-    "arcs": [],
-    "transform": {},
-    "objects": {
-        "merged":{
-            "type": "GeometryCollection",
-            "geometries": []
-        }
-    }
-}
 
 fs.promises.readdir(directoryPath)
 .then(filenames => {
 
     let clean = filenames.splice(1,filenames.length)
 
-    let directories = clean.map(f => JSON.parse(fs.readFileSync(directoryPath + '/' + f)))
+    let directories = clean.map(f => {
+
+        if(json){
+            JSON.parse(fs.readFileSync(directoryPath + '/' + f))
+        }
+        
+    })
 
     Promise.all(directories)
     .then(result => {
@@ -28,7 +23,7 @@ fs.promises.readdir(directoryPath)
         result.forEach(r => {
 
             r.arcs.forEach(a => {
-                newFile.arcs.push(a)
+
             })
             
             let key = Object.keys(r.objects)[0]

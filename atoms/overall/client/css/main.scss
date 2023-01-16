@@ -1,0 +1,122 @@
+// @import "enhanced_fonts"; // for when you need special font features 
+@import "fonts";
+@import "mq";
+@import "palette";
+@import "scrolly";
+//@import "dcr_enhancer"; // default left column enhancer, works with inline, showcase and immersive weighting
+@import "full_immersive_enhancer"; // full-width enhancer, to be used with immersive weighting. Removes left colum, sets 100vw atom width at any breakpoint
+// @import "darkmodedefault"; // basic media queries for adding dark mode and several default colours
+
+/*----- Vertical scrollbar width used for sizing full viewport width elements -----*/
+root {
+    --scrollbar-width: 0;
+    --half-scrollbar-width: 0;
+}
+
+.interactive-atom {
+    margin: 0;
+    padding: 0;
+}
+// uncomment to test
+// .gv-wrapper {
+//     height: 400px;
+//     background: #121212;
+//     color: white;
+//     border-top: 1px solid #dcdcdc;
+//     border-bottom: 1px solid #dcdcdc;
+// }
+
+
+/*----- App fixes -----*/
+.ios, .android {
+    .element--immersive {
+        @include mq($until: tablet) {
+            width: 100vw !important;
+            position: relative;
+            left: 50% !important;
+            right: 50% !important;
+            margin-left: -50vw !important;
+            margin-right: -50vw !important;
+        }
+        @include mq(tablet) {
+            transform: translateX(-20px);
+            width: calc(100% + 60px);
+        }
+    }
+    
+    //remove dark mode padding in apps
+    figure.element.element-atom, figure.interactive.interactive-atom.interactive--loading {
+        padding: 0 !important;
+    }
+}
+
+#date {
+    position: absolute;
+    font-size: 72px;
+    @include fs-titlepiece(1);
+  }
+
+
+.scroll-text__fixed:before {
+    content: '\200B';
+    display: inline-block;
+    height: 100%; 
+    vertical-align: middle;
+}
+
+
+.scroll-text__fixed{
+
+
+    position: absolute;
+    top: 0; bottom: 0;
+    margin: 100px 0 0 150px;
+    height: 200px;
+
+
+}
+
+.scroll-text__fixed__text {
+    max-width: 320px;
+    width: 100%;
+    @include mq(desktop) {
+        width: 620px;
+    }
+   // margin-left: calc(50% - 300px);
+    background-color: #fff;
+    border: 2px solid #000;
+    box-shadow: 4px 4px 0 0 #767676;
+    padding: 6px 10px 0px;
+    @include fs-headline(5);
+    font-size: 20px;
+    line-height: 26px;
+    padding-top: 4px;
+    padding-bottom: 0px;
+
+    span {
+        display: inline-block;
+        padding-left: 4px;
+        background-color: #161616;
+    }
+    p {
+        color: #121212;
+    }
+}
+
+.scroll-text__inner{
+    opacity: 0!important;
+}
+
+.scroll-text__fixed__date{
+    @include fs-headline(5);
+}
+
+.scroll-text__fixed__area{
+    @include fs-textSans(4);
+}
+
+
+
+
+
+  
