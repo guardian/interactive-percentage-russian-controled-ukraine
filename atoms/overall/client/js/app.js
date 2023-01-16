@@ -9,6 +9,7 @@ import { merge } from "topojson-client"
 import areas from 'assets/output-topo-10.json'
 import {numberWithCommas} from 'shared/js/util.js'
 import moment from 'moment'
+import { gsap } from 'gsap';
 
 const isMobile = window.matchMedia('(max-width: 600px)').matches;
 
@@ -31,7 +32,7 @@ dark.sources.overlay.data = null;
 dark.sources['overlay-russia'].data = null;
 dark.sources['overlay-russia-advance'].data = null;
 
-console.log(areas.objects['merged-layers'])
+// console.log(areas.objects['merged-layers'])
 
 const firstDate = moment("24-02-2022",'DD-MM-YYYY').utc()
 const lastDate = moment("14-11-2023",'DD-MM-YYYY').utc()
@@ -42,9 +43,11 @@ while(firstDate.add(1, 'days').diff(lastDate) < 0) {
 	filesDates.push(firstDate.format('DD-MM-YYYY'));
 }
 
-console.log(filesDates)
+// console.log(filesDates)
 
 filesDates.push(lastDate.format('DD-MM-YYYY'))
+
+const scrollySteps = sheet.sheets['scrolly-map'];
 
 let map = new mapGl({
 	container: 'gv-wrapper', // container id
@@ -57,148 +60,55 @@ map.on('load', () => {
 
 	const scrolly = new ScrollyTeller({
 		parent: document.querySelector("#scrolly-1"),
-		triggerTop: .5, // percentage from the top of the screen that the trigger should fire
+		triggerTop: .75, // percentage from the top of the screen that the trigger should fire
 		triggerTopMobile: 0.75,
 		transparentUntilActive: false
 	});
 
-	let currentPos = 0;
+	let dateAnimation = { index: 0 };
 
-	sheet.sheets['scrolly-map'].forEach((d,i) => {
+	function tick() {
+		const currentIndex = Math.round(dateAnimation.index);
+		const currentDate = filesDates[currentIndex];
+		updateMap(currentDate);
+	}
+
+	scrollySteps.forEach((d,i) => {
 
 		scrolly.addTrigger({num: i+1, do: () => {
 
-			console.log(i)
+			console.log('trigger step', i);
+			
+			let currentPos = dateAnimation.index;
+			let endDate = scrollySteps[i].Date;
+			let endPos = filesDates.indexOf(endDate);
+			let numberOfDaysToAnimate = Math.abs(endPos - currentPos);
 
-			if(i > 0){
+			console.log('animate to date', endDate);
+			// console.log('number of days to animate', numberOfDaysToAnimate);
 
-				let iniDate = i == 1 ?  sheet.sheets['scrolly-map'][0].Date : sheet.sheets['scrolly-map'][i-1].Date;
-				let endDate = sheet.sheets['scrolly-map'][i].Date;
-				let iniPos = filesDates.indexOf(iniDate);
-				let endPos = filesDates.indexOf(endDate);
-				let currentDates = filesDates.slice(iniPos,endPos+1);
-
-				let direction = currentPos < i ? 'down' : 'up';
-
-				if(i == 1 && direction == 'up') currentDates = [endDate]
-
-				currentPos = i;
-
-				console.log(iniDate, endDate, iniPos, endPos, currentDates, direction)
-
-				let cont = direction == 'down' ? 0 : currentDates.length;
-
-				let loop = setInterval(() => {
-
-
-					if(direction == 'down' && cont == currentDates.length-1)clearInterval(loop);
-					if(direction == 'up' && cont == 0)clearInterval(loop);
-
-					let currentDate = currentDates[cont]
-					direction == 'down' ? cont ++ : cont --
-
-					let topo = merge(areas, areas.objects['merged-layers'].geometries.filter(f => f.properties.date === currentDate && f.properties.type === 'Claimed_Ukrainian_Counteroffensives'))
-					let russiaArea = areas.objects['merged-layers'].geometries.filter(f => f.properties.date === currentDate && f.properties.type === 'Russian_CoT_in_Ukraine_Shapefiles')
-					let russiaAreaTotal = 0;
-					russiaArea.forEach(element => {
-						russiaAreaTotal += +element.properties.area
-					})
-					let topoRussia = merge(areas, russiaArea)
-					let topoRussiaAdvance = merge(areas, areas.objects['merged-layers'].geometries.filter(f => f.properties.date === currentDate && f.properties.type === 'Russian_Advances_Shapefile'))
-
-					map.getSource('overlay').setData(topo);
-					map.getSource('overlay-russia').setData(topoRussia);
-					map.getSource('overlay-russia-advance').setData(topoRussiaAdvance);
-
-					document.getElementsByClassName('scroll-text__fixed__text')[0].innerHTML = sheet.sheets['scrolly-map'][i].Copy;
-					document.getElementsByClassName('scroll-text__fixed__date')[0].innerHTML = currentDate;
-					document.getElementsByClassName('scroll-text__fixed__area')[0].innerHTML = numberWithCommas(parseInt(russiaAreaTotal / 1000)) + ' km2';	
-
-					
-
-					
-				}, 10)
-			}
-			else{
-
-				map.getSource('overlay').setData({
-					"type": "FeatureCollection","features": []
-					});
-				map.getSource('overlay-russia').setData({
-					"type": "FeatureCollection","features": []
-				});
-				map.getSource('overlay-russia-advance').setData({
-					"type": "FeatureCollection","features": []
-				});
-
-				document.getElementsByClassName('scroll-text__fixed__text')[0].innerHTML = sheet.sheets['scrolly-map'][i].Copy;
-				document.getElementsByClassName('scroll-text__fixed__date')[0].innerHTML = '';
-				document.getElementsByClassName('scroll-text__fixed__area')[0].innerHTML = '';
-
-				currentPos = i;
-
-			}
-
+			gsap.fromTo(dateAnimation, {index: currentPos}, {index: endPos, overwrite: true, duration:numberOfDaysToAnimate * 0.01, ease: "linear", onUpdate: tick});
 		}})
 	})
-	
-
-	// scrolly.gradual( (progressInBox, i, abs, total) => {
-
-	// 	let iniDate = sheet.sheets['scrolly-map'][i].Date;
-	// 	let endDate = i == sheet.sheets['scrolly-map'].length-1 ? iniDate : sheet.sheets['scrolly-map'][i+1].Date;
-	// 	let iniPos = filesDates.indexOf(iniDate);
-	// 	let endPos = filesDates.indexOf(endDate);
-	// 	let totalFiles = endPos - iniPos;
-		
-		
-	// 	let currentPos = parseInt(iniPos + (totalFiles * (progressInBox * 100) / 100));
-	// 	let currentDate = filesDates[currentPos]
-
-	// 	console.log()
-
-	// 	// if(i > 0 && i <= sheet.sheets['scrolly-map'].length-1)
-	// 	// {
-	// 	// 	let topo = merge(areas, areas.objects['merged-layers'].geometries.filter(f => f.properties.date === currentDate && f.properties.type === 'Claimed_Ukrainian_Counteroffensives'))
-
-	// 	// 	let russiaArea = areas.objects['merged-layers'].geometries.filter(f => f.properties.date === currentDate && f.properties.type === 'Russian_CoT_in_Ukraine_Shapefiles')
-	// 	// 	let russiaAreaTotal = 0;
-	// 	// 	russiaArea.forEach(element => {
-	// 	// 		russiaAreaTotal += +element.properties.area
-	// 	// 	})
-
-	// 	// 	let topoRussia = merge(areas, russiaArea)
-	
-	// 	// 	let topoRussiaAdvance = merge(areas, areas.objects['merged-layers'].geometries.filter(f => f.properties.date === currentDate && f.properties.type === 'Russian_Advances_Shapefile'))
-
-	// 	// 	map.getSource('overlay').setData(topo);
-	// 	// 	map.getSource('overlay-russia').setData(topoRussia);
-	// 	// 	map.getSource('overlay-russia-advance').setData(topoRussiaAdvance);
-
-	// 	// 	document.getElementsByClassName('scroll-text__fixed__text')[0].innerHTML = sheet.sheets['scrolly-map'][i].Copy;
-	// 	// 	document.getElementsByClassName('scroll-text__fixed__date')[0].innerHTML = currentDate;
-	// 	// 	document.getElementsByClassName('scroll-text__fixed__area')[0].innerHTML = numberWithCommas(parseInt(russiaAreaTotal / 1000)) + ' km2';
-
-
-	// 	// }
-	// 	// else{
-	// 	// 	//console.log('paso por aqui')
-	// 	// 	map.getSource('overlay').setData({
-	// 	// 		"type": "FeatureCollection",				"features": []
-	// 	// 	});
-	// 	// 	map.getSource('overlay-russia').setData({
-	// 	// 		"type": "FeatureCollection",				"features": []
-	// 	// 	});
-	// 	// 	map.getSource('overlay-russia-advance').setData({
-	// 	// 		"type": "FeatureCollection",				"features": []
-	// 	// 	});
-
-	// 	// 	document.getElementsByClassName('scroll-text__fixed__text')[0].innerHTML = sheet.sheets['scrolly-map'][i].Copy;
-	// 	// 	document.getElementsByClassName('scroll-text__fixed__date')[0].innerHTML = currentDate;
-	// 	// 	document.getElementsByClassName('scroll-text__fixed__area')[0].innerHTML = '';
-	// 	// }
-		
-	// })
 
     scrolly.watchScroll();
 })
+
+function updateMap(currentDate) {
+	let topo = merge(areas, areas.objects['merged-layers'].geometries.filter(f => f.properties.date === currentDate && f.properties.type === 'Claimed_Ukrainian_Counteroffensives'))
+	let russiaArea = areas.objects['merged-layers'].geometries.filter(f => f.properties.date === currentDate && f.properties.type === 'Russian_CoT_in_Ukraine_Shapefiles')
+	let russiaAreaTotal = 0;
+	russiaArea.forEach(element => {
+		russiaAreaTotal += +element.properties.area
+	})
+	let topoRussia = merge(areas, russiaArea)
+	let topoRussiaAdvance = merge(areas, areas.objects['merged-layers'].geometries.filter(f => f.properties.date === currentDate && f.properties.type === 'Russian_Advances_Shapefile'))
+
+	map.getSource('overlay').setData(topo);
+	map.getSource('overlay-russia').setData(topoRussia);
+	map.getSource('overlay-russia-advance').setData(topoRussiaAdvance);
+
+	// document.getElementsByClassName('scroll-text__fixed__text')[0].innerHTML = sheet.sheets['scrolly-map'][i].Copy;
+	document.getElementsByClassName('scroll-text__fixed__date')[0].innerHTML = currentDate;
+	document.getElementsByClassName('scroll-text__fixed__area')[0].innerHTML = numberWithCommas(parseInt(russiaAreaTotal / 1000)) + ' km2';	
+}
