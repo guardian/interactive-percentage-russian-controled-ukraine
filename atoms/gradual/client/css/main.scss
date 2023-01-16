@@ -70,7 +70,7 @@ root {
 
     position: absolute;
     top: 0; bottom: 0;
-    margin: auto;
+    margin: 100px 0 0 150px;
     height: 200px;
 
 
@@ -105,6 +105,14 @@ root {
 
 .scroll-text__inner{
     opacity: 0!important;
+}
+
+.scroll-text__fixed__date{
+    @include fs-headline(5);
+}
+
+.scroll-text__fixed__area{
+    @include fs-textSans(4);
 }
 
 

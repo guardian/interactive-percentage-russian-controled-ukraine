@@ -1,5 +1,5 @@
 
-
+mapshaper *.shp -proj wgs84 -o reprojected.json format=geojson
 #reproject
 
 for i in *
@@ -30,7 +30,11 @@ do
 for d in $i/*
 do
 
-mapshaper ../gis/data/UKR_adm1.shp -clip  $d/reprojected.json -o $d/clipped.json
+if [ -f "$d/clipped.json" ]; then
+    echo "$FILE exists."
+else 
+    mapshaper ../gis/data/UKR_adm1.shp -clip  $d/reprojected.json -o $d/clipped.json
+fi
 
 done
 done
@@ -92,10 +96,9 @@ done
 
 echo $arr
 
-for i in *
-do
-for d in $i/*
-do
-mapshaper -i *.json snap combine-files -merge-layers name=merged-layers -simplify weighted 99% -o ./output-topo.json format=topojson target=merged-layers bbox prettify force
 
-mapshaper -i *.json -o geojson/ format=geojson
+
+
+mapshaper -i *.json snap combine-files -merge-layers name=merged-layers -simplify visvalingam 2% -o /Users/pablo_gutierrez/Documents/guardian/20221222-interactive-percentage-russian-controled-ukraine/assets/output-topo-v2.json format=topojson target=merged-layers bbox prettify force
+mapshaper -i /Users/pablo_gutierrez/Documents/guardian/20221222-interactive-percentage-russian-controled-ukraine/gis/filesNew/*.json snap combine-files -merge-layers name=merged-layers -simplify visvalingam 2% -o /Users/pablo_gutierrez/Documents/guardian/20221222-interactive-percentage-russian-controled-ukraine/assets/output-topo-v2.json format=topojson target=merged-layers bbox prettify force
+

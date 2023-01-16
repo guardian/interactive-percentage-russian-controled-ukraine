@@ -1,0 +1,28 @@
+.element-immersive {
+  width: calc( 100vw - var(--scrollbar-width));
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: calc(-50vw + var(--half-scrollbar-width)) !important;
+  margin-right: calc(-50vw + var(--half-scrollbar-width)) !important;
+
+  @include mq(tablet) {
+      transform: translateX(10px);
+  }
+
+  @include mq(leftCol) {
+      transform: translateX(0);
+  }
+}
+
+.ios, .android {
+  .element--immersive {
+      width: 100vw !important;
+      position: relative;
+      left: 50% !important;
+      right: 50% !important;
+      margin-left: -50vw !important;
+      margin-right: -50vw !important;
+  }
+}
+/* ------------------------- */
