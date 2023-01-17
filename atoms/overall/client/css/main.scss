@@ -66,23 +66,20 @@ root {
 
 
 .scroll-text__fixed{
-
-
     position: absolute;
     top: 0; bottom: 0;
     margin: 100px 0 0 150px;
     height: 200px;
-
-
 }
 
 .scroll-text__fixed__text {
+    //display: none;
     max-width: 320px;
     width: 100%;
     @include mq(desktop) {
         width: 620px;
     }
-   // margin-left: calc(50% - 300px);
+    margin-left: calc(50% - 300px);
     background-color: #fff;
     border: 2px solid #000;
     box-shadow: 4px 4px 0 0 #767676;
@@ -105,6 +102,8 @@ root {
 
 .scroll-text__inner{
     opacity: 0!important;
+    max-width: 320px;
+    margin-left: 150px;
 }
 
 .scroll-text__fixed__date{
