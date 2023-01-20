@@ -13,6 +13,9 @@
         "separatists":{
             "type": "geojson"
         },
+        "separatists-line":{
+            "type": "geojson"
+        },
         "overlay":{
             "type": "geojson"
         },
@@ -75,12 +78,27 @@
             }
         },
         {
-            "id":"separatists",
+            "id":"separatists-fill",
             "type":"fill",
             "source":"separatists",
             "layout":{},
             "paint":{
                 "fill-color":"#c6c6c6"
+                
+            }
+        },
+        {
+            "id":"separatists-line",
+            "type":"line",
+            "source":"separatists-line",
+            "layout": {
+                "line-join": "round",
+                "line-cap": "round"
+                },
+                "paint": {
+                "line-color": "#929297",
+                "line-width": 2,
+                "line-dasharray": [4, 2]
             }
         },
         {
