@@ -41,6 +41,9 @@ export async function render() {
 
                             <div class="scroll-text__fixed__header"></div>
 
+                            <div class="header-wrapper__byline"></div>
+                            
+                            <div class="header-wrapper__date"></div>
                         </div>
 
                     </div>

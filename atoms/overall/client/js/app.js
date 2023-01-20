@@ -43,18 +43,18 @@ let headline = null;
 let standfirst = null;
 let byline = null;
 let details = null;
-let date = document.createElement("div");
-date.classList.add('header-wrapper__date')
-document.querySelector('.header-wrapper__content').appendChild(date);
+
 
 if(window.location.protocol == 'https:' || window.location.protocol == 'http:')
 {
+
 	headline = document.querySelector('[data-gu-name="headline"] h1').innerHTML;
 	standfirst = document.querySelector('[data-gu-name="standfirst"] p').innerHTML;
 	byline = document.querySelector('[data-link-name="byline"] div');
-	details = document.querySelector('[data-gu-name="meta"]');
+	details = document.querySelector('[data-gu-name="meta"]').innerText.split('\n');
+	document.querySelector('.header-wrapper__date').innerHTML = details[1];
+
 	
-	document.querySelector('.header-wrapper__date').innerHTML = details.innerText;
 }
 else{
 	
@@ -62,12 +62,11 @@ else{
 	standfirst = document.querySelector('.standfirst.selectable p').innerHTML;
 	byline = document.querySelector('.meta__byline');
 	details = document.querySelector('.meta__published__date');
-	console.log(details)
 	document.querySelector('.header-wrapper__date').appendChild(details)
 }
 
-document.querySelector('.header-wrapper__content').appendChild(byline);
 
+document.querySelector('.header-wrapper__byline').appendChild(byline);
 document.querySelector(".header-wrapper__content .content__headline").innerHTML = headline;
 document.querySelector(".header-wrapper__content .scroll-text__fixed__header").innerHTML = standfirst;
 
