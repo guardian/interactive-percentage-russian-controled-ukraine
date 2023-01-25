@@ -29,6 +29,11 @@ section:first-of-type {
     position: absolute;
     z-index: 100000;
 }
+
+.content--interactive{
+    margin-top: 1px;
+}
+
 /*----- App fixes -----*/
 .ios, .android {
 

@@ -17,6 +17,8 @@
   @include mq($from: wide) {
     margin-left: calc(-50vw - 120px + var(--half-scrollbar-width)) !important;
   }
+
+  margin-bottom: 20px;
 }
 
 .ios, .android {
@@ -95,3 +97,10 @@
   }
 }
 /* ------------------------- */
+
+/*------ Fix charts width ------*/
+
+
+[title='Interactive Content']{
+  max-width: 620px!important;
+}

@@ -29,7 +29,7 @@ class ScrollyTeller {
                     this.scrollInner.classed("fixed-top", true);
                     this.scrollInner.classed("absolute-bottom", false);
                     this.scrollInner.classed("absolute-top", false);
-                } else if(bbox.top <= 0) {
+                } else if(bbox.top <= 0) { 
                     this.scrollInner.classed("fixed-top", false);
                     this.scrollInner.classed("absolute-bottom", true);
                     this.scrollInner.classed("absolute-top", false);
@@ -42,7 +42,7 @@ class ScrollyTeller {
     
             if(bbox.top < (window.innerHeight*(this.triggerTop)) && bbox.bottom > window.innerHeight/2) { 
                 const i = Math.floor(Math.abs(bbox.top - (window.innerHeight*(this.triggerTop)))/bbox.height*this.textBoxes.length);
-    
+                
                 if(i !== this.lastI) {
                     this.lastI = i; 
                     this.doScrollAction(i);
@@ -56,11 +56,13 @@ class ScrollyTeller {
                             }
                         });
                     }
+
                 }
             }
     
             this.lastScroll = window.pageYOffset;
         }
+
     
         window.requestAnimationFrame(this.checkScroll.bind(this));
     }

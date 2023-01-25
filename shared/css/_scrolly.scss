@@ -33,7 +33,7 @@
     }
 
     &.absolute-bottom {
-        position: absolute;
+        //position: absolute;
         top: auto;
         @include mq(tablet) {
             bottom: 0;
@@ -58,7 +58,7 @@
     //     width: 620px;
     // }
     margin-left: 0px;
-    background-color: red;
+    background-color: fff;
     border: 2px solid #000;
     box-shadow: 4px 4px 0 0 #767676;
     padding: 6px 10px 0px;

@@ -16,6 +16,12 @@
         "separatists-line":{
             "type": "geojson"
         },
+        "annexed":{
+            "type": "geojson"
+        },
+        "patch":{
+            "type": "geojson"
+        },
         "overlay":{
             "type": "geojson"
         },
@@ -78,13 +84,50 @@
             }
         },
         {
+            "id":"overlay",
+            "type":"fill",
+            "source":"overlay",
+            "layout":{
+                "visibility":"visible"
+            },
+            "paint":{
+                "fill-color":"#f7cb56"
+            }
+        },
+        {
+            "id":"overlay-russia",
+            "type":"fill",
+            "source":"overlay-russia",
+            "layout":{},
+            "paint":{
+                "fill-color":"#f0b5b8"
+            }
+        },
+        {
+            "id":"overlay-russia-advance",
+            "type":"fill",
+            "source":"overlay-russia-advance",
+            "layout":{},
+            "paint":{
+                "fill-color":"#e58488"
+            }
+        },
+        {
+            "id":"patch",
+            "type":"fill",
+            "source":"patch",
+            "layout":{},
+            "paint":{
+                "fill-color":"#f0b5b8"
+            }
+        },
+        {
             "id":"separatists-fill",
             "type":"fill",
             "source":"separatists",
             "layout":{},
             "paint":{
                 "fill-color":"#c6c6c6"
-                
             }
         },
         {
@@ -99,36 +142,6 @@
                 "line-color": "#929297",
                 "line-width": 2,
                 "line-dasharray": [4, 2]
-            }
-        },
-        {
-            "id":"overlay",
-            "type":"fill",
-            "source":"overlay",
-            "layout":{},
-            "paint":{
-                "fill-color":"#f7cb56",
-                "fill-opacity-transition": { "duration": 300 }
-            }
-        },
-        {
-            "id":"overlay-russia",
-            "type":"fill",
-            "source":"overlay-russia",
-            "layout":{},
-            "paint":{
-                "fill-color":"#f0b5b8",
-                "fill-opacity-transition": { "duration": 300 }
-            }
-        },
-        {
-            "id":"overlay-russia-advance",
-            "type":"fill",
-            "source":"overlay-russia-advance",
-            "layout":{},
-            "paint":{
-                "fill-color":"#e58488",
-                "fill-opacity-transition": { "duration": 300 }
             }
         },
         {
@@ -868,6 +881,61 @@
             }
         },
         {
+            "id": "Annexed",
+            "type": "symbol",
+            "source": "labels",
+            "minzoom": 3,
+            "maxzoom": 22,
+            "filter": [
+                "==",
+                "TYPE_1",
+                "direct label"
+            ],
+            "layout": {
+                "text-size": 14,
+                "text-font": ["Guardian Text Sans Bold Italic"],
+                "text-field": "{NAME_1}",
+                "text-justify":["center"],
+                "text-variable-anchor": ["center"],
+                "text-radial-offset": 0.5,
+                "text-justify": "auto",
+                "icon-image": "Admin-0 capital",
+                "icon-size": 1,
+                "visibility":"none"
+            },
+            "paint": {
+                "text-halo-color": "#FFFFFF",
+                "text-halo-width": 1,
+                "text-color": "#333333"
+            }
+        },
+        {
+            "id": "Admin-1 capital",
+            "type": "symbol",
+            "source": "labels",
+            "minzoom": 5,
+            "maxzoom": 22,
+            "filter": ["all",
+                ["==","TYPE_1","Oblast'"]
+            ],
+            "layout": {
+                "text-size": 14,
+                "text-font": ["Gdn Text Sans TS3Regular"],
+                "text-justify": "left",
+                "text-field": "{NAME_1}",
+                "text-variable-anchor": ["center"],
+                "text-radial-offset": 0.5,
+                "icon-image": "Admin-1 capital",
+                "icon-size": 1,
+                "visibility":"visible"
+            },
+            "paint": {
+                "text-halo-color": "#FFFFFF",
+                "text-halo-width": 1,
+                "text-color": "#333333"
+            }
+        },
+        {
             "id": "Admin-0 country",
             "type": "symbol",
             "source": "labels",
@@ -875,7 +943,7 @@
             "maxzoom": 12,
             "filter": [
                 "==",
-                "featurecla",
+                "TYPE_1",
                 "Admin-0 country"
             ],
             "layout": {
@@ -883,7 +951,7 @@
                 "text-font": ["GH Guardian Headline Bold"],
                 "text-anchor": "center",
                 "text-justify": "center",
-                "text-field": "{name}",
+                "text-field": "{NAME_1}",
                 "text-radial-offset": 0.5,
                 "visibility":"visible"
             },
@@ -901,13 +969,13 @@
             "maxzoom": 22,
             "filter": [
                 "==",
-                "featurecla",
-                "Admin-0 capital"
+                "TYPE_1",
+                "Independent City"
             ],
             "layout": {
                 "text-size": 18,
                 "text-font": ["Gdn Text Sans TS3Bold"],
-                "text-field": "{name}",
+                "text-field": "{NAME_1}",
                 "text-justify":["center"],
                 "text-variable-anchor": ["center"],
                 "text-radial-offset": 0.5,
@@ -923,22 +991,25 @@
             }
         },
         {
-            "id": "Admin-1 capital",
+            "id": "Autonomous Republic",
             "type": "symbol",
             "source": "labels",
-            "minzoom": 5,
+            "minzoom": 3,
             "maxzoom": 22,
-            "filter": ["all",
-                ["==","featurecla","Admin-1 capital"]
+            "filter": [
+                "==",
+                "TYPE_1",
+                "direct label"
             ],
             "layout": {
                 "text-size": 14,
-                "text-font": ["Gdn Text Sans TS3Regular"],
-                "text-justify": "left",
-                "text-field": "{name}",
+                "text-font": ["Guardian Text Sans Bold Italic"],
+                "text-field": "{NAME_1}",
+                "text-justify":["center"],
                 "text-variable-anchor": ["center"],
                 "text-radial-offset": 0.5,
-                "icon-image": "Admin-1 capital",
+                "text-justify": "auto",
+                "icon-image": "Admin-0 capital",
                 "icon-size": 1,
                 "visibility":"visible"
             },
@@ -947,6 +1018,22 @@
                 "text-halo-width": 1,
                 "text-color": "#333333"
             }
+        },
+        {
+            "id":"Annexed-line",
+            "type":"line",
+            "source":"annexed",
+            "layout": {
+                "line-join": "round",
+                "line-cap": "round",
+                "visibility":"none"
+            },
+            "paint": {
+                "line-color": "#333",
+                "line-width": 2
+            }
+            
+            
         }
     ]
 }

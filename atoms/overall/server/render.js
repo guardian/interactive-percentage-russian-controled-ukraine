@@ -50,7 +50,7 @@ export async function render() {
 
                     
 
-                    <div class="scroll-text__fixed">
+                    <div class="scroll-text__fixed over">
                         <hr class="hr"></hr>
                         <h2 class="scroll-text__fixed__date"></h2>
                         <div class="scroll-text__fixed__text"></div>

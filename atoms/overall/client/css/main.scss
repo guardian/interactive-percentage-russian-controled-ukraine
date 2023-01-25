@@ -17,7 +17,15 @@ root {
 .interactive-atom {
     margin: 0;
     padding: 0;
+    height: 100vh;
+    
 }
+
+.interactive-wrapper{
+    margin-top: -1px;
+    margin-bottom: 40px;
+}
+
 // uncomment to test
 // .gv-wrapper {
 //     height: 400px;
@@ -72,7 +80,7 @@ root {
     background-color: #333;
     top:16px;
     width: 100%;
-   // padding: 16px;
+    padding: 16px;
     opacity: 1;
     
     &.over{
@@ -92,7 +100,7 @@ root {
     }
     
     h2{
-        margin: 0;
+        margin: 0 0 8px 0;
         padding: 0;
         color: #fff;
     }
