@@ -122,12 +122,42 @@ root {
 
 }
 
-.xaxis{
-	.tick{
+
+.xaxis, .yaxis{
+    tspan{
+        font-weight: bold;
+        fill:$neutral-20;
+    }
+	.tick, tspan{
 		@include fs-textSans(1);
-		text{fill:#333;}
-		line{stroke:#333;}
+		text{fill:$neutral-20;}
+		line{stroke:$neutral-20}
 	}
-	.xdomain{stroke:#333;}
+	.domain{display: none;}
 }
 
+.yaxis line{
+    stroke-width: 2px;
+    stroke: #bababa;
+    stroke-dasharray: 0,4;
+    stroke-linecap: round;
+}
+
+.label{
+    text-anchor: middle;
+    @include fs-textSans(4);
+    font-weight: bold;
+    fill: #fff;
+    text-shadow: 0px 0px 2px #000;
+}
+
+.date{
+    padding-top: 2px;
+    margin-bottom: 6px;
+    @include fs-textSans(1);
+    font-size: 16px;
+    line-height: 1.35;
+    font-weight: 400;
+    --source-text-decoration-thickness: 2px;
+    color: $neutral-86;
+}

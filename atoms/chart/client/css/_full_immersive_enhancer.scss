@@ -41,6 +41,7 @@
   margin-left: calc(-50vw + var(--half-scrollbar-width)) !important;
   margin-right: calc(-50vw + var(--half-scrollbar-width)) !important;
 
+
   @include mq($from: tablet, $until: leftCol) {
     margin-left: calc(-50vw + var(--half-scrollbar-width) + 10px) !important;
   }
@@ -86,13 +87,13 @@
   min-height: 100px;
   content: "";
   @include mq($from: leftCol) {
-    border-left:1px solid #dcdcdc;
+    border-left:1px solid #fff;
     z-index: -1;
     left: -10px;
   }
 
   @include mq($from: wide) {
-    border-left: 1px solid #dcdcdc;
+    border-left: 1px solid #fff;
     left: -11px;
   }
 }

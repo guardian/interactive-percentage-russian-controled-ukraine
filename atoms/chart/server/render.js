@@ -26,6 +26,7 @@ export async function render() {
                         <h2 class="scroll-text__fixed__date">
                         ${sheet.sheets['scrolly-chart'][0].Header}
                         </h2>
+                        <p class='date'></p>
                         <div class="scroll-text__fixed__text">
                             <p>${sheet.sheets['scrolly-chart'][0].Copy}</p>
                         </div>

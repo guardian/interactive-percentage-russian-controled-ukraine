@@ -23,6 +23,19 @@ let standfirst = null;
 let byline = null;
 let details = null;
 
+const pixelRatio = window.devicePixelRatio;
+
+const spriteURL = pixelRatio <= 1
+?
+
+"https://interactive.guim.co.uk/maptiles/sprites/sprite@2x"
+
+:
+
+"https://interactive.guim.co.uk/maptiles/sprites/sprite"
+
+dark.sprite = spriteURL;
+
 if(window.location.protocol == 'https:' || window.location.protocol == 'http:')
 {
 
@@ -91,7 +104,12 @@ let map = new mapGl({
 
 map.on('load', () => {
 
-	document.querySelector('.interactive-atom').style.height = '100%'
+	let atoms = document.querySelectorAll('.interactive')
+
+	for (var i = 0; i < atoms.length; i++) {
+		
+		atoms[i].style.height = '100%';
+	}
 
 	const scrolly = new ScrollyTeller({
 		parent: document.querySelector("#scrolly-1"),
