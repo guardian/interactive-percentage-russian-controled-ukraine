@@ -5,6 +5,8 @@ import * as d3B from 'd3'
 import sheet from 'assets/sheet.json'
 import SvgText from 'svg-text';
 
+console.log(sheet)
+
 const d3 = Object.assign({}, d3B);
 
 const isMobile = window.matchMedia('(max-width: 600px)').matches;
@@ -14,7 +16,7 @@ const height = window.innerHeight;
 
 const marginTopMobile = height < 600 ? window.innerHeight / 2 : window.innerHeight / 3
 
-const margin = { left:5, top: isMobile ? marginTopMobile : 6, right: 0, bottom: 30 }
+const margin = { left:5, top: isMobile ? marginTopMobile : 6, right: 10, bottom: 30 }
 
 const svg = d3.select('#gv-wrapper-2')
 	.append('svg')
@@ -267,6 +269,9 @@ scrollySteps.forEach((d, i) => {
 						.ticks(5)
 						.tickFormat(d3.timeFormat("%b"))
 				)
+			.selectAll("text")
+			.attr('text-anchor', (d,i) => console.log("****" , i,d))
+
 
 		}
 	})
