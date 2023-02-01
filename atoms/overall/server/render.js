@@ -9,8 +9,6 @@ export async function render() {
 
     fs.writeFileSync(`assets/sheet.json`, JSON.stringify(sheet));
 
-    sheet.sheets['chart-data'].forEach(data => console.log(data.date))
-
     let promises = []
 
     sheet.sheets['scrolly-map'].forEach(date => {

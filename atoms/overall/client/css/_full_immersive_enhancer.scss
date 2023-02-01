@@ -1,36 +1,51 @@
-.element-immersive {
-  width: calc( 100vw - var(--scrollbar-width));
-  position: relative;
-  left: 50%;
-  right: 50%;
-  margin-left: calc(-50vw + var(--half-scrollbar-width)) !important;
-  margin-right: calc(-50vw + var(--half-scrollbar-width)) !important;
-
-  @include mq($from: tablet, $until: leftCol) {
-    margin-left: calc(-50vw + var(--half-scrollbar-width) + 10px) !important;
-  }
-
-  @include mq(leftCol) {
-    margin-left: calc(-50vw - 80px + var(--half-scrollbar-width)) !important;
-  }
+// body{
   
-  @include mq($from: wide) {
-    margin-left: calc(-50vw - 120px + var(--half-scrollbar-width)) !important;
-  }
+//   .content--interactive div{
+//     border-color: #052962;
+//   }
+// }
 
-  margin-bottom: 20px;
+body{
+  background-color:#052962;
 }
 
-.ios, .android {
-  .element--immersive {
-      width: 100vw !important;
-      position: relative;
-      left: 50% !important;
-      right: 50% !important;
-      margin-left: -50vw !important;
-      margin-right: -50vw !important;
-  }
+.content--interactive > div{
+  border-color: #052962;
 }
+
+// .element-immersive {
+//   width: calc( 100vw - var(--scrollbar-width));
+//   position: relative;
+//   left: 50%;
+//   right: 50%;
+//   margin-left: calc(-50vw + var(--half-scrollbar-width)) !important;
+//   margin-right: calc(-50vw + var(--half-scrollbar-width)) !important;
+
+//   @include mq($from: tablet, $until: leftCol) {
+//     margin-left: calc(-50vw + var(--half-scrollbar-width) + 10px) !important;
+//   }
+
+//   @include mq(leftCol) {
+//     margin-left: calc(-50vw - 80px + var(--half-scrollbar-width)) !important;
+//   }
+  
+//   @include mq($from: wide) {
+//     margin-left: calc(-50vw - 120px + var(--half-scrollbar-width)) !important;
+//   }
+
+//   margin-bottom: 20px;
+// }
+
+// .ios, .android {
+//   .element--immersive {
+//       width: 100vw !important;
+//       position: relative;
+//       left: 50% !important;
+//       right: 50% !important;
+//       margin-left: -50vw !important;
+//       margin-right: -50vw !important;
+//   }
+// }
 /* ------------------------- */
 
 .element-immersive {
@@ -79,7 +94,7 @@
   }
 }
 
-.content__main-column--interactive:before {
+.content__main-column--interactive::before {
   position: absolute;
   top: 0px;
   height: calc(100% + 15px);
@@ -96,6 +111,7 @@
     left: -11px;
   }
 }
+
 /* ------------------------- */
 
 /*------ Fix charts width ------*/

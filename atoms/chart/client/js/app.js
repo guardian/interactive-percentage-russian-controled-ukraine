@@ -5,18 +5,16 @@ import * as d3B from 'd3'
 import sheet from 'assets/sheet.json'
 import SvgText from 'svg-text';
 
-console.log(sheet)
-
 const d3 = Object.assign({}, d3B);
 
 const isMobile = window.matchMedia('(max-width: 600px)').matches;
 
-const width = window.innerWidth;
+const width = document.documentElement.clientWidth;
 const height = window.innerHeight;
 
 const marginTopMobile = height < 600 ? window.innerHeight / 2 : window.innerHeight / 3
 
-const margin = { left:5, top: isMobile ? marginTopMobile : 6, right: 10, bottom: 30 }
+const margin = { left:5, top: isMobile ? marginTopMobile : 6, right: 0, bottom: 30 }
 
 const svg = d3.select('#gv-wrapper-2')
 	.append('svg')
@@ -73,6 +71,7 @@ let xAxis = svg.append("g")
 	.call(
 		d3.axisBottom(x)
 			.ticks(5)
+			.tickFormat(d3.timeFormat("%-d %b"))
 	)
 
 let yAxis = svg.append("g")
@@ -104,9 +103,31 @@ text.y = text.bounds.height
 
 areaChart
 	.selectAll("none")
-	.data(stackedData)
+	.data(() => {
+		let arr = []
+		
+		stackedData.forEach(entry => {
+	
+			let a = entry.map(e => {
+				let a = [0,0];
+				a['data'] = e.data
+
+				return a
+			})
+			let i = entry.index;
+			let k = entry.key
+
+			arr.push(a)
+			arr[i]['index'] = i
+			arr[i]['key'] = k
+			
+		})
+
+		return arr
+	})
 	.enter()
 	.append("path")
+	.attr('d', area)
 
 const scrollySteps = sheet.sheets['scrolly-chart'];
 
@@ -143,6 +164,7 @@ let labels = svg.append('g')
 	.enter()
 	.append('text')
 	.attr('class', 'label')
+	.attr('y', height)
 
 document.querySelector('.scroll-text__fixed-2').classList.remove('over');
 
@@ -155,8 +177,7 @@ scrollySteps.forEach((d, i) => {
 
 			document.querySelector('.scroll-text__fixed-2 .scroll-text__fixed__date').innerHTML = scrollySteps[i].Header;
 			document.querySelector('.scroll-text__fixed-2 .scroll-text__fixed__text').innerHTML = scrollySteps[i].Copy;
-			document.querySelector('.hr-2').style.width = Math.ceil(((i + 1) * 100) / scrollySteps.length) + '%';
-			console.log(scrollySteps[i].Date)
+			document.querySelector('.hr-2').style.width = Math.ceil(((i + 1) * 100) / scrollySteps.length) + '%'
 
 			areaChart
 				.selectAll("path")
@@ -261,16 +282,16 @@ scrollySteps.forEach((d, i) => {
 
 			d3.select('.date').node().innerHTML =  moment(scrollySteps[i].Date, 'DD/MM/YYYY').format("D MMM YYYY")
 
+			let timeFormat = i == 0 ? d3.timeFormat("%-d %b") : d3.timeFormat("%b")
 			xAxis
 				.transition()
 				.duration(500)
 				.call(
 					d3.axisBottom(x)
 						.ticks(5)
-						.tickFormat(d3.timeFormat("%b"))
+						.tickFormat(timeFormat)
 				)
 			.selectAll("text")
-			.attr('text-anchor', (d,i) => console.log("****" , i,d))
 
 
 		}

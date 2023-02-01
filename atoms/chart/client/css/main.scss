@@ -27,6 +27,10 @@ root {
     //border-bottom: 1px solid #dcdcdc;
 }
 
+svg{
+    overflow: hidden;
+}
+
 
 /*----- App fixes -----*/
 .ios, .android {
@@ -131,16 +135,25 @@ root {
 	.tick, tspan{
 		@include fs-textSans(1);
 		text{fill:$neutral-20;}
-		line{stroke:$neutral-20}
+		
 	}
 	.domain{display: none;}
 }
 
 .yaxis line{
     stroke-width: 2px;
-    stroke: #bababa;
     stroke-dasharray: 0,4;
     stroke-linecap: round;
+    stroke:$neutral-20;
+}
+
+.yaxis .tick:nth-child(2){
+
+    line{
+        stroke-dasharray: 0;
+        stroke-width:px;
+    }
+    
 }
 
 .label{

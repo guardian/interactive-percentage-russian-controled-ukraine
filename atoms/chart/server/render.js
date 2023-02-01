@@ -7,8 +7,6 @@ export async function render() {
     let html = ''
 
     sheet.sheets['scrolly-chart'].forEach(element => {
-
-        console.log(element)
         
         html += `<div class="scroll-text__inner">
                     <div class="scroll-text__div">

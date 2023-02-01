@@ -8,6 +8,19 @@
 // @import "darkmodedefault"; // basic media queries for adding dark mode and several default colours
 @import "_no_header";
 
+// body{
+//     background: #284777;
+
+//     //content: "";
+    
+
+//     .content--interactive div{
+
+//         border: 0px;
+
+//     }
+// }
+
 /*----- Vertical scrollbar width used for sizing full viewport width elements -----*/
 root {
     --scrollbar-width: 0;
@@ -203,18 +216,20 @@ root {
         @include fs-headline(7);    
     }
 
+
     .header-background{
 
         width: 100%;
         height: 100vh;
         z-index: 10000;
         top: 0;
-        background: #052962;
-        opacity: .8;
+        left: 0;
+        background-color: #052962;
+        mix-blend-mode:multiply;
+        
         position: absolute;
         z-index: 0;
 
-        
     }
 
     .header-wrapper__content{
