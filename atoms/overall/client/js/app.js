@@ -12,7 +12,7 @@ import labels from 'assets/labels.json'
 import { merge } from "topojson-client"
 import areas from 'assets/output-topo-10.json'
 import moment from 'moment'
-import { gsap } from 'gsap';
+import { gsap } from 'gsap'
 
 const isMobile = window.matchMedia('(max-width: 600px)').matches;
 
@@ -59,6 +59,7 @@ dark.sources.oblasts.data = oblasts;
 dark.sources.separatists.data = separatists;
 dark.sources['separatists-line'].data = separatistsLine;
 dark.sources.annexed.data = annexed;
+
 dark.sources.patch.data = patch;
 dark.sources['ukraine-fill'].data = ukraine;
 dark.sources['ukraine-border'].data = ukraine;
@@ -69,7 +70,7 @@ dark.sources['overlay-russia-advance'].data = null;
 
 
 const firstDate = moment("24-02-2022",'DD-MM-YYYY').utc()
-const lastDate = moment("31-01-2023",'DD-MM-YYYY').utc()
+const lastDate = moment("07-02-2023",'DD-MM-YYYY').utc()
 
 let filesDates = [firstDate.format('DD-MM-YYYY')];
 
@@ -79,37 +80,36 @@ while(firstDate.add(1, 'days').diff(lastDate) < 0) {
 
 filesDates.push(lastDate.format('DD-MM-YYYY'))
 
-const geojsonUkr = filesDates.map(currentDate => merge(areas, areas.objects['merged-layers'].geometries.filter(f => f.properties.date === currentDate && f.properties.type === 'Claimed_Ukrainian_Counteroffensives')))
-const geojsonRusAdv = filesDates.map(currentDate => merge(areas, areas.objects['merged-layers'].geometries.filter(f => f.properties.date === currentDate && f.properties.type === 'Russian_Advances_Shapefile')))
-const geojsonRusCon = filesDates.map(currentDate => merge(areas, areas.objects['merged-layers'].geometries.filter(f => f.properties.date === currentDate && f.properties.type === 'Russian_CoT_in_Ukraine_Shapefiles')))
+// const geojsonUkr = filesDates.map(currentDate => merge(areas, areas.objects['merged-layers'].geometries.filter(f => f.properties.date === currentDate && f.properties.type === 'Claimed_Ukrainian_Counteroffensives')))
+// const geojsonRusAdv = filesDates.map(currentDate => merge(areas, areas.objects['merged-layers'].geometries.filter(f => f.properties.date === currentDate && f.properties.type === 'Russian_Advances_Shapefile')))
+// const geojsonRusCon = filesDates.map(currentDate => merge(areas, areas.objects['merged-layers'].geometries.filter(f => f.properties.date === currentDate && f.properties.type === 'Russian_CoT_in_Ukraine_Shapefiles')))
 
 const scrollySteps = sheet.sheets['scrolly-map'];
 
 let map = new mapGl({
 	container: 'gv-wrapper', // container id
 	style:dark,
-	bounds: [[22,44],[40.5,52.5]],
+	bounds: isMobile ? [[22,44],[40.5,54.5]] :[[22,44],[40.5,52.5]],
 	interactive:false
 });
 
+onresize = (event) => {
+    isMobile = window.innerWidth < 768
+    ukrMap.fitBounds([
+      [ukraineBounds[0][0] - 0.5, ukraineBounds[0][1] + 0.5],
+      [ukraineBounds[2][0] + 0.5, ukraineBounds[2][1] - 0.5]
+    ])
+  };
+
 map.on('load', () => {
+
+	document.body.style.overflow = 'initial';
 
 	document.body.style.backgroundColor = '#ffffff';
 
-	document.querySelector('.content--interactive > div').style.border = '1px solid #dcdcdc !important';
-
-	let divs = document.querySelectorAll(".content--interactive div")
-
-	for(let i = 0; i < divs.length; i++)
-	{
-		divs[i].style.backgroundColor = 'red !important';
-	}
-	// document.querySelector('.article-body-commercial-selector').style.borderColor = '#dcdcdc';
-
-	//document.querySelector('body .content--interactive div').style.borderColor = '#dcdcdc';
-	// document.querySelector('.scroll-wrapper').style.borderColor = '#dcdcdc';
-	// document.querySelector('.content__main-column--interactive').style.borderColor = '#dcdcdc'
-	//document.querySelector('.interactive-wrapper').style.borderColor = '#dcdcdc';
+	let divs = document.querySelectorAll(".content--interactive > div:first-child")
+	divs[0].style.borderLeft = '1px solid #dcdcdc';
+	divs[0].style.borderRight = '1px solid #dcdcdc';
 
 	let atoms = document.querySelectorAll('.interactive')
 
@@ -127,12 +127,12 @@ map.on('load', () => {
 
 	let dateAnimation = { index: 0 };
 
-	let animation = gsap.fromTo(null, {index: 0}, {index: 0, overwrite: true, duration:0, ease: "linear"});
+	function tick(endDate) {
 
-	function tick() {
 		const currentIndex = Math.round(dateAnimation.index);
 		const currentDate = filesDates[currentIndex];
-		updateMap(currentDate);
+
+		updateMap(currentDate, endDate);
 	}
 	
 	scrollySteps.forEach((d,i) => {
@@ -140,13 +140,20 @@ map.on('load', () => {
 		scrolly.addTrigger({num: i+1, do: () => {
 
 			if(i == 0){
-
+				map.getStyle().layers.forEach(l => { if (l.type == "symbol") map.setLayoutProperty(l.id, "visibility", "none") });
 				document.getElementsByClassName('header-wrapper')[0].classList.remove('over');
 				document.getElementsByClassName('scroll-text__fixed')[0].classList.add('over');
 				map.setFilter('Autonomous Republic', false);
 				//map.setLayoutProperty('separatists-fill', "visibility", "visible")
 			}
 			else{
+
+				map.getStyle().layers.forEach(l => {
+
+					if (l.type == "symbol"){
+						console.log(l)
+					}
+				});
 
 				document.getElementsByClassName('header-wrapper')[0].classList.add('over');
 				document.getElementsByClassName('scroll-text__fixed')[0].classList.remove('over');
@@ -156,6 +163,9 @@ map.on('load', () => {
 			}
 
 			if(i == 1){
+				map.setLayoutProperty('Admin-1 capital', 'visibility', 'visible')
+				map.setLayoutProperty('Admin-0 country', 'visibility', 'visible')
+				map.setLayoutProperty('Admin-0 capital', 'visibility', 'visible')
 				map.setLayoutProperty('Autonomous Republic', 'visibility', 'visible')
 				map.setPaintProperty('Autonomous Republic', "text-color", "#333")
 				map.setFilter('Autonomous Republic', ["match",['get', 'NAME_1'], ["Russian\ncontrol"], true, false]);
@@ -194,7 +204,7 @@ map.on('load', () => {
 
 				document.getElementsByClassName('scroll-text__fixed__text')[0].innerHTML = scrollySteps[i].Copy;
 				
-				animation = gsap.fromTo(dateAnimation, {index: currentPos}, {index: endPos, overwrite: true, duration:0.5, ease: "linear", onUpdate: tick});
+				animation = gsap.fromTo(dateAnimation, {index: currentPos}, {index: endPos, overwrite: true, duration:0.5, ease: "linear", onUpdate: tick, onUpdateParams: [endDate]});
 
 			}
 			else{
@@ -216,47 +226,97 @@ map.on('load', () => {
 
 			}
 
-			let coords = map.unproject([0,document.querySelector('.scroll-text__fixed').getBoundingClientRect().height + document.querySelector('.scroll-text__fixed').getBoundingClientRect().y + 25])
-
-			if(isMobile)
-			{
-				let sub = 52.5 - coords.lat
-				map.fitBounds([[22,44],[40.5,52.5 + sub]])
-			}
 		}})
 	})
 
     scrolly.watchScroll();
 })
 
-function updateMap(currentDate) {
-	
-	//let topo = merge(areas, areas.objects['merged-layers'].geometries.filter(f => f.properties.date === currentDate && f.properties.type === 'Claimed_Ukrainian_Counteroffensives'))
-	//let topoRussia = merge(areas, areas.objects['merged-layers'].geometries.filter(f => f.properties.date === currentDate && f.properties.type === 'Russian_CoT_in_Ukraine_Shapefiles'))
-	//let topoRussiaAdvance = merge(areas, areas.objects['merged-layers'].geometries.filter(f => f.properties.date === currentDate && f.properties.type === 'Russian_Advances_Shapefile'))
-	let topo = geojsonUkr[filesDates.indexOf(currentDate)]
-	let topoRussia = geojsonRusCon[filesDates.indexOf(currentDate)]
-	let topoRussiaAdvance = geojsonRusAdv[filesDates.indexOf(currentDate)]
+let animation = gsap.fromTo(null, {index: 0}, {index: 0, overwrite: true, duration:0, ease: "linear"});
 
-	map.getSource('overlay').setData(topo);
-	map.getSource('overlay-russia').setData(topoRussia);
-	map.getSource('overlay-russia-advance').setData(topoRussiaAdvance);
+const updateMap = (currentDate, endDate) => {
 
-	document.getElementsByClassName('scroll-text__fixed__date')[0].innerHTML = moment(currentDate, "DD-MM-YYYY").format("D MMM YYYY");
-	
-	document.getElementsByClassName('hr')[0].style.width = Math.ceil((filesDates.indexOf(currentDate) * 100) / filesDates.length) + '%';
-	document.getElementsByClassName('hr')[0].style.opacity = 1;
+	console.log('onUpdate')
 
-	if(moment(currentDate, 'DD-MM-YYYY') >= moment('30-09-2022', 'DD-MM-YYYY'))
+	if(isSafari)
 	{
-		map.setFilter('Annexed', ["match",['get', 'NAME_1'], ["Illegally\nannexed\nregions"], true, false]);
-		map.setLayoutProperty('Annexed', "visibility",  "visible");
-		map.setLayoutProperty('Annexed-line', "visibility",  "visible");
-	}	
-	else{
-		map.setLayoutProperty('Annexed', "visibility",  "none");
-		map.setLayoutProperty('Annexed-line', "visibility",  "none");
+
+		console.log(endDate)
+
+		let topo = merge(areas, areas.objects['merged-layers'].geometries.filter(f => f.properties.date === endDate && f.properties.type === 'Claimed_Ukrainian_Counteroffensives'))
+		let topoRussia = merge(areas, areas.objects['merged-layers'].geometries.filter(f => f.properties.date === endDate && f.properties.type === 'Russian_CoT_in_Ukraine_Shapefiles'))
+		let topoRussiaAdvance = merge(areas, areas.objects['merged-layers'].geometries.filter(f => f.properties.date === endDate && f.properties.type === 'Russian_Advances_Shapefile'))
+
+		// let topo = geojsonUkr[filesDates.indexOf(endDate)]
+		// let topoRussia = geojsonRusCon[filesDates.indexOf(endDate)]
+		// let topoRussiaAdvance = geojsonRusAdv[filesDates.indexOf(endDate)]
+
+		map.getSource('overlay').setData(topo);
+		map.getSource('overlay-russia').setData(topoRussia);
+		map.getSource('overlay-russia-advance').setData(topoRussiaAdvance);
+
+		document.getElementsByClassName('scroll-text__fixed__date')[0].innerHTML = moment(endDate, "DD-MM-YYYY").format("D MMM YYYY");
+		
+		document.getElementsByClassName('hr')[0].style.width = Math.ceil((filesDates.indexOf(endDate) * 100) / filesDates.length) + '%';
+		document.getElementsByClassName('hr')[0].style.opacity = 1;
+
+		if(moment(endDate, 'DD-MM-YYYY') >= moment('30-09-2022', 'DD-MM-YYYY'))
+		{
+			map.setFilter('Annexed', ["match",['get', 'NAME_1'], ["Illegally\nannexed\nregions"], true, false]);
+			map.setLayoutProperty('Annexed', "visibility",  "visible");
+			map.setLayoutProperty('Annexed-line', "visibility",  "visible");
+		}	
+		else{
+			map.setLayoutProperty('Annexed', "visibility",  "none");
+			map.setLayoutProperty('Annexed-line', "visibility",  "none");
+		}
+
+		
+
+		if(moment(endDate, 'DD-MM-YYYY') <= moment('06-04-2022', 'DD-MM-YYYY') )
+		{
+			map.setLayoutProperty('Autonomous Republic', 'visibility', 'visible')
+		}
+		else{
+			map.setLayoutProperty('Autonomous Republic', 'visibility', 'none')
+		}
+		
+
+		animation.kill()
+
 	}
+	else{
+
+		let topo = merge(areas, areas.objects['merged-layers'].geometries.filter(f => f.properties.date === currentDate && f.properties.type === 'Claimed_Ukrainian_Counteroffensives'))
+		let topoRussia = merge(areas, areas.objects['merged-layers'].geometries.filter(f => f.properties.date === currentDate && f.properties.type === 'Russian_CoT_in_Ukraine_Shapefiles'))
+		let topoRussiaAdvance = merge(areas, areas.objects['merged-layers'].geometries.filter(f => f.properties.date === currentDate && f.properties.type === 'Russian_Advances_Shapefile'))
+		// let topo = geojsonUkr[filesDates.indexOf(currentDate)]
+		// let topoRussia = geojsonRusCon[filesDates.indexOf(currentDate)]
+		// let topoRussiaAdvance = geojsonRusAdv[filesDates.indexOf(currentDate)]
+
+		map.getSource('overlay').setData(topo);
+		map.getSource('overlay-russia').setData(topoRussia);
+		map.getSource('overlay-russia-advance').setData(topoRussiaAdvance);
+
+		document.getElementsByClassName('scroll-text__fixed__date')[0].innerHTML = moment(currentDate, "DD-MM-YYYY").format("D MMM YYYY");
+		
+		document.getElementsByClassName('hr')[0].style.width = Math.ceil((filesDates.indexOf(currentDate) * 100) / filesDates.length) + '%';
+		document.getElementsByClassName('hr')[0].style.opacity = 1;
+
+		if(moment(currentDate, 'DD-MM-YYYY') >= moment('30-09-2022', 'DD-MM-YYYY'))
+		{
+			map.setFilter('Annexed', ["match",['get', 'NAME_1'], ["Illegally\nannexed\nregions"], true, false]);
+			map.setLayoutProperty('Annexed', "visibility",  "visible");
+			map.setLayoutProperty('Annexed-line', "visibility",  "visible");
+		}	
+		else{
+			map.setLayoutProperty('Annexed', "visibility",  "none");
+			map.setLayoutProperty('Annexed-line', "visibility",  "none");
+		}
+
+	}
+	
+	
 }
 
 const resetMap = () => {
@@ -269,3 +329,29 @@ const resetMap = () => {
 	document.getElementsByClassName('scroll-text__fixed__date')[0].innerHTML = '';
 
 }
+
+const fnBrowserDetect = () => {
+                 
+	let userAgent = navigator.userAgent;
+	let browserName;
+	
+	if(userAgent.match(/chrome|chromium|crios/i)){
+		browserName = "chrome";
+	  }else if(userAgent.match(/firefox|fxios/i)){
+		browserName = "firefox";
+	  }  else if(userAgent.match(/safari/i)){
+		browserName = "safari";
+	  }else if(userAgent.match(/opr\//i)){
+		browserName = "opera";
+	  } else if(userAgent.match(/edg/i)){
+		browserName = "edge";
+	  }else{
+		browserName="No browser detection";
+	  }
+	
+	 return browserName
+}
+
+const isSafari = fnBrowserDetect() == 'safari' ? true : false;
+
+console.log(fnBrowserDetect, isSafari)

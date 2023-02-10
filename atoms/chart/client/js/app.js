@@ -1,10 +1,9 @@
-
 import ScrollyTeller from "shared/js/scrollyteller";
 import moment from 'moment'
 import * as d3B from 'd3'
 import sheet from 'assets/sheet.json'
 import SvgText from 'svg-text';
-
+import {numberWithCommas} from 'shared/js/util'
 const d3 = Object.assign({}, d3B);
 
 const isMobile = window.matchMedia('(max-width: 600px)').matches;
@@ -183,6 +182,28 @@ scrollySteps.forEach((d, i) => {
 				.selectAll("path")
 				.data(() => {
 
+					let current = getData(scrollySteps[i].Date).find(f => f.date === scrollySteps[i].Date.replace(/-/g,'/'))
+
+					let areas = []
+					if(current)
+					{
+
+						Object.keys(current).forEach(k => 
+							{
+								if(!isNaN(+current[k]))
+								{
+									console.log(+current[k])
+									areas.push(+current[k])
+								}
+							})
+
+						console.log(areas.reduce((a,b) => a + b))
+
+						document.querySelector('.area').innerHTML = 'Total Russian-controlled: ' + numberWithCommas(areas.reduce((a,b) => a + b)) + ' mi²'
+
+					}
+					
+
 					let newStacked = getStack(getData(scrollySteps[i].Date), keys)
 
 					x.domain([moment(chartData[0].date, 'DD/MM/YYYY'), moment(scrollySteps[i].Date, 'DD/MM/YYYY')])
@@ -194,8 +215,6 @@ scrollySteps.forEach((d, i) => {
 				.transition()
 				.duration(500)
 				.attr("d", area)
-
-			
 
 			svg.selectAll('.label')
 				.transition()

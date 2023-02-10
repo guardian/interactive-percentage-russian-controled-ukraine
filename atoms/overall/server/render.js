@@ -1,5 +1,7 @@
 import request from "request-promise"
 import fs from "fs"
+// import { merge } from "topojson-client"
+// import moment from 'moment'
 
 
 
@@ -9,15 +11,30 @@ export async function render() {
 
     fs.writeFileSync(`assets/sheet.json`, JSON.stringify(sheet));
 
-    let promises = []
+    // const areas = await request({"uri":'https://interactive.guim.co.uk/isw/topojson.json', json:true})
 
-    sheet.sheets['scrolly-map'].forEach(date => {
-        promises.push('assets/russian-control/area-' + date.Date)
-    })
+    // const firstDate = moment("24-02-2022",'DD-MM-YYYY').utc()
+    // const lastDate = moment("31-01-2023",'DD-MM-YYYY').utc()
+
+    // let filesDates = [firstDate.format('DD-MM-YYYY')];
+
+    // while(firstDate.add(1, 'days').diff(lastDate) < 0) {
+    //     filesDates.push(firstDate.format('DD-MM-YYYY'));
+    // }
+
+    // filesDates.push(lastDate.format('DD-MM-YYYY'))
+
+    // const geojsonUkr = filesDates.map(currentDate => merge(areas, areas.objects['merged-layers'].geometries.filter(f => f.properties.date === currentDate && f.properties.type === 'Claimed_Ukrainian_Counteroffensives')))
+    // const geojsonRusAdv = filesDates.map(currentDate => merge(areas, areas.objects['merged-layers'].geometries.filter(f => f.properties.date === currentDate && f.properties.type === 'Russian_Advances_Shapefile')))
+    // const geojsonRusCon = filesDates.map(currentDate => merge(areas, areas.objects['merged-layers'].geometries.filter(f => f.properties.date === currentDate && f.properties.type === 'Russian_CoT_in_Ukraine_Shapefiles')))
+
+    // fs.writeFileSync(`assets/geojson-ukr.json`, JSON.stringify(geojsonUkr));
+    // fs.writeFileSync(`assets/geojson-russian-advance.json`, JSON.stringify(geojsonRusAdv));
+    // fs.writeFileSync(`assets/geojson-russian-control.json`, JSON.stringify(geojsonRusCon));
+
 
     let html = ''
     
-
     sheet.sheets['scrolly-map'].forEach(element => {
         
         html += `<div class="scroll-text__inner">

@@ -22,15 +22,6 @@
         "patch":{
             "type": "geojson"
         },
-        "overlay":{
-            "type": "geojson"
-        },
-        "overlay-russia":{
-            "type": "geojson"
-        },
-        "overlay-russia-advance":{
-            "type": "geojson"
-        },
         "oblasts":{
             "type": "geojson"
         },
@@ -81,35 +72,6 @@
             "layout":{},
             "paint":{
                 "fill-color":"#f6f6f6"
-            }
-        },
-        {
-            "id":"overlay",
-            "type":"fill",
-            "source":"overlay",
-            "layout":{
-                "visibility":"visible"
-            },
-            "paint":{
-                "fill-color":"#f7cb56"
-            }
-        },
-        {
-            "id":"overlay-russia",
-            "type":"fill",
-            "source":"overlay-russia",
-            "layout":{},
-            "paint":{
-                "fill-color":"#f0b5b8"
-            }
-        },
-        {
-            "id":"overlay-russia-advance",
-            "type":"fill",
-            "source":"overlay-russia-advance",
-            "layout":{},
-            "paint":{
-                "fill-color":"#e58488"
             }
         },
         {
@@ -881,6 +843,22 @@
             }
         },
         {
+            "id":"Annexed-line",
+            "type":"line",
+            "source":"annexed",
+            "layout": {
+                "line-join": "round",
+                "line-cap": "round",
+                "visibility":"none"
+            },
+            "paint": {
+                "line-color": "#333",
+                "line-width": 2
+            }
+            
+            
+        },
+        {
             "id": "Annexed",
             "type": "symbol",
             "source": "labels",
@@ -1009,8 +987,6 @@
                 "text-variable-anchor": ["center"],
                 "text-radial-offset": 0.5,
                 "text-justify": "auto",
-                "icon-image": "Admin-0 capital",
-                "icon-size": 1,
                 "visibility":"visible"
             },
             "paint": {
@@ -1018,22 +994,6 @@
                 "text-halo-width": 1,
                 "text-color": "#333333"
             }
-        },
-        {
-            "id":"Annexed-line",
-            "type":"line",
-            "source":"annexed",
-            "layout": {
-                "line-join": "round",
-                "line-cap": "round",
-                "visibility":"none"
-            },
-            "paint": {
-                "line-color": "#333",
-                "line-width": 2
-            }
-            
-            
         }
     ]
 }

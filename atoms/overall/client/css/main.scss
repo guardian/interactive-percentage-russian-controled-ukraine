@@ -22,6 +22,18 @@
 // }
 
 /*----- Vertical scrollbar width used for sizing full viewport width elements -----*/
+
+
+body{
+    width:100%;height: 100vh;
+    background-color:#052962;
+  }
+  
+.content--interactive > div:first-child{
+    border-color: #052962;
+}
+  
+
 root {
     --scrollbar-width: 0;
     --half-scrollbar-width: 0;
@@ -31,6 +43,10 @@ root {
     margin: 0;
     padding: 0;
     height: 100vh;
+    min-height: -webkit-fill-available;
+    // @include mq(tablet) {
+    //     height: calc(100vh + 1200px);
+    // }
     background-color: #fff;
     
 }
@@ -40,13 +56,11 @@ root {
     margin-bottom: 40px;
 }
 
-// uncomment to test
 // .gv-wrapper {
-//     height: 400px;
-//     background: #121212;
-//     color: white;
-//     border-top: 1px solid #dcdcdc;
-//     border-bottom: 1px solid #dcdcdc;
+//     height: 1200px;
+//     @include mq(tablet) {
+//         height: calc(100vh + 1200px);
+//     }
 // }
 
 .byline, .byline a, .byline span{
@@ -91,6 +105,7 @@ root {
 .scroll-text__fixed{
     
     position: absolute;
+    z-index:3;
     background-color: #333;
     top:16px;
     width: 100%;
@@ -188,6 +203,7 @@ root {
         flex-direction: column;
         max-width: 620px;
         padding: 16px;
+        z-index: 2;
 
         .scroll-text__fixed__header{
 
@@ -221,14 +237,13 @@ root {
 
         width: 100%;
         height: 100vh;
-        z-index: 10000;
         top: 0;
         left: 0;
         background-color: #052962;
         mix-blend-mode:multiply;
         
         position: absolute;
-        z-index: 0;
+        z-index: 1;
 
     }
 
@@ -247,6 +262,10 @@ root {
         color: $neutral-86;
     }
    
+}
+
+.maplibregl-canvas-container{
+    isolation: isolate;
 }
 
 

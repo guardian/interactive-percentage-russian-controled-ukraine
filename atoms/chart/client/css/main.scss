@@ -164,13 +164,29 @@ svg{
     text-shadow: 0px 0px 2px #000;
 }
 
-.date{
-    padding-top: 2px;
-    margin-bottom: 6px;
-    @include fs-textSans(1);
-    font-size: 16px;
-    line-height: 1.35;
-    font-weight: 400;
-    --source-text-decoration-thickness: 2px;
-    color: $neutral-86;
+
+
+.date-wrapper{
+    display: flex;
+    flex-direction: column;
+
+    .date, .area{
+        width: 100%;
+        padding-top: 2px;
+        margin-bottom: 6px;
+        @include fs-textSans(1);
+        font-size: 16px;
+        line-height: 1.35;
+        font-weight: 400;
+        --source-text-decoration-thickness: 2px;
+        color: $neutral-86;
+    }
+
+    .area{
+        //margin-left: 12px;
+        color:#ef9a9a;
+        font-weight: bold;
+    }
+
+
 }
