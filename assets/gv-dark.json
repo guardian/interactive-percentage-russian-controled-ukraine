@@ -22,6 +22,9 @@
         "patch":{
             "type": "geojson"
         },
+        "overlays":{
+            "type": "geojson"
+        },
         "oblasts":{
             "type": "geojson"
         },
@@ -104,6 +107,27 @@
                 "line-color": "#929297",
                 "line-width": 2,
                 "line-dasharray": [4, 2]
+            }
+        },
+        {
+            "id":"overlays",
+            "type":"fill",
+            "source":"overlays",
+            "layout":{
+                "visibility":"none"
+            },
+            "paint":{
+                "fill-color":
+                [
+					"case",
+					["==", ["get", "type"], "Claimed_Ukrainian_Counteroffensives"],
+					"#f7cb56",
+					["==", ["get", "type"], "Russian_Advances_Shapefile"],
+					"#d8898a",
+					["==", ["get", "type"], "Russian_CoT_in_Ukraine_Shapefiles"],
+					"#f0b5b8",
+					"#dadada"
+				]
             }
         },
         {

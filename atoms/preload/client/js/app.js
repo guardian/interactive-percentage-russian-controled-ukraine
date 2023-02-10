@@ -9,8 +9,7 @@ import dark from 'assets/gv-dark.json'
 import ScrollyTeller from "shared/js/scrollyteller";
 import sheet from 'assets/sheet.json'
 import labels from 'assets/labels.json'
-import { merge, feature } from "topojson-client"
-//import areas from 'assets/output-topo-10.json'
+import { feature } from "topojson-client"
 import moment from 'moment'
 import { gsap } from 'gsap'
 
@@ -93,6 +92,10 @@ const renderMap = async (webpEnabled) => {
 
 	const data = feature(areas, areas.objects['merged-layers']);
 
+	dark.sources.overlays.data = data;
+
+	//--------------------------------------preload finish---------------------------------------
+
 	//--------------------------------------make the map----------------------------------------
 
 	let map = new mapGl({
@@ -103,33 +106,6 @@ const renderMap = async (webpEnabled) => {
 	});
 
 	map.on('load', () => {
-
-		map.addSource('overlays', {
-			type: 'geojson',
-			data: data
-		})
-
-		map.addLayer({
-			'id': 'overlays',
-			'type': 'fill',
-			'source': 'overlays',
-			"layout": {
-                "visibility": "none"
-            },
-			'paint': {
-				'fill-color': [
-					'case',
-					["==", ['get', 'type'], 'Claimed_Ukrainian_Counteroffensives'],
-					"#f7cb56",
-					["==", ['get', 'type'], 'Russian_Advances_Shapefile'],
-					"#d8898a",
-					["==", ['get', 'type'], 'Russian_CoT_in_Ukraine_Shapefiles'],
-					"#f0b5b8",
-					"#dadada"
-				]
-			}
-		}, 'oblasts');
-
 
 		//---------------------------------set page style back to original------------------------------------
 
@@ -294,8 +270,6 @@ const renderMap = async (webpEnabled) => {
 
 	})
 
-
-	//--------------------------------------preload finish---------------------------------------
 }
 
 renderMap()
