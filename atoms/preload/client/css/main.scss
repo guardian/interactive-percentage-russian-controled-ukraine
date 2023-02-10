@@ -8,26 +8,10 @@
 // @import "darkmodedefault"; // basic media queries for adding dark mode and several default colours
 @import "_no_header";
 
-// body{
-//     background: #284777;
-
-//     //content: "";
-    
-
-//     .content--interactive div{
-
-//         border: 0px;
-
-//     }
-// }
-
-/*----- Vertical scrollbar width used for sizing full viewport width elements -----*/
-
-
 body{
     width:100%;height: 100vh;
     background-color:#052962;
-  }
+}
   
 .content--interactive > div:first-child{
     border-color: #052962;
@@ -44,9 +28,6 @@ root {
     padding: 0;
     height: 100vh;
     min-height: -webkit-fill-available;
-    // @include mq(tablet) {
-    //     height: calc(100vh + 1200px);
-    // }
     background-color: #fff;
     
 }
@@ -291,7 +272,7 @@ root {
 }
 
 .maplibregl-canvas-container{
-    isolation: isolate;
+    //isolation: isolate;
 }
 
 

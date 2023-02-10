@@ -138,12 +138,12 @@ const renderMap = async (webpEnabled) => {
 
 		const dateAnimation = { index: 0 };
 
-		function tick(i, endDate) {
+		function tick(i) {
 
 			const currentIndex = Math.round(dateAnimation.index);
 			const currentDate = filesDates[currentIndex];
 
-			updateMap(i, currentDate, endDate);
+			updateMap(i, currentDate);
 		}
 
 		let animation = gsap.fromTo(null, { index: 0 }, { index: 0, overwrite: true, duration: 0, ease: "linear" });
@@ -153,14 +153,22 @@ const renderMap = async (webpEnabled) => {
 			scrolly.addTrigger({
 				num: i + 1, do: () => {
 
-					console.log(i)
+					if(!isSafari)
+					{
+						let currentPos = dateAnimation.index;
+						let endDate = scrollySteps[i].Date;
+						let endPos = filesDates.indexOf(endDate);
 
-					let currentPos = dateAnimation.index;
-					let endDate = scrollySteps[i].Date;
-					let endPos = filesDates.indexOf(endDate);
+						animation.kill()
+						animation = gsap.fromTo(dateAnimation, { index: currentPos }, { index: endPos, overwrite: true, duration: 0.5, ease: "linear", onStart: resetLabels, onUpdate: tick, onUpdateParams: [i], onComplete: updateLabels, onCompleteParams: [i] })
+					}
+					else{
+						updateMap(i, scrollySteps[i].Date);
+						resetLabels();
+						updateLabels(i, scrollySteps[i].Date);
+					}
 
-
-					gsap.fromTo(dateAnimation, { index: currentPos }, { index: endPos, overwrite: true, duration: 0.5, ease: "linear", onStart: resetLabels, onUpdate: tick, onUpdateParams: [i, endDate], onComplete: updateLabels, onCompleteParams: [i] })
+					
 
 				}
 			})
@@ -172,7 +180,7 @@ const renderMap = async (webpEnabled) => {
 			map.getStyle().layers.forEach(l => { if (l.type == "symbol") map.setLayoutProperty(l.id, "visibility", "none") });
 		}
 
-		const updateLabels = (i) => {
+		const updateLabels = (i, currentDate = '') => {
 
 			map.setLayoutProperty('Admin-0 capital', 'visibility', 'visible');
 			map.setLayoutProperty('Admin-0 country', 'visibility', 'visible');
@@ -198,9 +206,19 @@ const renderMap = async (webpEnabled) => {
 				map.setFilter('Autonomous Republic', ["match", ['get', 'NAME_1'], ["Ukraine\nregained\ncontrol"], true, false]);
 			}
 
+			if (moment(currentDate, 'DD-MM-YYYY') >= moment('30-09-2022', 'DD-MM-YYYY')) {
+				map.setFilter('Annexed', ["match", ['get', 'NAME_1'], ["Illegally\nannexed\nregions"], true, false]);
+				map.setLayoutProperty('Annexed', "visibility", "visible");
+				map.setLayoutProperty('Annexed-line', "visibility", "visible");
+			}
+			else {
+				map.setLayoutProperty('Annexed', "visibility", "none");
+				map.setLayoutProperty('Annexed-line', "visibility", "none");
+			}
+
 		}
 
-		const updateMap = (i, currentDate, endDate) => {
+		const updateMap = (i, currentDate) => {
 
 			if (i == 0) {
 				resetLabels()
@@ -236,16 +254,6 @@ const renderMap = async (webpEnabled) => {
 					document.getElementsByClassName('hr')[0].style.width = Math.ceil((filesDates.indexOf(currentDate) * 100) / filesDates.length) + '%';
 					document.getElementsByClassName('hr')[0].style.opacity = 1;
 	
-					if (moment(currentDate, 'DD-MM-YYYY') >= moment('30-09-2022', 'DD-MM-YYYY')) {
-						map.setFilter('Annexed', ["match", ['get', 'NAME_1'], ["Illegally\nannexed\nregions"], true, false]);
-						map.setLayoutProperty('Annexed', "visibility", "visible");
-						map.setLayoutProperty('Annexed-line', "visibility", "visible");
-					}
-					else {
-						map.setLayoutProperty('Annexed', "visibility", "none");
-						map.setLayoutProperty('Annexed-line', "visibility", "none");
-					}
-	
 				}
 
 			}
@@ -272,7 +280,33 @@ const renderMap = async (webpEnabled) => {
 
 }
 
+const fnBrowserDetect = () => {
+                 
+	let userAgent = navigator.userAgent;
+	let browserName;
+	
+	if(userAgent.match(/chrome|chromium|crios/i)){
+		browserName = "chrome";
+	  }else if(userAgent.match(/firefox|fxios/i)){
+		browserName = "firefox";
+	  }  else if(userAgent.match(/safari/i)){
+		browserName = "safari";
+	  }else if(userAgent.match(/opr\//i)){
+		browserName = "opera";
+	  } else if(userAgent.match(/edg/i)){
+		browserName = "edge";
+	  }else{
+		browserName="No browser detection";
+	  }
+	
+	 return browserName
+}
+
+const isSafari = fnBrowserDetect() == 'safari' ? true : false;
+
 renderMap()
+
+
 
 
 

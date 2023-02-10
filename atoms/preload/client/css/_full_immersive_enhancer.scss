@@ -5,28 +5,28 @@
 //   }
 // }
 
-// .element-immersive {
-//   width: calc( 100vw - var(--scrollbar-width));
-//   position: relative;
-//   left: 50%;
-//   right: 50%;
-//   margin-left: calc(-50vw + var(--half-scrollbar-width)) !important;
-//   margin-right: calc(-50vw + var(--half-scrollbar-width)) !important;
+.element-immersive {
+  width: calc( 100vw - var(--scrollbar-width));
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: calc(-50vw + var(--half-scrollbar-width)) !important;
+  margin-right: calc(-50vw + var(--half-scrollbar-width)) !important;
 
-//   @include mq($from: tablet, $until: leftCol) {
-//     margin-left: calc(-50vw + var(--half-scrollbar-width) + 10px) !important;
-//   }
+  @include mq($from: tablet, $until: leftCol) {
+    margin-left: calc(-50vw + var(--half-scrollbar-width) + 10px) !important;
+  }
 
-//   @include mq(leftCol) {
-//     margin-left: calc(-50vw - 80px + var(--half-scrollbar-width)) !important;
-//   }
+  @include mq(leftCol) {
+    margin-left: calc(-50vw - 80px + var(--half-scrollbar-width)) !important;
+  }
   
-//   @include mq($from: wide) {
-//     margin-left: calc(-50vw - 120px + var(--half-scrollbar-width)) !important;
-//   }
+  @include mq($from: wide) {
+    margin-left: calc(-50vw - 120px + var(--half-scrollbar-width)) !important;
+  }
 
-//   margin-bottom: 20px;
-// }
+  margin-bottom: 20px;
+}
 
 // .ios, .android {
 //   .element--immersive {
