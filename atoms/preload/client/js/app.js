@@ -72,7 +72,7 @@ dark.sources.labels.data = labels;
 //---------------------------generate file dates-------------------------------
 
 const firstDate = moment("24-02-2022", 'DD-MM-YYYY').utc()
-const lastDate = moment("07-02-2023", 'DD-MM-YYYY').utc()
+const lastDate = moment("09-02-2023", 'DD-MM-YYYY').utc()
 
 let filesDates = [firstDate.format('DD-MM-YYYY')];
 
@@ -160,7 +160,7 @@ const renderMap = async (webpEnabled) => {
 						let endPos = filesDates.indexOf(endDate);
 
 						animation.kill()
-						animation = gsap.fromTo(dateAnimation, { index: currentPos }, { index: endPos, overwrite: true, duration: 0.5, ease: "linear", onStart: resetLabels, onUpdate: tick, onUpdateParams: [i], onComplete: updateLabels, onCompleteParams: [i] })
+						animation = gsap.fromTo(dateAnimation, { index: currentPos }, { index: endPos, overwrite: true, duration: 0.8, ease: "linear", onStart: resetLabels, onUpdate: tick, onUpdateParams: [i], onComplete: updateLabels, onCompleteParams: [i, scrollySteps[i].Date] })
 					}
 					else{
 						updateMap(i, scrollySteps[i].Date);

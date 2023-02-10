@@ -9,6 +9,10 @@ import { merge } from "topojson-client"
 import areas from 'assets/output-topo-10.json'
 import {numberWithCommas} from 'shared/js/util.js'
 import moment from 'moment'
+import separatists from 'assets/separatists.json'
+import separatistsLine from 'assets/separatists-edges.json'
+import annexed from 'assets/annexed-regions.json'
+import patch from 'assets/patch.json'
 
 const isMobile = window.matchMedia('(max-width: 600px)').matches;
 
@@ -24,12 +28,17 @@ atomEl.style.height = height + "px";
 
 //
 dark.sources.oblasts.data = oblasts;
+dark.sources.separatists.data = separatists;
+dark.sources['separatists-line'].data = separatistsLine;
+dark.sources.annexed.data = annexed;
+dark.sources.patch.data = patch;
 dark.sources['ukraine-fill'].data = ukraine;
 dark.sources['ukraine-border'].data = ukraine;
 dark.sources.labels.data = labels;
 dark.sources.overlay.data = null;
 dark.sources['overlay-russia'].data = null;
 dark.sources['overlay-russia-advance'].data = null;
+dark.sources.overlays.data = null;
 
 const firstDate = moment("24-02-2022",'DD-MM-YYYY').utc()
 const lastDate = moment(sheet.sheets['scrolly-map'][sheet.sheets['scrolly-map'].length-1].Date,'DD-MM-YYYY').utc()
