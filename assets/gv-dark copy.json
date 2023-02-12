@@ -25,6 +25,15 @@
         "overlays":{
             "type": "geojson"
         },
+        "overlay":{
+            "type": "geojson"
+        },
+        "overlay-russia":{
+            "type": "geojson"
+        },
+        "overlay-russia-advance":{
+            "type": "geojson"
+        },
         "oblasts":{
             "type": "geojson"
         },
@@ -128,6 +137,42 @@
 					"#f0b5b8",
 					"#dadada"
 				]
+            }
+        },
+        {
+            "id":"overlay",
+            "type":"fill",
+            "source":"overlay",
+            "layout":{
+                "visibility":"visible"
+            },
+            "paint":{
+                "fill-color":"#f7cb56"
+                
+            }
+        },
+        {
+            "id":"overlay-russia",
+            "type":"fill",
+            "source":"overlay-russia",
+            "layout":{
+                "visibility":"visible"
+            },
+            "paint":{
+                "fill-color":"#f0b5b8"
+                
+            }
+        },
+        {
+            "id":"overlay-russia-advance",
+            "type":"fill",
+            "source":"overlay-russia-advance",
+            "layout":{
+                "visibility":"visible"
+            },
+            "paint":{
+                "fill-color":"#d8898a"
+                
             }
         },
         {

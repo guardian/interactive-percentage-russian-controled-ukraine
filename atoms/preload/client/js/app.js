@@ -167,9 +167,6 @@ const renderMap = async (webpEnabled) => {
 						resetLabels();
 						updateLabels(i, scrollySteps[i].Date);
 					}
-
-					
-
 				}
 			})
 		})
