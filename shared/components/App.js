@@ -8,8 +8,8 @@ const App = ({ content }) =>
                      <div class="header-wrapper">
                         <div class="header-background"></div>
                         <div class="header-wrapper__content">
-                            <div class='loader'>Loading</div>
-                            <h1 class="content__headline"></h1>
+                            <div class='loading-overlay__inner'>Loading</div>
+                            <h1 class="content__headline" id="content__headline"></h1>
                             <div class="scroll-text__fixed__header"></div>
                             <div class="header-wrapper__byline"></div>
                             <div class="header-wrapper__date"></div>

@@ -36,12 +36,15 @@ root {
     margin-top: -1px;
     margin-bottom: 40px;
 }
-.loader
-{
-    color: #fff;
-    @include fs-textSans(1);
-    font-size: 16px;
-}
+
+
+
+// .loader
+// {
+//     color: #fff;
+//     @include fs-textSans(1);
+//     font-size: 16px;
+// }
 
 #gv-wrapper {
     width: 100%;
@@ -274,6 +277,37 @@ root {
 // .maplibregl-canvas-container{
 //     isolation: isolate;
 // }
+
+.loading-overlay__inner {
+    width: 100%;
+    color: #fff;
+    @include fs-textSans(4);
+    font-weight: bold;
+    margin-top: 48px;
+    margin-left: calc(50% - 52px / 2);
+    width: 63px;
+}
+
+.loading-overlay__inner:after {
+    display: inline-block;
+    animation: dotty steps(1,end) 1s infinite;
+    content: '';
+  }
+  
+  @keyframes dotty {
+      0%   { content: ''; }
+      25%  { content: '.'; }
+      50%  { content: '..'; }
+      75%  { content: '...'; }
+      100% { content: ''; }
+}
+
+#content__headline{display: none;}
+.scroll-text__fixed__header,
+.header-wrapper__byline,
+.header-wrapper__date{
+    display: none;
+}
 
 
 

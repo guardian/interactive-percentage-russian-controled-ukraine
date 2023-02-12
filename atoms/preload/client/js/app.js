@@ -72,7 +72,7 @@ dark.sources.labels.data = labels;
 //---------------------------generate file dates-------------------------------
 
 const firstDate = moment("24-02-2022", 'DD-MM-YYYY').utc()
-const lastDate = moment("09-02-2023", 'DD-MM-YYYY').utc()
+const lastDate = moment("10-02-2023", 'DD-MM-YYYY').utc()
 
 let filesDates = [firstDate.format('DD-MM-YYYY')];
 
@@ -109,7 +109,12 @@ const renderMap = async (webpEnabled) => {
 
 		//---------------------------------set page style back to original------------------------------------
 
-		document.querySelector('.loader').style.display = 'none'
+		document.querySelector('.loading-overlay__inner').style.display = 'none';
+		document.querySelector('#content__headline').style.display = 'block';
+		document.querySelector('.scroll-text__fixed__header').style.display = 'block';
+		document.querySelector('.header-wrapper__byline').style.display = 'block';
+		document.querySelector('.header-wrapper__date').style.display = 'block';
+		
 
 		document.body.style.overflow = 'initial';
 
@@ -176,41 +181,46 @@ const renderMap = async (webpEnabled) => {
 		const resetLabels = () => {
 			map.getStyle().layers.forEach(l => { if (l.type == "symbol") map.setLayoutProperty(l.id, "visibility", "none") });
 		}
+		
 
 		const updateLabels = (i, currentDate = '') => {
 
-			map.setLayoutProperty('Admin-0 capital', 'visibility', 'visible');
-			map.setLayoutProperty('Admin-0 country', 'visibility', 'visible');
-			map.setLayoutProperty('Admin-1 capital', 'visibility', 'visible');
+			if(i > 0)
+			{
 
-			if (i == 1) {
-				map.setLayoutProperty('Admin-1 capital', 'visibility', 'visible')
-				map.setLayoutProperty('Admin-0 country', 'visibility', 'visible')
-				map.setLayoutProperty('Admin-0 capital', 'visibility', 'visible')
-				map.setLayoutProperty('Autonomous Republic', 'visibility', 'visible')
-				map.setPaintProperty('Autonomous Republic', "text-color", "#333")
-				map.setFilter('Autonomous Republic', ["match", ['get', 'NAME_1'], ["Russian\ncontrol"], true, false]);
-			}
-			if (i == 2) {
-				map.setLayoutProperty('Autonomous Republic', 'visibility', 'visible')
-				map.setPaintProperty('Autonomous Republic', "text-color", "#880105")
-				map.setFilter('Autonomous Republic', ["match", ['get', 'NAME_1'], ["Russian\ncontrol", "Russian\noperations"], true, false]);
+				map.setLayoutProperty('Admin-0 capital', 'visibility', 'visible');
+				map.setLayoutProperty('Admin-0 country', 'visibility', 'visible');
+				map.setLayoutProperty('Admin-1 capital', 'visibility', 'visible');
 
-			}
-			if (i == 3) {
-				map.setLayoutProperty('Autonomous Republic', 'visibility', 'visible')
-				map.setPaintProperty('Autonomous Republic', "text-color", "#ff7f00")
-				map.setFilter('Autonomous Republic', ["match", ['get', 'NAME_1'], ["Ukraine\nregained\ncontrol"], true, false]);
-			}
+				if (i == 1) {
+					map.setLayoutProperty('Admin-1 capital', 'visibility', 'visible')
+					map.setLayoutProperty('Admin-0 country', 'visibility', 'visible')
+					map.setLayoutProperty('Admin-0 capital', 'visibility', 'visible')
+					map.setLayoutProperty('Autonomous Republic', 'visibility', 'visible')
+					map.setPaintProperty('Autonomous Republic', "text-color", "#333")
+					map.setFilter('Autonomous Republic', ["match", ['get', 'NAME_1'], ["Russian\ncontrol"], true, false]);
+				}
+				if (i == 2) {
+					map.setLayoutProperty('Autonomous Republic', 'visibility', 'visible')
+					map.setPaintProperty('Autonomous Republic', "text-color", "#880105")
+					map.setFilter('Autonomous Republic', ["match", ['get', 'NAME_1'], ["Russian\ncontrol", "Russian\noperations"], true, false]);
 
-			if (moment(currentDate, 'DD-MM-YYYY') >= moment('30-09-2022', 'DD-MM-YYYY')) {
-				map.setFilter('Annexed', ["match", ['get', 'NAME_1'], ["Illegally\nannexed\nregions"], true, false]);
-				map.setLayoutProperty('Annexed', "visibility", "visible");
-				map.setLayoutProperty('Annexed-line', "visibility", "visible");
-			}
-			else {
-				map.setLayoutProperty('Annexed', "visibility", "none");
-				map.setLayoutProperty('Annexed-line', "visibility", "none");
+				}
+				if (i == 3) {
+					map.setLayoutProperty('Autonomous Republic', 'visibility', 'visible')
+					map.setPaintProperty('Autonomous Republic', "text-color", "#ff7f00")
+					map.setFilter('Autonomous Republic', ["match", ['get', 'NAME_1'], ["Ukraine\nregained\ncontrol"], true, false]);
+				}
+
+				if (moment(currentDate, 'DD-MM-YYYY') >= moment('30-09-2022', 'DD-MM-YYYY')) {
+					map.setFilter('Annexed', ["match", ['get', 'NAME_1'], ["Illegally\nannexed\nregions"], true, false]);
+					map.setLayoutProperty('Annexed', "visibility", "visible");
+					map.setLayoutProperty('Annexed-line', "visibility", "visible");
+				}
+				else {
+					map.setLayoutProperty('Annexed', "visibility", "none");
+					map.setLayoutProperty('Annexed-line', "visibility", "none");
+				}
 			}
 
 		}
