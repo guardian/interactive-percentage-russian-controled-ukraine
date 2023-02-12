@@ -47,12 +47,12 @@ document.querySelector(".header-wrapper__content .scroll-text__fixed__header").i
 
 //------------------------resize map container------------------------------------------
 
-const isMobile = window.matchMedia('(max-width: 600px)').matches;
+let isMobile = window.matchMedia('(max-width: 600px)').matches;
 
-const atomEl = document.getElementById('gv-wrapper');
+let atomEl = document.getElementById('gv-wrapper');
 
-const width = document.documentElement.clientWidth;
-const height = window.innerHeight;
+let width = document.documentElement.clientWidth;
+let height = window.innerHeight;
 
 atomEl.style.width = width + "px";
 atomEl.style.height = height + "px";
@@ -102,8 +102,23 @@ const renderMap = async (webpEnabled) => {
 		container: 'gv-wrapper', // container id
 		style: dark,
 		bounds: isMobile ? [[22, 44], [40.5, 54.5]] : [[22, 44], [40.5, 52.5]],
-		interactive: false
+		interactive: false,
+		trackResize:true
 	});
+
+	onresize = (event) => {
+
+		isMobile = window.innerWidth < 768
+
+		width = document.documentElement.clientWidth;
+		height = window.innerHeight;
+
+		atomEl.style.width = width + "px";
+		atomEl.style.height = height + "px";
+
+		map.fitBounds(isMobile ? [[22, 44], [40.5, 54.5]] : [[22, 44], [40.5, 52.5]])
+
+	};
 
 	map.on('load', () => {
 
