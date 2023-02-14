@@ -90,6 +90,10 @@ root {
 }
 
 
+.scroll-text__fixed::before{
+    position: -webkit-sticky;
+    position: sticky;
+}
 .scroll-text__fixed{
     
     position: absolute;

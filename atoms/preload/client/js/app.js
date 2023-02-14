@@ -52,10 +52,9 @@ let isMobile = window.matchMedia('(max-width: 600px)').matches;
 let atomEl = document.getElementById('gv-wrapper');
 
 let width = document.documentElement.clientWidth;
-let height = window.innerHeight;
 
 atomEl.style.width = width + "px";
-atomEl.style.height = height + "px";
+atomEl.style.height = "100vh";
 
 //---------------------------feed map styles with extra data-------------------------------------------------------------
 
@@ -72,7 +71,7 @@ dark.sources.labels.data = labels;
 //---------------------------generate file dates-------------------------------
 
 const firstDate = moment("24-02-2022", 'DD-MM-YYYY').utc()
-const lastDate = moment("10-02-2023", 'DD-MM-YYYY').utc()
+const lastDate = moment("13-02-2023", 'DD-MM-YYYY').utc()
 
 let filesDates = [firstDate.format('DD-MM-YYYY')];
 
@@ -94,7 +93,7 @@ const renderMap = async (webpEnabled) => {
 
 	dark.sources.overlays.data = data;
 
-	//--------------------------------------preload finish---------------------------------------
+	//--------------------------------------preload finished---------------------------------------
 
 	//--------------------------------------make the map----------------------------------------
 
@@ -108,13 +107,14 @@ const renderMap = async (webpEnabled) => {
 
 	onresize = (event) => {
 
-		isMobile = window.innerWidth < 768
+		isMobile = window.matchMedia('(max-width: 600px)').matches;
 
 		width = document.documentElement.clientWidth;
-		height = window.innerHeight;
 
 		atomEl.style.width = width + "px";
-		atomEl.style.height = height + "px";
+		atomEl.style.height = "100vh";
+
+		map.resize()
 
 		map.fitBounds(isMobile ? [[22, 44], [40.5, 54.5]] : [[22, 44], [40.5, 52.5]])
 
@@ -168,6 +168,12 @@ const renderMap = async (webpEnabled) => {
 
 		let animation = gsap.fromTo(null, { index: 0 }, { index: 0, overwrite: true, duration: 0, ease: "linear" });
 
+		const resetLabels = () => {
+			map.getStyle().layers.forEach(l => { if (l.type == "symbol") map.setLayoutProperty(l.id, "visibility", "none") });
+		}
+
+		resetLabels()
+
 		scrollySteps.forEach((d, i) => {
 
 			scrolly.addTrigger({
@@ -192,11 +198,6 @@ const renderMap = async (webpEnabled) => {
 		})
 
 		scrolly.watchScroll();
-
-		const resetLabels = () => {
-			map.getStyle().layers.forEach(l => { if (l.type == "symbol") map.setLayoutProperty(l.id, "visibility", "none") });
-		}
-		
 
 		const updateLabels = (i, currentDate = '') => {
 
@@ -236,6 +237,11 @@ const renderMap = async (webpEnabled) => {
 					map.setLayoutProperty('Annexed', "visibility", "none");
 					map.setLayoutProperty('Annexed-line', "visibility", "none");
 				}
+			}
+
+			if(isMobile)
+			{
+				map.setFilter('Admin-1 capital', ["match", ["get","NAME_1"],["Kherson","Kharkiv", "Donetsk"], true, false]);
 			}
 
 		}

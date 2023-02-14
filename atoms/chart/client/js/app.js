@@ -3,23 +3,23 @@ import moment from 'moment'
 import * as d3B from 'd3'
 import sheet from 'assets/sheet.json'
 import SvgText from 'svg-text';
-import {numberWithCommas} from 'shared/js/util'
+import { numberWithCommas } from 'shared/js/util'
 const d3 = Object.assign({}, d3B);
 
-const isMobile = window.matchMedia('(max-width: 600px)').matches;
+let isMobile = window.matchMedia('(max-width: 600px)').matches;
 
-const width = document.documentElement.clientWidth;
-const height = window.innerHeight;
+let width = document.documentElement.clientWidth;
+let height = window.innerHeight;
 
-const marginTopMobile = height < 600 ? window.innerHeight / 2 : window.innerHeight / 3
+let marginTopMobile = height < 600 ? window.innerHeight / 2 : window.innerHeight / 3
 
-const margin = { left:5, top: isMobile ? marginTopMobile : 6, right: 0, bottom: 30 }
+let margin = { left: 5, top: isMobile ? marginTopMobile : 6, right: 0, bottom: 30 }
 
 const svg = d3.select('#gv-wrapper-2')
 	.append('svg')
 	.attr('id', 'chart')
 	.attr('width', width + 'px')
-	.attr('height', height + 'px');
+	.attr('height', '100vh');
 
 
 const scrolly = new ScrollyTeller({
@@ -65,8 +65,8 @@ let area = d3.area()
 let areaChart = svg.append('g')
 
 let xAxis = svg.append("g")
-	.attr("transform", "translate(0," + (height - margin.bottom) + ")")
 	.attr("class", "xaxis")
+	.attr("transform", "translate(0," + (height - margin.bottom) + ")")
 	.call(
 		d3.axisBottom(x)
 			.ticks(5)
@@ -76,9 +76,9 @@ let xAxis = svg.append("g")
 let yAxis = svg.append("g")
 	.attr("class", "yaxis")
 	.call(
-		d3.axisLeft(y)
+		d3.axisRight(y)
 			.ticks(3)
-			.tickSizeInner(-width)
+			.tickSizeInner(width)
 
 	)
 	.selectAll("text")
@@ -92,38 +92,36 @@ const text = new SvgText({
 	element: document.querySelector('#chart'),
 	maxWidth: 150,
 	textOverflow: 'ellipsis',
-	x:isMobile ? d3.selectAll('.yaxis .tick text').attr("dx") - 2 : margin.left,
-	y:+d3.selectAll('.yaxis .tick').nodes()[2].attributes.transform.value.split(',')[1].split(')')[0] - 55,
-	className:'yaxis',
-	align:isMobile ? "right" : "left"
-  });
+	x: isMobile ? d3.selectAll('.yaxis .tick text').attr("dx") - 2 : margin.left,
+	y: +d3.selectAll('.yaxis .tick').nodes()[2].attributes.transform.value.split(',')[1].split(')')[0] - 55,
+	className: 'yaxis',
+	align: isMobile ? "right" : "left"
+});
 
 text.y = text.bounds.height
 
+let newStacked = []
+
+stackedData.forEach(entry => {
+
+	let a = entry.map(e => {
+		let a = [0, 0];
+		a['data'] = e.data
+
+		return a
+	})
+	let i = entry.index;
+	let k = entry.key
+
+	newStacked.push(a)
+	newStacked[i]['index'] = i
+	newStacked[i]['key'] = k
+
+})
+
 areaChart
 	.selectAll("none")
-	.data(() => {
-		let arr = []
-		
-		stackedData.forEach(entry => {
-	
-			let a = entry.map(e => {
-				let a = [0,0];
-				a['data'] = e.data
-
-				return a
-			})
-			let i = entry.index;
-			let k = entry.key
-
-			arr.push(a)
-			arr[i]['index'] = i
-			arr[i]['key'] = k
-			
-		})
-
-		return arr
-	})
+	.data(newStacked)
 	.enter()
 	.append("path")
 	.attr('d', area)
@@ -168,150 +166,40 @@ let labels = svg.append('g')
 document.querySelector('.scroll-text__fixed-2').classList.remove('over');
 
 let midDate;
+let i = 0;
 
 scrollySteps.forEach((d, i) => {
 
 	scrolly.addTrigger({
 		num: i + 1, do: () => {
 
+			i = i;
+
 			document.querySelector('.scroll-text__fixed-2 .scroll-text__fixed__date').innerHTML = scrollySteps[i].Header;
 			document.querySelector('.scroll-text__fixed-2 .scroll-text__fixed__text').innerHTML = scrollySteps[i].Copy;
 			document.querySelector('.hr-2').style.width = Math.ceil(((i + 1) * 100) / scrollySteps.length) + '%'
 
-			areaChart
-				.selectAll("path")
-				.data(() => {
+			let current = getData(scrollySteps[i].Date).find(f => f.date === scrollySteps[i].Date.replace(/-/g, '/'))
 
-					let current = getData(scrollySteps[i].Date).find(f => f.date === scrollySteps[i].Date.replace(/-/g,'/'))
-
-					let areas = []
-					if(current)
-					{
-
-						Object.keys(current).forEach(k => 
-							{
-								if(!isNaN(+current[k]))
-								{
-									console.log(+current[k])
-									areas.push(+current[k])
-								}
-							})
-
-						console.log(areas.reduce((a,b) => a + b))
-
-						document.querySelector('.area').innerHTML = 'Total Russian-controlled: ' + numberWithCommas(areas.reduce((a,b) => a + b)) + ' mi²'
-
+			let areas = []
+			if (current) {
+				Object.keys(current).forEach(k => {
+					if (!isNaN(+current[k])) {
+						areas.push(+current[k])
 					}
-					
-
-					let newStacked = getStack(getData(scrollySteps[i].Date), keys)
-
-					x.domain([moment(chartData[0].date, 'DD/MM/YYYY'), moment(scrollySteps[i].Date, 'DD/MM/YYYY')])
-
-					return newStacked
-
 				})
-				.attr("fill", d => '#' + getColor(d.key))
-				.transition()
-				.duration(500)
-				.attr("d", area)
+				document.querySelector('.area').innerHTML = 'Total Russian-controlled: ' + numberWithCommas(areas.reduce((a, b) => a + b)) + ' mi²'
+			}
 
-			svg.selectAll('.label')
-				.transition()
-				.duration(500)
-				.attr('x', d => {
-
-					let lastDate = null;
-
-					for (let i = 0; i < d.length; i++) {
-
-						if(d[i][0] == d[i][1]){
-							lastDate = d[i].data.date
-							break;
-						}
-
-					}
-
-					if(lastDate)
-					{
-						midDate = moment((moment(d[0].data.date, 'DD/MM/YYYY') + moment(lastDate, 'DD/MM/YYYY')) / 2).format("DD/MM/YYYY");
-						
-					}
-					else
-					{
-
-						midDate = moment((moment(chartData[0].date, 'DD/MM/YYYY') + moment(scrollySteps[i].Date, 'DD-MM-YYYY')) / 2).format("DD/MM/YYYY");
-					}
-
-					return  `${x(moment(midDate, "DD/MM/YYYY"))}px`
-
-					
-				})
-				.attr('y', d => {
-
-					let lastDate = null;
-
-					for (let i = 0; i < d.length; i++) {
-
-						if(d[i][0] == d[i][1]){
-							lastDate = d[i].data.date
-							break;
-						}
-
-					}
-
-					if(lastDate)
-					{
-						midDate = moment((moment(d[0].data.date, 'DD/MM/YYYY') + moment(lastDate, 'DD/MM/YYYY')) / 2).format("DD/MM/YYYY");
-						
-					}
-					else
-					{
-						midDate = moment((moment(chartData[0].date, 'DD/MM/YYYY') + moment(scrollySteps[i].Date, 'DD-MM-YYYY')) / 2).format("DD/MM/YYYY");
-					}
-
-					let date = d.find(f => f.data.date === midDate)
+			newStacked = getStack(getData(scrollySteps[i].Date), keys)
 			
-					let y0 = y(date[0])
-					let y1 = y(date[1])
-			
-					return y0 + ((y1 - y0) / 2)
-			
-			
-				})
-				.style('text-anchor', d => {
+			x.domain([moment(chartData[0].date, 'DD/MM/YYYY'), moment(scrollySteps[i].Date, 'DD/MM/YYYY')])
 
-					let lastDate = null;
+			updateChart()
+			updateLabels()
+			updateAxis()
 
-					for (let i = 0; i < d.length; i++) {
-
-						if(d[i][0] == d[i][1]){
-							lastDate = d[i].data.date
-							break;
-						}
-
-					}
-					let pos;
-
-					isMobile && i >= 2 && lastDate ? pos = 'start' : pos = 'middle'
-
-					return pos
-				})
-				.text(d => d.key == "Kiev" ? "Kyiv" : d.key)
-
-			d3.select('.date').node().innerHTML =  moment(scrollySteps[i].Date, 'DD/MM/YYYY').format("D MMM YYYY")
-
-			let timeFormat = i == 0 ? d3.timeFormat("%-d %b") : d3.timeFormat("%b")
-			xAxis
-				.transition()
-				.duration(500)
-				.call(
-					d3.axisBottom(x)
-						.ticks(5)
-						.tickFormat(timeFormat)
-				)
-			.selectAll("text")
-
+			d3.select('.date').node().innerHTML = moment(scrollySteps[i].Date, 'DD/MM/YYYY').format("D MMM YYYY")
 
 		}
 	})
@@ -319,6 +207,127 @@ scrollySteps.forEach((d, i) => {
 
 
 scrolly.watchScroll();
+
+const updateChart = () => {
+
+	areaChart
+		.selectAll("path")
+		.data(newStacked)
+		.attr("fill", d => '#' + getColor(d.key))
+		.transition()
+		.duration(500)
+		.attr("d", area)
+
+}
+
+const updateLabels = () => {
+	svg.selectAll('.label')
+		.transition()
+		.duration(500)
+		.attr('x', d => {
+
+			let lastDate = null;
+
+			for (let i = 0; i < d.length; i++) {
+
+				if (d[i][0] == d[i][1]) {
+					lastDate = d[i].data.date
+					break;
+				}
+			}
+
+			if (lastDate) {
+				midDate = moment((moment(d[0].data.date, 'DD/MM/YYYY') + moment(lastDate, 'DD/MM/YYYY')) / 2).format("DD/MM/YYYY");
+
+			}
+			else {
+
+				midDate = moment((moment(chartData[0].date, 'DD/MM/YYYY') + moment(scrollySteps[i].Date, 'DD-MM-YYYY')) / 2).format("DD/MM/YYYY");
+			}
+
+			return `${x(moment(midDate, "DD/MM/YYYY"))}px`
+
+
+		})
+		.attr('y', d => {
+
+			let lastDate = null;
+
+			for (let i = 0; i < d.length; i++) {
+
+				if (d[i][0] == d[i][1]) {
+					lastDate = d[i].data.date
+					break;
+				}
+
+			}
+
+			if (lastDate) {
+				midDate = moment((moment(d[0].data.date, 'DD/MM/YYYY') + moment(lastDate, 'DD/MM/YYYY')) / 2).format("DD/MM/YYYY");
+
+			}
+			else {
+				midDate = moment((moment(chartData[0].date, 'DD/MM/YYYY') + moment(scrollySteps[i].Date, 'DD-MM-YYYY')) / 2).format("DD/MM/YYYY");
+			}
+
+			let date = d.find(f => f.data.date === midDate)
+
+			let y0 = y(date[0])
+			let y1 = y(date[1])
+
+			return y0 + ((y1 - y0) / 2)
+
+
+		})
+		.style('text-anchor', d => {
+
+			let lastDate = null;
+
+			for (let i = 0; i < d.length; i++) {
+
+				if (d[i][0] == d[i][1]) {
+					lastDate = d[i].data.date
+					break;
+				}
+
+			}
+			let pos;
+
+			isMobile && i >= 2 && lastDate ? pos = 'start' : pos = 'middle'
+
+			return pos
+		})
+		.text(d => d.key == "Kiev" ? "Kyiv" : d.key)
+}
+
+const updateAxis = () => {
+
+	let timeFormat = i == 0 ? d3.timeFormat("%-d %b") : d3.timeFormat("%b")
+
+	xAxis
+		.transition()
+		.duration(500)
+		.call(
+			d3.axisBottom(x)
+				.ticks(5)
+				.tickFormat(timeFormat)
+		)
+console.log(width, y)
+	yAxis
+		.transition()
+		.duration(500)
+		.call(
+			d3.axisRight(y)
+				.ticks(3)
+	
+		)
+
+		yAxis.selectAll('.yaxis .tick line')
+		.enter()
+		.attr('x2', width )
+
+		
+}
 
 
 
@@ -330,4 +339,27 @@ const getColor = (key) => {
 		.range(["ffebee", "ef9a9a", "e57373", "ef5350", "b71c1c"])
 		(key)
 
+}
+
+onresize = (event) => {
+
+	width = document.documentElement.clientWidth;
+	height = window.innerHeight;
+	isMobile = window.matchMedia('(max-width: 600px)').matches;
+
+	marginTopMobile = height < 600 ? window.innerHeight / 2 : window.innerHeight / 3
+
+	margin = { left: 5, top: isMobile ? marginTopMobile : 6, right: 0, bottom: 30 }
+	
+
+	x.range([margin.left, width - margin.right]);
+	y.range([height - margin.bottom, margin.top]);
+
+	svg 
+	.attr('width', width + 'px')
+	.attr('height', '100vh');
+
+
+	updateChart()
+	updateAxis()
 }

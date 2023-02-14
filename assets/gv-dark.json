@@ -271,32 +271,6 @@
             }
         },
         {
-            "id": "Admin-1 capital",
-            "type": "symbol",
-            "source": "labels",
-            "minzoom": 5,
-            "maxzoom": 22,
-            "filter": ["all",
-                ["==","TYPE_1","Oblast'"]
-            ],
-            "layout": {
-                "text-size": 14,
-                "text-font": ["Gdn Text Sans TS3Regular"],
-                "text-justify": "left",
-                "text-field": "{NAME_1}",
-                "text-variable-anchor": ["center"],
-                "text-radial-offset": 0.5,
-                "icon-image": "Admin-1 capital",
-                "icon-size": 1,
-                "visibility":"visible"
-            },
-            "paint": {
-                "text-halo-color": "#FFFFFF",
-                "text-halo-width": 1,
-                "text-color": "#333333"
-            }
-        },
-        {
             "id": "Admin-0 country",
             "type": "symbol",
             "source": "labels",
@@ -342,6 +316,30 @@
                 "text-radial-offset": 0.5,
                 "text-justify": "auto",
                 "icon-image": "Admin-0 capital",
+                "icon-size": 1,
+                "visibility":"visible"
+            },
+            "paint": {
+                "text-halo-color": "#FFFFFF",
+                "text-halo-width": 1,
+                "text-color": "#333333"
+            }
+        },
+        {
+            "id": "Admin-1 capital",
+            "type": "symbol",
+            "source": "labels",
+            "filter": ["all",
+                ["==","TYPE_1","Oblast'"]
+            ],
+            "layout": {
+                "text-size": 14,
+                "text-font": ["Gdn Text Sans TS3Regular"],
+                "text-justify": "left",
+                "text-field": "{NAME_1}",
+                "text-variable-anchor": ["center"],
+                "text-radial-offset": 0.5,
+                "icon-image": "Admin-1 capital",
                 "icon-size": 1,
                 "visibility":"visible"
             },

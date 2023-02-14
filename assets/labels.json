@@ -8,7 +8,7 @@
 { "type": "Feature", "properties": { "NAME_1": "Chernivtsi", "TYPE_1": "Oblast'" }, "geometry": { "type": "Point", "coordinates": [ 25.97109022158471, 48.269840881514625 ] } },
 { "type": "Feature", "properties": { "NAME_1": "Crimea", "TYPE_1": "Oblast'" }, "geometry": { "type": "Point", "coordinates": [ 34.380386540496843, 45.332969010161811 ] } },
 { "type": "Feature", "properties": { "NAME_1": "Dnipropetrovs'k", "TYPE_1": "Oblast'" }, "geometry": { "type": "Point", "coordinates": [ 34.856525589528331, 48.275781498116636 ] } },
-{ "type": "Feature", "properties": { "NAME_1": "Donets'k", "TYPE_1": "Oblast'" }, "geometry": { "type": "Point", "coordinates": [ 37.357404036035462, 48.603725650796754 ] } },
+{ "type": "Feature", "properties": { "NAME_1": "Donetsk", "TYPE_1": "Oblast'" }, "geometry": { "type": "Point", "coordinates": [ 37.357404036035462, 48.603725650796754 ] } },
 { "type": "Feature", "properties": { "NAME_1": "Ivano-Frankivs'k", "TYPE_1": "Oblast'" }, "geometry": { "type": "Point", "coordinates": [ 24.609296012618877, 48.705100720159201 ] } },
 { "type": "Feature", "properties": { "NAME_1": "Kharkiv", "TYPE_1": "Oblast'" }, "geometry": { "type": "Point", "coordinates": [ 36.514405732028287, 49.612760784690124 ] } },
 { "type": "Feature", "properties": { "NAME_1": "Kherson", "TYPE_1": "Oblast'" }, "geometry": { "type": "Point", "coordinates": [ 33.573161227310386, 46.660739700881095 ] } },
