@@ -10,7 +10,7 @@ import ScrollyTeller from "shared/js/scrollyteller";
 import sheet from 'assets/sheet.json'
 import labels from 'assets/labels.json'
 import { merge } from "topojson-client"
-import areas from 'assets/output-topo-10.json'
+import areas from 'assets/output-topo-interval-5000.json'
 import moment from 'moment'
 import { gsap } from 'gsap'
 

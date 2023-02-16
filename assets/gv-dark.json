@@ -72,7 +72,7 @@
             "id":"ukraine-fill",
             "type":"fill",
             "source":"ukraine-fill",
-            "layout":{},
+            "layout":{"visibility":"visible"},
             "paint":{
                 "fill-color":"#f6f6f6"
             }
@@ -81,7 +81,7 @@
             "id":"patch",
             "type":"fill",
             "source":"patch",
-            "layout":{},
+            "layout":{"visibility":"none"},
             "paint":{
                 "fill-color":"#f0b5b8"
             }
@@ -90,7 +90,7 @@
             "id":"separatists-fill",
             "type":"fill",
             "source":"separatists",
-            "layout":{},
+            "layout":{"visibility":"none"},
             "paint":{
                 "fill-color":"#c6c6c6"
             }
@@ -149,7 +149,8 @@
             "source":"ukraine-border",
             "layout": {
                 "line-join": "round",
-                "line-cap": "round"
+                "line-cap": "round",
+                "visibility":"none"
                 },
                 "paint": {
                 "line-color": "#d9d9d9",
@@ -163,7 +164,8 @@
             "source":"ukraine-border",
             "layout": {
                 "line-join": "round",
-                "line-cap": "round"
+                "line-cap": "round",
+                "visibility":"none"
                 },
                 "paint": {
                 "line-color": "#66686d",
@@ -288,7 +290,7 @@
                 "text-justify": "center",
                 "text-field": "{NAME_1}",
                 "text-radial-offset": 0.5,
-                "visibility":"visible"
+                "visibility":"none"
             },
             "paint": {
                 "text-halo-color": "#FFFFFF",
@@ -317,7 +319,7 @@
                 "text-justify": "auto",
                 "icon-image": "Admin-0 capital",
                 "icon-size": 1,
-                "visibility":"visible"
+                "visibility":"none"
             },
             "paint": {
                 "text-halo-color": "#FFFFFF",
@@ -341,7 +343,7 @@
                 "text-radial-offset": 0.5,
                 "icon-image": "Admin-1 capital",
                 "icon-size": 1,
-                "visibility":"visible"
+                "visibility":"none"
             },
             "paint": {
                 "text-halo-color": "#FFFFFF",
@@ -368,7 +370,7 @@
                 "text-variable-anchor": ["center"],
                 "text-radial-offset": 0.5,
                 "text-justify": "auto",
-                "visibility":"visible"
+                "visibility":"none"
             },
             "paint": {
                 "text-halo-color": "#FFFFFF",

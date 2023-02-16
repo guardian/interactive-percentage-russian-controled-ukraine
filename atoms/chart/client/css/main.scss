@@ -8,15 +8,19 @@
 // @import "darkmodedefault"; // basic media queries for adding dark mode and several default colours
 
 /*----- Vertical scrollbar width used for sizing full viewport width elements -----*/
-root {
-    --scrollbar-width: 0;
-    --half-scrollbar-width: 0;
-}
-#scrolly-2{
-    width: 100%;
-    height: 100%;
+:root {
+    --scrollbar-width: 0px;
+    --half-scrollbar-width: 0px;
+
+    
 }
 
+
+#scrolly-2{
+    width: 100%;
+    height: 100vh; /* Fallback for browsers that do not support Custom Properties */
+    height: calc(var(--vh, 1vh) * 100);
+}
 // uncomment to test
 #gv-wrapper-2 {
     // height: 400px;
@@ -126,25 +130,31 @@ svg{
 
 }
 
+.yaxisLabel{
+    @include fs-textSans(1);
+    font-weight: bold;
+    fill:$neutral-20;
+
+    tspan{text-shadow: 0px 0px 2px #fff;}
+}
+
+
 
 .xaxis, .yaxis{
-    tspan{
-        font-weight: bold;
-        fill:$neutral-20;
-    }
 	.tick, tspan{
 		@include fs-textSans(1);
 		text{fill:$neutral-20;}
-		
+        
 	}
 	.domain{display: none;}
+
 }
 
 .yaxis line{
-    // stroke-width: 2px;
-    // stroke-dasharray: 0,4;
-    // stroke-linecap: round;
-    // stroke:$neutral-20;
+    stroke-width: 2px;
+    stroke-dasharray: 0,4;
+    stroke-linecap: round;
+    stroke:$neutral-20;
 }
 
 .yaxis .tick:nth-child(2){

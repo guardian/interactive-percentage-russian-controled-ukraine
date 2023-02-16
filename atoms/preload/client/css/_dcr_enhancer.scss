@@ -5,11 +5,17 @@
         margin-left: 160px;
     }
     
+    @include mq($from: tablet, $until: leftCol) {
+        margin-left: calc(100vw - 700px) + 10px !important;
+    }
+    
     @include mq(wide) {
-        margin-left: 240px;
+       margin-left: calc(((100vw - 1300px) / -2) - 12px );
     }
 
     .element-atom { 
+
+      width: 100vw;
       max-width: 620px; // there is no element-inline class on interactive atoms so targeting element-atom as default for inline weighting instead
 
       @include mq($until: tablet) {

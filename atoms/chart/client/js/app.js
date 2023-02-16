@@ -4,14 +4,47 @@ import * as d3B from 'd3'
 import sheet from 'assets/sheet.json'
 import SvgText from 'svg-text';
 import { numberWithCommas } from 'shared/js/util'
+
+const fnBrowserDetect = () => {
+                 
+	let userAgent = navigator.userAgent;
+	let browserName;
+	
+	if(userAgent.match(/chrome|chromium|crios/i)){
+		browserName = "chrome";
+	  }else if(userAgent.match(/firefox|fxios/i)){
+		browserName = "firefox";
+	  }  else if(userAgent.match(/safari/i)){
+		browserName = "safari";
+	  }else if(userAgent.match(/opr\//i)){
+		browserName = "opera";
+	  } else if(userAgent.match(/edg/i)){
+		browserName = "edge";
+	  }else{
+		browserName="No browser detection";
+	  }
+	
+	 return browserName
+}
+
+const isChrome = fnBrowserDetect() == 'chrome' ? true : false;
+const isFirefox = fnBrowserDetect() == 'firefox' ? true : false;
+const isApp = window.location.protocol == 'https:' ? false : true;
+let isMobile = window.matchMedia('(max-width: 740px)').matches;
+const isViewer = window.location.host.indexOf("viewer") != -1 ? true : false;
+
 const d3 = Object.assign({}, d3B);
 
-let isMobile = window.matchMedia('(max-width: 600px)').matches;
-
 let width = document.documentElement.clientWidth;
+
 let height = window.innerHeight;
 
-let marginTopMobile = height < 600 ? window.innerHeight / 2 : window.innerHeight / 3
+if(isChrome && isMobile)height = window.innerHeight + 100;
+if(isFirefox && isMobile)height = window.innerHeight + 50;
+if(isApp)height = window.innerHeight;
+if(isViewer)height = window.innerHeight;
+
+let marginTopMobile = height < 600 ? window.innerHeight / 2 : window.innerHeight / 2.6
 
 let margin = { left: 5, top: isMobile ? marginTopMobile : 6, right: 0, bottom: 30 }
 
@@ -19,8 +52,7 @@ const svg = d3.select('#gv-wrapper-2')
 	.append('svg')
 	.attr('id', 'chart')
 	.attr('width', width + 'px')
-	.attr('height', '100vh');
-
+	.attr('height',height + 'px');
 
 const scrolly = new ScrollyTeller({
 	parent: document.querySelector("#scrolly-2"),
@@ -64,41 +96,55 @@ let area = d3.area()
 
 let areaChart = svg.append('g')
 
-let xAxis = svg.append("g")
-	.attr("class", "xaxis")
-	.attr("transform", "translate(0," + (height - margin.bottom) + ")")
-	.call(
-		d3.axisBottom(x)
-			.ticks(5)
-			.tickFormat(d3.timeFormat("%-d %b"))
-	)
+let xAxis = (g) => {
+	return g
+		.attr("class", "xaxis")
+		.attr("transform", "translate(0," + (height - margin.bottom) + ")")
+		.call(
+			d3.axisBottom(x)
+				.ticks(5)
+				.tickFormat(d3.timeFormat("%-d %b"))
+		)
+}
 
-let yAxis = svg.append("g")
-	.attr("class", "yaxis")
-	.call(
-		d3.axisRight(y)
+svg.append("g")
+	.call(xAxis);
+
+let yAxis = (g) => {
+	return g
+		.attr("class", 'yaxis')
+		.call(d3.axisLeft(y)
+			.tickFormat(d => numberWithCommas(d))
+			.tickSizeInner(-width)
 			.ticks(3)
-			.tickSizeInner(width)
+		)
+		.selectAll("text")
+		.text((d,i) => {
 
-	)
-	.selectAll("text")
-	.attr('dx', isMobile ? width : margin.left + 3)
-	.attr('dy', -5 + 'px')
-	.attr('text-anchor', isMobile ? "end" : "start")
-	.text((d, i) => i == 2 ? (+d).toLocaleString('en-GB', { maximumFractionDigits: 0 }) + ' sqm' : (+d).toLocaleString('en-GB', { maximumFractionDigits: 0 }))
+			let label = d / 1000
+			if(i === 1)label += 'k sq m (8.6%)'
+			if(i === 2)label += 'k sq miles (17.2%)'
+			return label
+		})
+		.style("text-anchor", isMobile ? "end" : "start")
+		.attr('x', isMobile ? width : 0)
+		.attr('y', -10);
+}
+
+svg.append("g")
+	.call(yAxis);
+
 
 const text = new SvgText({
-	text: 'Russian-controlled Ukrainian land',
+	text: 'Russian-contolled land in Ukraine (brackets show % of total Ukraine)',
 	element: document.querySelector('#chart'),
 	maxWidth: 150,
 	textOverflow: 'ellipsis',
-	x: isMobile ? d3.selectAll('.yaxis .tick text').attr("dx") - 2 : margin.left,
-	y: +d3.selectAll('.yaxis .tick').nodes()[2].attributes.transform.value.split(',')[1].split(')')[0] - 55,
-	className: 'yaxis',
+	x: isMobile ? width : 0,
+	y: +d3.selectAll('.yaxis .tick')._groups[0][2].attributes[2].nodeValue.split(',')[1].split(')')[0] - 70,
+	className: 'yaxisLabel',
 	align: isMobile ? "right" : "left"
 });
-
-text.y = text.bounds.height
 
 let newStacked = []
 
@@ -166,14 +212,14 @@ let labels = svg.append('g')
 document.querySelector('.scroll-text__fixed-2').classList.remove('over');
 
 let midDate;
-let i = 0;
+let index = 0;
 
 scrollySteps.forEach((d, i) => {
 
 	scrolly.addTrigger({
 		num: i + 1, do: () => {
 
-			i = i;
+			index = i;
 
 			document.querySelector('.scroll-text__fixed-2 .scroll-text__fixed__date').innerHTML = scrollySteps[i].Header;
 			document.querySelector('.scroll-text__fixed-2 .scroll-text__fixed__text').innerHTML = scrollySteps[i].Copy;
@@ -188,16 +234,16 @@ scrollySteps.forEach((d, i) => {
 						areas.push(+current[k])
 					}
 				})
-				document.querySelector('.area').innerHTML = 'Total Russian-controlled: ' + numberWithCommas(areas.reduce((a, b) => a + b)) + ' mi²'
+				document.querySelector('.area').innerHTML = numberWithCommas(areas.reduce((a, b) => a + b)) + ' sq miles controlled by Russia';
 			}
 
 			newStacked = getStack(getData(scrollySteps[i].Date), keys)
-			
+
 			x.domain([moment(chartData[0].date, 'DD/MM/YYYY'), moment(scrollySteps[i].Date, 'DD/MM/YYYY')])
 
 			updateChart()
-			updateLabels()
 			updateAxis()
+			updateLabels()
 
 			d3.select('.date').node().innerHTML = moment(scrollySteps[i].Date, 'DD/MM/YYYY').format("D MMM YYYY")
 
@@ -242,7 +288,7 @@ const updateLabels = () => {
 			}
 			else {
 
-				midDate = moment((moment(chartData[0].date, 'DD/MM/YYYY') + moment(scrollySteps[i].Date, 'DD-MM-YYYY')) / 2).format("DD/MM/YYYY");
+				midDate = moment((moment(chartData[0].date, 'DD/MM/YYYY') + moment(scrollySteps[index].Date, 'DD-MM-YYYY')) / 2).format("DD/MM/YYYY");
 			}
 
 			return `${x(moment(midDate, "DD/MM/YYYY"))}px`
@@ -267,7 +313,7 @@ const updateLabels = () => {
 
 			}
 			else {
-				midDate = moment((moment(chartData[0].date, 'DD/MM/YYYY') + moment(scrollySteps[i].Date, 'DD-MM-YYYY')) / 2).format("DD/MM/YYYY");
+				midDate = moment((moment(chartData[0].date, 'DD/MM/YYYY') + moment(scrollySteps[index].Date, 'DD-MM-YYYY')) / 2).format("DD/MM/YYYY");
 			}
 
 			let date = d.find(f => f.data.date === midDate)
@@ -293,40 +339,45 @@ const updateLabels = () => {
 			}
 			let pos;
 
-			isMobile && i >= 2 && lastDate ? pos = 'start' : pos = 'middle'
+			isMobile && index >= 2 && lastDate ? pos = 'start' : pos = 'middle'
 
 			return pos
 		})
-		.text(d => d.key == "Kiev" ? "Kyiv" : d.key)
+		.text(d => {
+
+			let label = d.key
+			if(label == "Luhans'k") label = "Luhansk"
+			else if(label == "Donets'k") label = "Donetsk"
+			else if(label == "Ivano-Frankivs'k") label = "Ivano-Frankivsk"
+			else if(label == "Khmel'nyts'kyy") label = "Khmelnytskyi"
+			else if(label == "Ternopil'") label = "Ternopil"
+			else if(label == "L'viv") label = "Lviv"
+
+			return label
+
+		})
+
+
+
 }
 
 const updateAxis = () => {
 
-	let timeFormat = i == 0 ? d3.timeFormat("%-d %b") : d3.timeFormat("%b")
+	svg.selectAll(".xaxis")
+		.call(xAxis);
 
-	xAxis
-		.transition()
-		.duration(500)
-		.call(
-			d3.axisBottom(x)
-				.ticks(5)
-				.tickFormat(timeFormat)
-		)
-console.log(width, y)
-	yAxis
-		.transition()
-		.duration(500)
-		.call(
-			d3.axisRight(y)
-				.ticks(3)
-	
-		)
+	svg.selectAll(".yaxis")
+		.call(yAxis);
 
-		yAxis.selectAll('.yaxis .tick line')
-		.enter()
-		.attr('x2', width )
+	let posX = isMobile ? width : 0;
+	let posY = +d3.selectAll('.yaxis .tick')._groups[0][2].attributes[2].nodeValue.split(',')[1].split(')')[0] - 70;
 
-		
+	d3.select('.yaxisLabel')
+		.attr('transform', `translate(${posX} , ${posY})`)
+
+	d3.selectAll('.yaxisLabel tspan')
+		.attr('text-anchor', isMobile ? 'end' : 'start')
+
 }
 
 
@@ -343,23 +394,38 @@ const getColor = (key) => {
 
 onresize = (event) => {
 
+	console.log('chart on resize')
+
 	width = document.documentElement.clientWidth;
 	height = window.innerHeight;
-	isMobile = window.matchMedia('(max-width: 600px)').matches;
+
+	isMobile = window.matchMedia('(max-width: 740px)').matches;
 
 	marginTopMobile = height < 600 ? window.innerHeight / 2 : window.innerHeight / 3
 
 	margin = { left: 5, top: isMobile ? marginTopMobile : 6, right: 0, bottom: 30 }
-	
+
 
 	x.range([margin.left, width - margin.right]);
 	y.range([height - margin.bottom, margin.top]);
 
-	svg 
-	.attr('width', width + 'px')
-	.attr('height', '100vh');
+	svg
+		.attr('width', width + 'px')
+		.attr('height', '100vh');
 
 
 	updateChart()
 	updateAxis()
+	updateLabels()
+
 }
+
+window.addEventListener("load",function() {
+    setTimeout(function(){
+        // This hides the address bar:
+        window.scrollTo(0, 1);
+    }, 0);
+});
+
+d3.select('#scrolly-2').style('height' , '100%')
+

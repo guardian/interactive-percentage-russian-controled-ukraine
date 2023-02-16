@@ -8,14 +8,14 @@ const App = ({ content }) =>
             <div class="scroll-text__fixed-2 over">
                 <hr class="hr-2"></hr>
                 <h2 class="scroll-text__fixed__date">
-                    ${content[0].Header}
+                    {content[0].Header}
                 </h2>
                 <div class='date-wrapper'>
                     <p class='date'></p>
                     <p class='area'></p>
                 </div>
                 <div class="scroll-text__fixed__text">
-                    <p>${content[0].Copy}</p>
+                    <p>{content[0].Copy}</p>
                 </div>
             </div>
                

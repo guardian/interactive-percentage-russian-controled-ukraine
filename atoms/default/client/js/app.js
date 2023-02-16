@@ -6,7 +6,7 @@ import ScrollyTeller from "shared/js/ScrollyTeller";
 import sheet from 'assets/sheet.json'
 import labels from 'assets/labels-continent.json'
 import { merge } from "topojson-client"
-import areas from 'assets/output-topo-10.json'
+import areas from 'assets/output-topo-interval-5000.json'
 //import { gsap } from 'gsap';
 
 const isMobile = window.matchMedia('(max-width: 600px)').matches;
