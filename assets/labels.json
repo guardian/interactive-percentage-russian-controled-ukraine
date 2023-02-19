@@ -34,6 +34,6 @@
 { "type": "Feature", "properties": { "NAME_1": "Ukraine", "TYPE_1": "Admin-0 country" }, "geometry": { "type": "Point", "coordinates": [ 32.854939923413291, 49.197816307370807 ] } },
 { "type": "Feature", "properties": { "NAME_1": "Russian\noperations", "TYPE_1": "direct label" }, "geometry": { "type": "Point", "coordinates": [ 32.279959761816052, 50.879502019561777 ] } },
 { "type": "Feature", "properties": { "NAME_1": "Ukraine\nregained\ncontrol", "TYPE_1": "direct label" }, "geometry": { "type": "Point", "coordinates": [ 30.041752709088712, 51.000020860862477 ] } },
-{ "type": "Feature", "properties": { "NAME_1": "Illegally\nannexed\nregions", "TYPE_1": "direct label" }, "geometry": { "type": "Point", "coordinates": [ 37.5451,46.214 ] } }
+{ "type": "Feature", "properties": { "NAME_1": "Illegally\nannexed\nin 2022", "TYPE_1": "direct label" }, "geometry": { "type": "Point", "coordinates": [ 37.5451,46.214 ] } }
 ]
 }

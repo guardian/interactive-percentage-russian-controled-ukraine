@@ -3,10 +3,13 @@
 [data-gu-name="headline"],
 [data-gu-name="title"],
 [data-gu-name="standfirst"],
-[data-gu-name="lines"],
 [data-link-name="article section"],
 [data-cy="sub-nav"]{
     position: absolute; top: -100vh;
+}
+
+[data-gu-name="lines"]{
+    display: none;
 }
 
 [name="SubNav"]{
