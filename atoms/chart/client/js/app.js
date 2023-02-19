@@ -42,7 +42,7 @@ let margin = { left: 5, top: isMobile ? marginTopMobile : 6, right: 15, bottom: 
 const svg = d3.select('#gv-wrapper-2')
 	.append('svg')
 	.attr('id', 'chart')
-	.attr('width', width + 'px')
+	.attr('width', width - margin.right + 'px')
 	.attr('height',height + 'px');
 
 const scrolly = new ScrollyTeller({
@@ -105,8 +105,7 @@ let xAxis = (g) => {
 
 }
 
-svg.append("g")
-	.call(xAxis);
+svg.append("g").call(xAxis);
 
 let yAxis = (g) => {
 	return g
@@ -129,8 +128,7 @@ let yAxis = (g) => {
 		.attr('y', -10);
 }
 
-svg.append("g")
-	.call(yAxis);
+svg.append("g").call(yAxis);
 
 
 const text = new SvgText({
@@ -406,7 +404,7 @@ window.addEventListener("resize", () => {
 	y.range([height - margin.bottom, margin.top]);
 
 	svg
-		.attr('width', width + 'px')
+		.attr('width', width - margin.right + 'px')
 		.attr('height', height + 'px');
 
 	updateChart()
