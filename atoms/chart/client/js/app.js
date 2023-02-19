@@ -27,22 +27,13 @@ const fnBrowserDetect = () => {
 	 return browserName
 }
 
-// const isChrome = fnBrowserDetect() == 'chrome' ? true : false;
-// const isFirefox = fnBrowserDetect() == 'firefox' ? true : false;
-// const isApp = window.location.protocol == 'https:' ? false : true;
 let isMobile = window.matchMedia('(max-width: 600px)').matches;
-// const isViewer = window.location.host.indexOf("viewer") != -1 ? true : false;
 
 const d3 = Object.assign({}, d3B);
 
 let width = document.documentElement.clientWidth;
 
 let height = window.innerHeight;
-
-// if(isChrome && isMobile)height = window.innerHeight + 100;
-// if(isFirefox && isMobile)height = window.innerHeight + 50;
-// if(isApp)height = window.innerHeight;
-// if(isViewer)height = window.innerHeight;
 
 let marginTopMobile = height < 600 ? window.innerHeight / 2 : window.innerHeight / 2.6
 
@@ -116,9 +107,6 @@ let xAxis = (g) => {
 
 svg.append("g")
 	.call(xAxis);
-
-	console.log(d3.selectAll(".xaxis .tick"))
-	
 
 let yAxis = (g) => {
 	return g
@@ -408,17 +396,11 @@ window.addEventListener("resize", () => {
 	width = document.documentElement.clientWidth;
 	height = window.innerHeight;
 
-	// if(isChrome && isMobile)height = window.innerHeight + 100;
-	// if(isFirefox && isMobile)height = window.innerHeight + 50;
-	// if(isApp)height = window.innerHeight;
-	// if(isViewer)height = window.innerHeight;
-
 	isMobile = window.matchMedia('(max-width: 740px)').matches;
 
 	marginTopMobile = height < 600 ? window.innerHeight / 2 : window.innerHeight / 3
 
 	margin = { left: 5, top: isMobile ? marginTopMobile : 6, right: 15, bottom: 30 }
-
 
 	x.range([margin.left, width - margin.right]);
 	y.range([height - margin.bottom, margin.top]);
@@ -427,12 +409,7 @@ window.addEventListener("resize", () => {
 		.attr('width', width + 'px')
 		.attr('height', height + 'px');
 
-
 	updateChart()
 	updateAxis()
 	updateLabels()
 });
-
-
-d3.select('#scrolly-2').style('height' , '100%')
-
