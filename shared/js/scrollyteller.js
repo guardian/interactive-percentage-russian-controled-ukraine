@@ -13,7 +13,7 @@ class ScrollyTeller {
         this.textBoxes = [].slice.apply(this.scrollText.querySelectorAll(".scroll-text__inner"));
         this.transparentUntilActive = config.transparentUntilActive;
 
-        this.scrollWrapper.style.height = this.textBoxes.length * 100 + "vh";
+        this.scrollWrapper.style.height = this.textBoxes.length * 75 + "vh";
 
         if(this.transparentUntilActive) {
             config.parent.classList.add("transparent-until-active");

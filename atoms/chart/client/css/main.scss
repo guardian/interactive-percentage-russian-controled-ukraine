@@ -2,40 +2,33 @@
 @import "fonts";
 @import "mq";
 @import "palette";
-// @import "scrolly";
+@import "scrolly";
 //@import "dcr_enhancer"; // default left column enhancer, works with inline, showcase and immersive weighting
-//@import "full_immersive_enhancer"; // full-width enhancer, to be used with immersive weighting. Removes left colum, sets 100vw atom width at any breakpoint
+@import "full_immersive_enhancer"; // full-width enhancer, to be used with immersive weighting. Removes left colum, sets 100vw atom width at any breakpoint
 // @import "darkmodedefault"; // basic media queries for adding dark mode and several default colours
 
 /*----- Vertical scrollbar width used for sizing full viewport width elements -----*/
 :root {
     --scrollbar-width: 0px;
     --half-scrollbar-width: 0px;
-
-    
 }
 
 
 #scrolly-2{
     width: 100%;
     max-width: 100%;
-    // height: 100vh; /* Fallback for browsers that do not support Custom Properties */
-    // height: calc(var(--vh, 1vh) * 100);
 }
 // uncomment to test
 #gv-wrapper-2 {
-    // height: 400px;
-    // background: #121212;
-    // color: white;
+
     width: 100%;
     max-width: 100%;
     border-top: 1px solid #dcdcdc;
     
-    //border-bottom: 1px solid #dcdcdc;
 }
 
 svg{
-    overflow: visible;
+    overflow: hidden;
 }
 
 
@@ -66,9 +59,6 @@ svg{
     }
 }
 
-// [data-atom-id="interactives/2023/01/interactive-percentage-of-russian-invasion/chart"]{
-//     height: 100%;
-// }
 
 .scroll-text__fixed-2{
     
@@ -138,23 +128,24 @@ svg{
     font-weight: bold;
     fill:$neutral-20;
 
-    stroke-width: 4;
-    stroke-opacity: .5;
-    stroke: #FFFFFF;
-    paint-order: stroke;
+    // stroke-width: 4;
+    // stroke-opacity: .5;
+    // stroke: #FFFFFF;
+    // paint-order: stroke;
+
+    text-shadow:0 0 1px #fff;
 }
-
-
 
 .xaxis, .yaxis{
 	.tick, tspan{
 		@include fs-textSans(1);
 		text{
             fill:$neutral-20;
-            stroke-width: 4;
-            stroke-opacity: .3;
-            stroke: #fff;
-            paint-order: stroke;
+            //stroke-width: 4;
+            //stroke-opacity: .3;
+            //stroke: #fff;
+            // paint-order: stroke;
+            text-shadow:0 0 2px #fff;
         }
         
 	}
@@ -185,8 +176,12 @@ svg{
     fill: #fff;
     stroke-width: 3;
     stroke-opacity: .5;
-    stroke: #333;
-    paint-order: stroke;
+    
+
+
+    text-shadow:0 0 2px #333;
+
+    
 }
 
 

@@ -27,6 +27,38 @@ const fnBrowserDetect = () => {
 	 return browserName
 }
 
+const getMobileOperatingSystem = () => {
+    var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+    // Windows Phone must come first because its UA also contains "Android"
+    if (/windows phone/i.test(userAgent)) {
+        return "Windows Phone";
+    }
+
+    if (/android/i.test(userAgent)) {
+        return "Android";
+    }
+
+    // iOS detection from: http://stackoverflow.com/a/9039885/177710
+    if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+        return "iOS";
+    }
+
+    return "unknown";
+}
+
+
+if (window.location.protocol != 'https:' && window.location.protocol != 'http:') {
+
+	console.log('app')
+
+	if(getMobileOperatingSystem() == 'Android'){
+		document.querySelector('.scroll-text__fixed-2').style.top = '56px';
+	}
+}
+
+
+
 let isMobile = window.matchMedia('(max-width: 600px)').matches;
 
 const d3 = Object.assign({}, d3B);
@@ -124,7 +156,7 @@ let yAxis = (g) => {
 			return label
 		})
 		.style("text-anchor", isMobile ? "end" : "start")
-		.attr('x', isMobile ? width -2 : 2)
+		.attr('x', isMobile ? width -20 : 2)
 		.attr('y', -10);
 }
 
@@ -368,7 +400,7 @@ const updateAxis = () => {
 	svg.selectAll(".yaxis")
 		.call(yAxis);
 
-	let posX = isMobile ? width - 2 : 2;
+	let posX = isMobile ? width - 20 : 2;
 	let posY = +d3.selectAll('.yaxis .tick')._groups[0][2].attributes[2].nodeValue.split(',')[1].split(')')[0] - 60;
 
 	d3.select('.yaxisLabel')

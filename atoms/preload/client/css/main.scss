@@ -15,24 +15,14 @@
 
 //-----fix chaart headeer aand footer--------
 
-.element--inline { max-width: 620px ; margin-left: 5px ;}
+.element--inline { max-width: 620px ;}
 
 
 .interactive-atom {
 
-   
-    // margin: 0;
-    // padding: 0;
-    // height: 100vh;
-    // width: 100vw;
-    //min-height: -webkit-fill-available;
-    //background-color: #fff;
     width: 100%;
     max-width: 100%;
-    // overflow-x: hidden;
 
-    
-    
 }
 
 #scrolly-1{
@@ -41,8 +31,6 @@
 }
 
 .interactive-wrapper{
-    // margin-top: -1px;
-    // margin-bottom: 40px;
 
     margin-bottom: 20px;
     width:100%;
@@ -55,6 +43,10 @@
     height: 100vh;
     border-top: 1px solid #506991;
     margin-top: -1px;
+
+    .maplibregl-canvas{
+        max-width: 100%;
+    }
 }
 
 .byline, .byline a, .byline span{
@@ -85,6 +77,28 @@
             width: calc(100% + 60px);
         }
     }
+
+   
+    .advert-slot{
+        margin: 0;
+    }
+
+    .prose p, .prose h2{
+        margin:0 10px 0 10px;
+    }
+
+    .prose p{
+        margin-bottom: 8px;
+    }
+
+    .element{
+        margin:0 10px 0 10px;
+    }
+
+    .prose .scroll-text__fixed p, .prose .scroll-text__fixed h2, .prose .scroll-text__fixed-2 p, .prose .scroll-text__fixed-2 h2{
+        margin:0;
+    }
+    
     
     //remove dark mode padding in apps
     figure.element.element-atom, figure.interactive.interactive-atom.interactive--loading {
@@ -93,10 +107,7 @@
 }
 
 
-.scroll-text__fixed::before{
-    position: -webkit-sticky;
-    position: sticky;
-}
+
 .scroll-text__fixed{
     
     position: absolute;
@@ -134,12 +145,10 @@
         top:0px;
         left: 0px;;
         background: #fff;
-        //transition: width 1s ease-in-out;
         width: 0%;
         max-width: 100%;
         margin: 0;
         height: 6px;
-        //transition: width 1s ease-in-out;
         opacity: 0;
     }
 
@@ -166,7 +175,7 @@
 
 .scroll-text__inner{
     opacity: 0!important;
-    height: 100vh!important;
+    height: 75vh!important;
 }
 
 .scroll-text__fixed__date{
@@ -327,7 +336,6 @@
 
 
 .loading-overlay__inner:after {
-    //display: inline-block;
     animation: dotty steps(1,end) 1s infinite;
     content: '';
   }
@@ -340,7 +348,4 @@
       100% { content: ''; }
 }
 
-.prose p{
-    margin:0 10px 0 10px;
-}
 
